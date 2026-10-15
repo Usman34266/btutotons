@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated at prebuild from the registry
+/public/_redirects
+/public/_headers
+
+# test output
+/playwright-report/
+/test-results/
+/.lighthouseci/
+
+# wrangler
+/.wrangler/
+.dev.vars*
