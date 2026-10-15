@@ -1,0 +1,15 @@
+.next
+out
+coverage
+playwright-report
+test-results
+.lighthouseci
+pnpm-lock.yaml
+.claude/skills/impeccable
+.claude/skills/shadcn
+.claude/skills/vercel-react-best-practices
+.claude/skills/web-design-guidelines
+skills-lock.json
+public/_headers
+public/_redirects
+.wrangler

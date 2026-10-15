@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "btutotons",
+  "compatibility_date": "2026-10-01",
+  // Static assets only: no Worker script, no server runtime.
+  // public/_redirects and public/_headers are copied into out/ by next build.
+  "assets": {
+    "directory": "./out",
+    "html_handling": "force-trailing-slash",
+    "not_found_handling": "404-page",
+  },
+}
