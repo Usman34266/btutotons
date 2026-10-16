@@ -6,7 +6,15 @@
  */
 import { NUMERIC_PAGES, type NumericPage } from "./numeric-pages";
 
-export type StaticRouteId = "home" | "tons-to-btu" | "batch";
+export type StaticRouteId =
+  | "home"
+  | "tons-to-btu"
+  | "batch"
+  | "nameplate"
+  | "methodology"
+  | "about"
+  | "privacy"
+  | "terms";
 export type RouteId = StaticRouteId | `n:${string}`;
 
 interface BaseRoute {
@@ -24,6 +32,15 @@ const STATIC_ROUTES = {
   home: { id: "home", path: "/" },
   "tons-to-btu": { id: "tons-to-btu", path: "/tons-to-btu/", parent: "home" },
   batch: { id: "batch", path: "/batch-btu-to-tons/", parent: "home" },
+  nameplate: {
+    id: "nameplate",
+    path: "/ac-tonnage-by-model-number/",
+    parent: "home",
+  },
+  methodology: { id: "methodology", path: "/methodology/", parent: "home" },
+  about: { id: "about", path: "/about/", parent: "home" },
+  privacy: { id: "privacy", path: "/privacy/", parent: "home" },
+  terms: { id: "terms", path: "/terms/", parent: "home" },
 } as const satisfies Record<StaticRouteId, RouteDef>;
 
 export const numericRouteId = (page: NumericPage) => `n:${page.slug}` as const;

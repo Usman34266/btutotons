@@ -24,8 +24,11 @@ export interface CapacityField {
   reveal(): void;
 }
 
-export function useCapacityField(initialUnit: CapacityUnitId): CapacityField {
-  const [raw, setRaw] = useState("");
+export function useCapacityField(
+  initialUnit: CapacityUnitId,
+  initialRaw = "",
+): CapacityField {
+  const [raw, setRaw] = useState(initialRaw);
   const [unit, setUnit] = useState(initialUnit);
   const [revealedRaw, setRevealedRaw] = useState<string | null>(null);
 

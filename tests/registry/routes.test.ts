@@ -15,8 +15,8 @@ const pageFile = (r: (typeof ROUTES)[number]) =>
     : resolve(appDir, `.${r.path}page.tsx`);
 
 describe("route registry", () => {
-  it("has 3 static routes and 20 numeric pages", () => {
-    expect(ROUTES.filter((r) => !r.numeric)).toHaveLength(3);
+  it("has 8 static routes and 20 numeric pages", () => {
+    expect(ROUTES.filter((r) => !r.numeric)).toHaveLength(8);
     expect(ROUTES.filter((r) => r.numeric?.kind === "btu")).toHaveLength(12);
     expect(ROUTES.filter((r) => r.numeric?.kind === "ton")).toHaveLength(8);
   });
@@ -56,5 +56,8 @@ describe("route registry", () => {
     expect(paths).toContain("/24000-btu-to-tons/");
     expect(paths).toContain("/1-5-ton-to-btu/");
     expect(paths).toContain("/tons-to-btu/");
+    expect(paths).toContain("/ac-tonnage-by-model-number/");
+    for (const p of ["/methodology/", "/about/", "/privacy/", "/terms/"])
+      expect(paths).toContain(p);
   });
 });

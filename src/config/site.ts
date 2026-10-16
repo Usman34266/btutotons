@@ -18,6 +18,10 @@ export interface SiteConfig {
   releaseDate: string | null;
   /** Organization logo path for JSON-LD. null until the logo file exists. */
   logo: string | null;
+  /** Who runs the site (person or company), for about/privacy/terms. null until the owner provides it. */
+  operator: string | null;
+  /** Public contact address. null until the owner provides it. */
+  contactEmail: string | null;
   /** Zaraz custom events. false until verified cookieless (open decision #4). */
   customEvents: boolean;
 }
@@ -29,5 +33,7 @@ export const site: SiteConfig = {
   reviewer: null,
   releaseDate: null,
   logo: null,
+  operator: null,
+  contactEmail: null,
   customEvents: false,
 };

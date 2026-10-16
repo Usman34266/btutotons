@@ -5,7 +5,7 @@ import { site } from "@/config/site";
 import { pageMetadata, routeCopy } from "@/lib/metadata";
 import { numericPageBySlug, numericPageModel } from "@/lib/numeric-page";
 import { neighbours } from "@/registry/numeric-pages";
-import { ROUTES, numericRouteId } from "@/registry/routes";
+import { ROUTES, numericRouteId, route } from "@/registry/routes";
 
 /** Spec pp. 20–23 titles, verbatim. */
 const SPEC_TITLES: Record<string, string> = {
@@ -72,6 +72,14 @@ describe("page metadata", () => {
     expect(pageMetadata("batch").title).toBe(
       "Batch BTU to Tons [Convert up to 200 Values]",
     );
+    expect(pageMetadata("nameplate").title).toBe(
+      "AC Tonnage by Model Number [Nameplate Guide]",
+    );
+  });
+
+  it("never promises a model lookup that isn't live", () => {
+    const { description } = routeCopy(route("nameplate"));
+    expect(description).not.toMatch(/look ?up|enter (a|your) model/i);
   });
 
   it("uses the spec title for all 20 numeric pages", () => {

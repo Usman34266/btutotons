@@ -7,7 +7,13 @@ import { DEFAULT_LOCALE, type LocaleId } from "@/config/locale";
 import * as enUS from "./en-US";
 
 export type Content = typeof enUS;
-export type { AnswerSize, GlossaryTerm, RouteCopy, Segment } from "./en-US";
+export type {
+  AnswerSize,
+  GlossaryTerm,
+  NameplateField,
+  RouteCopy,
+  Segment,
+} from "./en-US";
 
 const CONTENT: Record<LocaleId, Content> = { "en-US": enUS };
 
