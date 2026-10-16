@@ -3,5 +3,8 @@ export { common } from "./common";
 export { compare } from "./compare";
 export { errors } from "./errors";
 export { home, type Segment } from "./home";
+export { numericTemplate, type AnswerSize } from "./numeric-template";
+export { reference } from "./reference";
 export { routes, type RouteCopy } from "./routes";
+export { tonsToBtu } from "./tons-to-btu";
 export { unitsGlossary, type GlossaryTerm } from "./units-glossary";

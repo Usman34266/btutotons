@@ -1,6 +1,7 @@
 import { BatchConverter } from "@/components/batch/batch-converter";
 import { Container } from "@/components/layout/container";
 import { PageBreadcrumb } from "@/components/layout/page-breadcrumb";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getContent } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
@@ -59,6 +60,7 @@ export default function BatchPage() {
           </div>
         </Container>
       </main>
+      <SiteFooter />
     </>
   );
 }

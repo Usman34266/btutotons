@@ -44,12 +44,6 @@ export const batch = {
       coolingKw: "Cooling kW",
       sizeClass: "Size class",
     },
-    sizeClass: {
-      cls: (t: string) => `${t} ton`,
-      between: (lower: string, upper: string) =>
-        `Between ${lower} and ${upper} ton`,
-      outside: "—",
-    },
   },
 
   sections: {

@@ -2,17 +2,18 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 import { getContent } from "@/content";
+import { routeCopy } from "@/lib/metadata";
 import { breadcrumbTrail, type RouteId } from "@/registry/routes";
 
 /** Trail from the registry; the current page is text, not a link. */
 export function PageBreadcrumb({ route }: { route: RouteId }) {
-  const { common, routes } = getContent();
+  const { common } = getContent();
   const trail = breadcrumbTrail(route);
   return (
     <nav aria-label={common.breadcrumb}>
       <ol className="flex flex-wrap items-center gap-x-1 text-label text-muted-foreground">
         {trail.map((r, i) => {
-          const name = routes[r.id].breadcrumb;
+          const name = routeCopy(r).breadcrumb;
           const last = i === trail.length - 1;
           return (
             <li key={r.id} className="inline-flex items-center gap-1">

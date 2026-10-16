@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { redirects } from "@/registry/redirects";
+import { ROUTES } from "@/registry/routes";
 
 describe("redirect registry", () => {
   it("sends the old calculator URL to the canonical home page", () => {
@@ -9,6 +10,36 @@ describe("redirect registry", () => {
       to: "/",
       status: 301,
     });
+  });
+
+  it("sends singular/plural spelling variants to the one canonical page", () => {
+    expect(redirects).toContainEqual({
+      from: "/24000-btu-to-ton/",
+      to: "/24000-btu-to-tons/",
+      status: 301,
+    });
+    expect(redirects).toContainEqual({
+      from: "/2-tons-to-btu/",
+      to: "/2-ton-to-btu/",
+      status: 301,
+    });
+    expect(redirects).toContainEqual({
+      from: "/1-5-tons-to-btu/",
+      to: "/1-5-ton-to-btu/",
+      status: 301,
+    });
+    expect(redirects).toContainEqual({
+      from: "/ton-to-btu/",
+      to: "/tons-to-btu/",
+      status: 301,
+    });
+    // 1 static + 12 BTU aliases + 8 ton aliases + the reverse hub alias.
+    expect(redirects).toHaveLength(22);
+  });
+
+  it("only redirects to live routes", () => {
+    const live = new Set<string>(ROUTES.map((r) => r.path));
+    for (const r of redirects) expect(live.has(r.to)).toBe(true);
   });
 
   it("has unique sources that never redirect to themselves", () => {

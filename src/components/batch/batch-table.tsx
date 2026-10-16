@@ -3,29 +3,35 @@ import { useId } from "react";
 import { getContent } from "@/content";
 import {
   formatInputValue,
-  formatNumber,
   type BatchRow,
+  type ConversionResult,
   type Precision,
-  type SizeClassResult,
 } from "@/engine";
-
-function sizeCell(sizeClass: SizeClassResult): string {
-  const copy = getContent().batch.table.sizeClass;
-  switch (sizeClass.type) {
-    case "class":
-      return copy.cls(formatInputValue(sizeClass.sizeClass.tons));
-    case "between":
-      return copy.between(
-        formatInputValue(sizeClass.lower.tons),
-        formatInputValue(sizeClass.upper.tons),
-      );
-    case "outside":
-      return copy.outside;
-  }
-}
+import { capacityRow } from "@/lib/capacity-rows";
 
 const NUM = "px-3 py-2.5 text-right font-mono tabular-nums whitespace-nowrap";
 const TEXT = "px-3 py-2.5 text-left";
+
+function OkCells({
+  result,
+  precision,
+}: {
+  result: ConversionResult;
+  precision: Precision;
+}) {
+  const row = capacityRow(result, precision);
+  return (
+    <>
+      <td className={`${TEXT} font-mono tabular-nums`}>
+        {formatInputValue(result.input.value)}
+      </td>
+      <td className={NUM}>{row.btuh}</td>
+      <td className={NUM}>{row.tons}</td>
+      <td className={NUM}>{row.coolingKw}</td>
+      <td className={`${TEXT} whitespace-nowrap`}>{row.sizeClass}</td>
+    </>
+  );
+}
 
 /**
  * Every pasted line keeps its place. Invalid lines show their line number and
@@ -87,23 +93,7 @@ export function BatchTable({
                 {row.line}
               </th>
               {row.status === "ok" ? (
-                <>
-                  <td className={`${TEXT} font-mono tabular-nums`}>
-                    {formatInputValue(row.result.input.value)}
-                  </td>
-                  <td className={NUM}>
-                    {formatNumber(row.result.btuh, { precision })}
-                  </td>
-                  <td className={NUM}>
-                    {formatNumber(row.result.tons, { precision })}
-                  </td>
-                  <td className={NUM}>
-                    {formatNumber(row.result.coolingKw, { precision })}
-                  </td>
-                  <td className={`${TEXT} whitespace-nowrap`}>
-                    {sizeCell(row.result.sizeClass)}
-                  </td>
-                </>
+                <OkCells result={row.result} precision={precision} />
               ) : (
                 <>
                   <td className={`${TEXT} font-mono wrap-anywhere`}>

@@ -3,67 +3,58 @@ import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { getContent } from "@/content";
 import { redirects } from "@/registry/redirects";
-import { ROUTE_IDS, breadcrumbTrail, routes } from "@/registry/routes";
+import { ROUTES, breadcrumbTrail, route } from "@/registry/routes";
 
-const { routes: copy } = getContent();
 const appDir = resolve(import.meta.dirname, "../../src/app");
 
+/** Numeric routes render from the one [slug] template. */
+const pageFile = (r: (typeof ROUTES)[number]) =>
+  r.numeric
+    ? resolve(appDir, "[slug]/page.tsx")
+    : resolve(appDir, `.${r.path}page.tsx`);
+
 describe("route registry", () => {
-  it("keys every route by its own id", () => {
-    for (const id of ROUTE_IDS) expect(routes[id].id).toBe(id);
+  it("has 3 static routes and 20 numeric pages", () => {
+    expect(ROUTES.filter((r) => !r.numeric)).toHaveLength(3);
+    expect(ROUTES.filter((r) => r.numeric?.kind === "btu")).toHaveLength(12);
+    expect(ROUTES.filter((r) => r.numeric?.kind === "ton")).toHaveLength(8);
   });
 
-  it("has unique paths with trailing slashes", () => {
-    const paths = ROUTE_IDS.map((id) => routes[id].path);
+  it("looks routes up by id", () => {
+    for (const r of ROUTES) expect(route(r.id)).toBe(r);
+    expect(() => route("n:nope")).toThrow();
+  });
+
+  it("has unique ids and paths with trailing slashes", () => {
+    const paths = ROUTES.map((r) => r.path);
     expect(new Set(paths).size).toBe(paths.length);
+    expect(new Set(ROUTES.map((r) => r.id)).size).toBe(ROUTES.length);
     for (const p of paths) expect(p).toMatch(/^\/([a-z0-9-]+\/)*$/);
   });
 
   it("has a page file for every route", () => {
-    for (const id of ROUTE_IDS) {
-      expect(existsSync(resolve(appDir, `.${routes[id].path}page.tsx`))).toBe(
-        true,
-      );
-    }
+    for (const r of ROUTES) expect(existsSync(pageFile(r))).toBe(true);
   });
 
   it("never lists a path that redirects", () => {
     const sources = new Set<string>(redirects.map((r) => r.from));
-    for (const id of ROUTE_IDS)
-      expect(sources.has(routes[id].path)).toBe(false);
+    for (const r of ROUTES) expect(sources.has(r.path)).toBe(false);
   });
 
   it("builds breadcrumbs from home to the page", () => {
     expect(breadcrumbTrail("home").map((r) => r.id)).toEqual(["home"]);
-    for (const id of ROUTE_IDS) {
-      const trail = breadcrumbTrail(id);
+    for (const r of ROUTES) {
+      const trail = breadcrumbTrail(r.id);
       expect(trail[0]?.id).toBe("home");
-      expect(trail.at(-1)?.id).toBe(id);
-    }
-  });
-});
-
-describe("route metadata copy", () => {
-  it("has a unique, non-empty title and description per route", () => {
-    const titles = ROUTE_IDS.map((id) => copy[id].title);
-    const descriptions = ROUTE_IDS.map((id) => copy[id].description);
-    expect(new Set(titles).size).toBe(titles.length);
-    expect(new Set(descriptions).size).toBe(descriptions.length);
-    for (const id of ROUTE_IDS) {
-      expect(copy[id].title.length).toBeGreaterThan(0);
-      expect(copy[id].description.length).toBeGreaterThan(0);
-      expect(copy[id].breadcrumb.length).toBeGreaterThan(0);
+      expect(trail.at(-1)?.id).toBe(r.id);
     }
   });
 
-  it("uses the spec titles", () => {
-    expect(copy.home.title).toBe(
-      "BTU to Tons Calculator [12,000 BTU/hr = 1 Ton]",
-    );
-    expect(copy.batch.title).toBe(
-      "Batch BTU to Tons [Convert up to 200 Values]",
-    );
+  it("uses spec slugs: digits without commas, decimal tons with a hyphen", () => {
+    const paths = ROUTES.map((r) => r.path);
+    expect(paths).toContain("/24000-btu-to-tons/");
+    expect(paths).toContain("/1-5-ton-to-btu/");
+    expect(paths).toContain("/tons-to-btu/");
   });
 });

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "generate": "tsx scripts/generate-redirects.ts && tsx scripts/generate-headers.ts",
-    "build": "pnpm generate && next build",
+    "build": "pnpm generate && next build && tsx scripts/alias-encoded-assets.ts",
     "preview": "wrangler dev --port 4173",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",

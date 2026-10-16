@@ -1,21 +1,27 @@
 import type { Metadata } from "next";
 
 import { site } from "@/config/site";
-import { getContent } from "@/content";
-import { routes, type RouteId } from "@/registry/routes";
+import { getContent, type RouteCopy } from "@/content";
+import { route, type RouteDef, type RouteId } from "@/registry/routes";
+
+import { numericPageModel } from "./numeric-page";
+
+/** Title, description and breadcrumb name for any registry route. */
+export const routeCopy = (r: RouteDef): RouteCopy =>
+  r.numeric ? numericPageModel(r.numeric).meta : getContent().routes[r.id];
 
 /** Title, description, self-canonical and Open Graph for a registry route. */
 export function pageMetadata(id: RouteId): Metadata {
-  const { path } = routes[id];
-  const { title, description } = getContent().routes[id];
+  const r = route(id);
+  const { title, description } = routeCopy(r);
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: r.path },
     openGraph: {
       title,
       description,
-      url: path,
+      url: r.path,
       siteName: site.name,
       locale: site.locale.replace("-", "_"),
       type: "website",
