@@ -7,7 +7,7 @@ import type { Direction } from "./use-converter-state";
 
 const DIRECTIONS: Direction[] = ["to-tons", "to-btuh"];
 
-/** Segmented control for the conversion direction (pressed-button semantics). */
+/** Segmented control for the conversion direction (a radio group with roving focus). */
 export function DirectionTabs({
   value,
   onChange,

@@ -38,11 +38,9 @@ export function SizeClassBadge({
   const copy = getContent().home.sizeClass;
 
   return (
-    <p className="flex items-start gap-1.5" data-testid="size-class">
-      <span>
-        <Segments segments={segments} />
-      </span>
-      <InfoPopover label={copy.infoLabel} className="mt-px text-ink">
+    <p data-testid="size-class">
+      <Segments segments={segments} />{" "}
+      <InfoPopover label={copy.infoLabel} className="text-ink">
         <p>{copy.info}</p>
       </InfoPopover>
     </p>

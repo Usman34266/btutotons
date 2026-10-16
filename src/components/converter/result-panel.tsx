@@ -52,8 +52,8 @@ export function resultSentence(
 }
 
 /**
- * Answer first: chip, sentence, the exact number, size class, other units,
- * ice blocks, note, then "Show the math". On --accent-soft, secondary text is ink.
+ * Answer first: chip, sentence, the exact number, size class, ice blocks,
+ * other units with their note, then "Show the math". On --accent-soft, secondary text is ink.
  */
 export function ResultPanel({
   direction,
@@ -77,12 +77,19 @@ export function ResultPanel({
 
   if (!result) {
     const empty = copy.empty[direction];
+    // While the text is invalid, show nothing that could pass for an answer.
     return (
       <div className="flex flex-col gap-3" data-testid="result-empty">
         <QuantityChip kind="capacity" className="self-start" />
-        <p className="text-2xl font-semibold">{empty.rule}</p>
-        <p>{invalid ? copy.invalidPrompt : empty.prompt}</p>
-        <IceBlocks tons={1} captionClassName="text-ink" />
+        <p className="text-xl font-semibold">
+          {invalid ? copy.invalidPrompt : empty.prompt}
+        </p>
+        {!invalid && (
+          <>
+            <p className="text-lg">{empty.rule}</p>
+            <IceBlocks tons={1} captionClassName="text-ink" />
+          </>
+        )}
         {actions}
       </div>
     );
@@ -122,6 +129,7 @@ export function ResultPanel({
       </ViewTransition>
 
       <SizeClassBadge sizeClass={result.sizeClass} tons={result.tons} />
+      <IceBlocks tons={result.tons} captionClassName="text-ink" />
 
       <dl className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-1 border-t border-accent/20 pt-3">
         {toTons && result.input.unit !== "btuh" && (
@@ -149,9 +157,7 @@ export function ResultPanel({
           {kw}
         </dd>
       </dl>
-
-      <IceBlocks tons={result.tons} captionClassName="text-ink" />
-      <p className="text-label">{copy.resultNote}</p>
+      <p className="-mt-2 text-label">{copy.resultNote}</p>
       <FormulaBlock
         equation={result.equation}
         precision={precision}

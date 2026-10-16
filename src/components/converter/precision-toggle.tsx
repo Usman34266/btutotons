@@ -1,5 +1,7 @@
 "use client";
 
+import { useId } from "react";
+
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { getContent } from "@/content";
 import { PRECISIONS, isPrecision, type Precision } from "@/engine";
@@ -12,9 +14,10 @@ export function PrecisionToggle({
   onChange(p: Precision): void;
 }) {
   const label = getContent().home.math.precisionLabel;
+  const labelId = useId();
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <span id="precision-label" className="text-label text-ink">
+      <span id={labelId} className="text-label text-ink">
         {label}
       </span>
       <ToggleGroup
@@ -24,7 +27,7 @@ export function PrecisionToggle({
           const n = Number(v);
           if (isPrecision(n)) onChange(n);
         }}
-        aria-labelledby="precision-label"
+        aria-labelledby={labelId}
         className="bg-surface"
       >
         {PRECISIONS.map((p) => (

@@ -69,7 +69,11 @@ export function ResultActions({
         </>
       )}
       {showReset && (
-        <Button variant="ghost" onClick={onReset} className="text-ink">
+        <Button
+          variant="ghost"
+          onClick={onReset}
+          className="text-ink hover:bg-accent/10"
+        >
           <RotateCcw aria-hidden="true" />
           {copy.reset}
         </Button>

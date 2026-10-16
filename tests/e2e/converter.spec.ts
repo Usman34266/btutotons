@@ -129,8 +129,15 @@ test.describe("converter: errors", () => {
       expect(describedBy?.split(" ")).toContain(
         await errorMessage(page).getAttribute("id"),
       );
-      // The old result hides until the input is valid again.
+      // The old result hides until the input is valid again, and nothing
+      // that could pass for an answer (the 1-ton rule, an ice block) remains.
       await expect(page.getByTestId("result")).toHaveCount(0);
+      const empty = page.getByTestId("result-empty");
+      await expect(empty).toContainText(
+        "The result appears once the number is valid.",
+      );
+      await expect(empty).not.toContainText("= 1 ton");
+      await expect(empty.locator("figure")).toHaveCount(0);
       await convert(page, "18000");
       await expect(errorMessage(page)).toHaveCount(0);
       await expect(resultValue(page)).toHaveText("1.5");

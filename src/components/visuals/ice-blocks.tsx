@@ -2,9 +2,10 @@ import { getContent } from "@/content";
 import { formatCompact, iceBlocks } from "@/engine";
 import { cn } from "@/lib/cn";
 
-const BLOCK = { x: 1.5, y: 1.5, width: 29, height: 29, rx: 6 } as const;
+const BLOCK = { x: 1.5, y: 1.5, width: 29, height: 29, rx: 4 } as const;
 
 function Block({ fill }: { fill: number }) {
+  const partial = fill > 0 && fill < 1;
   return (
     <svg
       viewBox="0 0 32 32"
@@ -17,8 +18,18 @@ function Block({ fill }: { fill: number }) {
       />
       <rect
         {...BLOCK}
-        className="origin-bottom fill-accent/30 transition-transform duration-200 ease-out [transform-box:fill-box]"
+        className="origin-bottom fill-accent/40 transition-transform duration-200 ease-out [transform-box:fill-box]"
         style={{ transform: `scaleY(${fill})` }}
+      />
+      {/* Water line, so a partial block never reads as a full one. */}
+      <path
+        d={`M3 ${BLOCK.y + BLOCK.height}H29`}
+        className={cn(
+          "fill-none stroke-accent transition-[transform,opacity] duration-200 ease-out",
+          !partial && "opacity-0",
+        )}
+        strokeWidth="1.5"
+        style={{ transform: `translateY(${-BLOCK.height * fill}px)` }}
       />
       {/* Corner glint: reads as ice, not as a plain square. */}
       <path

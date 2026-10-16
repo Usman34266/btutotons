@@ -32,7 +32,10 @@ export function FormulaBlock({
   return (
     <Collapsible>
       <CollapsibleTrigger asChild>
-        <Button variant="ghost" className="group -mx-4 text-ink">
+        <Button
+          variant="ghost"
+          className="group -mx-4 text-ink hover:bg-accent/10 aria-expanded:bg-transparent"
+        >
           {copy.toggle}
           <ChevronDown
             aria-hidden="true"

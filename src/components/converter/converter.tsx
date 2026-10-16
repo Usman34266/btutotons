@@ -109,7 +109,7 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
 
         <div
           ref={resultRef}
-          className="min-h-[26rem] bg-accent-soft p-4 sm:p-6 md:col-span-5 md:row-span-2 md:min-h-[32rem]"
+          className="bg-accent-soft p-4 sm:p-6 md:col-span-5 md:row-span-2 md:min-h-[32rem]"
         >
           <ResultPanel
             direction={direction}

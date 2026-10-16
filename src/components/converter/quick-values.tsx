@@ -30,7 +30,7 @@ export function QuickValues({ onSelect }: { onSelect(btuh: number): void }) {
                 <span className="text-base font-medium text-ink">
                   {shown}
                 </span>{" "}
-                <span className="text-xs text-muted-foreground">BTU/hr</span>
+                <span className="text-sm text-muted-foreground">BTU/hr</span>
               </button>
             </li>
           );
