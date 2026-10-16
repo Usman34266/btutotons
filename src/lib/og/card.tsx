@@ -6,6 +6,7 @@ import { ImageResponse } from "next/og";
 import { segmentsText } from "@/components/converter/segments";
 import { site } from "@/config/site";
 import { getContent } from "@/content";
+import { colorTokens } from "@/lib/design-tokens";
 import { routeCopy } from "@/lib/metadata";
 import { numericPageModel } from "@/lib/numeric-page";
 import { route, type RouteId } from "@/registry/routes";
@@ -28,21 +29,8 @@ const FONTS = ([400, 600] as const).map((weight) => ({
   style: "normal" as const,
 }));
 
-/** Light-theme colors straight from tokens.css, so cards never drift from the site. */
-function lightTokens(): Record<string, string> {
-  const css = readFileSync(
-    resolve(process.cwd(), "src/styles/tokens.css"),
-    "utf8",
-  );
-  const root = css.slice(css.indexOf(":root"), css.indexOf(".dark"));
-  return Object.fromEntries(
-    [...root.matchAll(/--([\w-]+):\s*(#[0-9a-f]{3,8})\s*;/gi)].map((m) => [
-      m[1],
-      m[2],
-    ]),
-  );
-}
-const T = lightTokens();
+/** Light-theme colors, so cards never drift from the site. */
+const T = colorTokens("light");
 
 interface OgCard {
   eyebrow: string;

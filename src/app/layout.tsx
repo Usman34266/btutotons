@@ -6,6 +6,7 @@ import { plexMono, plexSans } from "@/config/fonts";
 import { site } from "@/config/site";
 import { getContent } from "@/content";
 import { cn } from "@/lib/cn";
+import { colorTokens } from "@/lib/design-tokens";
 
 import "./globals.css";
 
@@ -17,10 +18,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f8fa" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0f14" },
-  ],
+  themeColor: (["light", "dark"] as const).map((theme) => ({
+    media: `(prefers-color-scheme: ${theme})`,
+    color: colorTokens(theme).bg!,
+  })),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

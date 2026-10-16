@@ -2,28 +2,9 @@
  * WCAG 2.2 contrast for the Coolant tokens, read straight from tokens.css
  * (the single source). Text ≥ 4.5:1; UI boundaries and focus ≥ 3:1.
  */
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-
 import { describe, expect, it } from "vitest";
 
-const css = readFileSync(
-  resolve(__dirname, "../../src/styles/tokens.css"),
-  "utf8",
-);
-
-function block(selector: string): Record<string, string> {
-  const body =
-    css.match(
-      new RegExp(`${selector.replace(".", "\\.")}\\s*\\{([^}]*)\\}`),
-    )?.[1] ?? "";
-  return Object.fromEntries(
-    [...body.matchAll(/--([\w-]+):\s*(#[0-9a-f]{6})\s*;/gi)].map((m) => [
-      m[1],
-      m[2],
-    ]),
-  );
-}
+import { colorTokens } from "@/lib/design-tokens";
 
 const luminance = (hex: string) => {
   const [r, g, b] = [1, 3, 5].map((i) => {
@@ -41,7 +22,7 @@ const contrast = (a: string, b: string) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-const THEMES = { light: block(":root"), dark: block(".dark") };
+const THEMES = { light: colorTokens("light"), dark: colorTokens("dark") };
 
 /**
  * Where each text token may appear. Muted (gray) text never sits on the
