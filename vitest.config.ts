@@ -11,6 +11,7 @@ export default defineConfig({
       "tests/engine/**/*.test.ts",
       "tests/registry/**/*.test.ts",
       "tests/design/**/*.test.ts",
+      "tests/lib/**/*.test.ts",
     ],
     env: { NODE_ENV: "test" },
     coverage: {
