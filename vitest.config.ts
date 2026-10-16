@@ -10,6 +10,7 @@ export default defineConfig({
     include: [
       "tests/engine/**/*.test.ts",
       "tests/registry/**/*.test.ts",
+      "tests/content/**/*.test.ts",
       "tests/design/**/*.test.ts",
       "tests/lib/**/*.test.ts",
     ],
