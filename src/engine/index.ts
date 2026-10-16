@@ -46,6 +46,7 @@ export {
   DEFAULT_PRECISION,
   PRECISIONS,
   formatAmount,
+  formatCompact,
   formatCsvNumber,
   formatInputValue,
   formatNumber,
@@ -72,3 +73,4 @@ export {
   type BatchRow,
 } from "./batch";
 export { CSV_COLUMNS, escapeCsvCell, toCsv } from "./csv";
+export { ICE_BLOCKS_MAX, iceBlocks, type IceBlocksModel } from "./ice-blocks";

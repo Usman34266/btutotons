@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   formatAmount,
+  formatCompact,
   formatCsvNumber,
   formatInputValue,
   formatNumber,
@@ -106,5 +107,13 @@ describe("isPrecision", () => {
   it("accepts 2, 4, 6 only", () => {
     expect([2, 4, 6].every(isPrecision)).toBe(true);
     expect([0, 3, "4", null].some(isPrecision)).toBe(false);
+  });
+});
+
+describe("formatCompact", () => {
+  it("uses 2 decimals below a million and compact notation above", () => {
+    expect(formatCompact(1.5)).toBe("1.5");
+    expect(formatCompact(999_999)).toBe("999,999");
+    expect(formatCompact(83_333_333_333_327)).toBe("83.3T");
   });
 });

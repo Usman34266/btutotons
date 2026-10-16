@@ -80,6 +80,15 @@ export const formatPercent = (value: number): string =>
 export const formatInputValue = (value: number): string =>
   formatter("input", { maximumFractionDigits: 10 }).format(value);
 
+/** Short labels ("+1.5", "+83T"): 2 decimals, compact notation from a million. */
+export const formatCompact = (value: number): string =>
+  Math.abs(value) >= 1e6
+    ? formatter("compact", {
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(value)
+    : formatNumber(value, { precision: 2 });
+
 /** CSV: up to 12 significant digits, no grouping, never exponent notation. */
 export const formatCsvNumber = (value: number): string =>
   formatter("csv", { maximumSignificantDigits: 12, useGrouping: false }).format(
