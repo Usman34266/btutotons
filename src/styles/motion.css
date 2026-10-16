@@ -1,0 +1,33 @@
+/*
+ * Motion rules (docs/DESIGN.md §5): transform/opacity only, 150–200ms
+ * ease-out, never delays the answer, static under reduced motion.
+ */
+:root {
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes digit-roll {
+  from {
+    transform: translateY(0.35em);
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

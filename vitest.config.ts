@@ -7,7 +7,11 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["tests/engine/**/*.test.ts", "tests/registry/**/*.test.ts"],
+    include: [
+      "tests/engine/**/*.test.ts",
+      "tests/registry/**/*.test.ts",
+      "tests/design/**/*.test.ts",
+    ],
     env: { NODE_ENV: "test" },
     coverage: {
       provider: "v8",

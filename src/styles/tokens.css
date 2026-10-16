@@ -1,0 +1,46 @@
+/*
+ * Coolant color tokens (docs/DESIGN.md §1). The only place colors are defined.
+ * Contrast is checked by tests/design/contrast.test.ts.
+ */
+:root {
+  color-scheme: light;
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --ink: #0e1726;
+  --muted: #5b6676;
+  --border: #e3e7ed;
+  --accent: #0b6e99;
+  --accent-soft: #e6f3f9;
+  --electric: #b45309;
+  --energy: #6d28d9;
+  --danger: #b42318;
+  --success: #1e7f4f;
+
+  /* Text on a solid --accent fill; reuses existing token values (D040). */
+  --on-accent: #ffffff;
+
+  /* Shape */
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --shadow-card:
+    0 1px 2px rgb(14 23 38 / 0.06), 0 4px 16px rgb(14 23 38 / 0.06);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #0b0f14;
+  --surface: #121821;
+  --ink: #e7ecf2;
+  --muted: #94a0b0;
+  --border: #232c38;
+  --accent: #5cc2ee;
+  --accent-soft: #0f2a38;
+  --electric: #f5a524;
+  --energy: #b59cf5;
+  --danger: #f97066;
+  --success: #4ade80;
+
+  --on-accent: #0b0f14;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.3);
+}

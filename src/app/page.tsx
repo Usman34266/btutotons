@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main className="mx-auto max-w-[1120px] px-4 py-8">
+    <main id="main" className="mx-auto max-w-[1120px] px-4 py-8">
       <h1 className="text-4xl font-semibold">BTU to Tons Calculator</h1>
       <p className="mt-2">
         Enter your AC&apos;s BTU rating to see its size in tons. 12,000 BTU/hr =
