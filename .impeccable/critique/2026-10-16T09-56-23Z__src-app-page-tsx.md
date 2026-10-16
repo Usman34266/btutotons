@@ -2,7 +2,7 @@
 target: homepage converter (M3)
 total_score: 28
 max_score: 40
-na_heuristics: 
+na_heuristics:
 p0_count: 0
 p1_count: 2
 target_identity: "file:/Users/usmanghani/Gigs/SiteBank/btutotonscalculator/src/app/page.tsx"
@@ -12,25 +12,26 @@ timestamp: 2026-10-16T09-56-23Z
 slug: src-app-page-tsx
 closed: true
 ---
+
 Method: dual-agent (A: 53adfcdf-0080-448f-ba3b-e4f9a81af5bd · B: 18369e89-2683-4d38-a741-063a6777c045)
 
 Target: src/app/page.tsx (homepage converter, M3 scope: header, H1, converter). Operate mode. Chart, explainers, compare/batch, FAQ, trust block, footer and header nav are later milestones and not scored as missing.
 
 ## Design Health Score
 
-| #         | Heuristic                       | Score     | Key Issue                                                                                     |
-| --------- | ------------------------------- | --------- | --------------------------------------------------------------------------------------------- |
+| #         | Heuristic                       | Score     | Key Issue                                                                                         |
+| --------- | ------------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
 | 1         | Visibility of System Status     | 3         | Empty/error panel shows a bold "12,000 BTU/hr = 1 ton" + one full ice block where the answer sits |
-| 2         | Match System / Real World       | 3         | Three tons numbers for one question (1.5 ton, 1.5833, "Exact: 1.58")                          |
-| 3         | User Control and Freedom        | 3         | Flip/unit carry restores exact text; Reset sits in the other column from the field            |
-| 4         | Consistency and Standards       | 3         | "Show the math" open state paints a near-black pill on the teal panel (dark)                  |
-| 5         | Error Prevention                | 2         | A tons value typed in BTU/hr mode ("1.5") gives "less than 0.01 tons" with no hint            |
-| 6         | Recognition Rather Than Recall  | 3         | Placeholder, hint, quick values; label-reading guide comes in M6                              |
-| 7         | Flexibility and Efficiency      | 3         | Enter converts, fragment share, remembered precision, 7 units                                 |
-| 8         | Aesthetic and Minimalist Design | 2         | 12-item result stack; "12,000 BTU/hr = 1 ton" appears three times                             |
-| 9         | Error Recovery                  | 3         | Exact human messages under the field; stale "1 ton" headline stays during the error            |
-| 10        | Help and Documentation          | 3         | Popover per unit + Show the math                                                              |
-| **Total** |                                 | **28/40** | **Good**                                                                                      |
+| 2         | Match System / Real World       | 3         | Three tons numbers for one question (1.5 ton, 1.5833, "Exact: 1.58")                              |
+| 3         | User Control and Freedom        | 3         | Flip/unit carry restores exact text; Reset sits in the other column from the field                |
+| 4         | Consistency and Standards       | 3         | "Show the math" open state paints a near-black pill on the teal panel (dark)                      |
+| 5         | Error Prevention                | 2         | A tons value typed in BTU/hr mode ("1.5") gives "less than 0.01 tons" with no hint                |
+| 6         | Recognition Rather Than Recall  | 3         | Placeholder, hint, quick values; label-reading guide comes in M6                                  |
+| 7         | Flexibility and Efficiency      | 3         | Enter converts, fragment share, remembered precision, 7 units                                     |
+| 8         | Aesthetic and Minimalist Design | 2         | 12-item result stack; "12,000 BTU/hr = 1 ton" appears three times                                 |
+| 9         | Error Recovery                  | 3         | Exact human messages under the field; stale "1 ton" headline stays during the error               |
+| 10        | Help and Documentation          | 3         | Popover per unit + Show the math                                                                  |
+| **Total** |                                 | **28/40** | **Good**                                                                                          |
 
 ## Design Specificity Verdict
 
