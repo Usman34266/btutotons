@@ -81,9 +81,19 @@ export const formatPercent = (
   signDisplay: FormatOptions["signDisplay"] = "exceptZero",
 ): string => `${formatNumber(value, { precision: 2, signDisplay })}%`;
 
+/** A ratio as a percent, for documented rules: 0.1 → "10%". */
+export const formatRatioPercent = (ratio: number): string =>
+  formatter("ratio", { style: "percent", maximumFractionDigits: 2 }).format(
+    ratio,
+  );
+
 /** A user-entered value or a constant, as typed: grouped, up to 10 decimals. */
 export const formatInputValue = (value: number): string =>
   formatter("input", { maximumFractionDigits: 10 }).format(value);
+
+/** A published constant, every digit kept: "0.2930710701722222". */
+export const formatConstant = (value: number): string =>
+  formatter("constant", { maximumFractionDigits: 16 }).format(value);
 
 /** True when the display at this precision drops digits ("0.6667" for 2/3), so copy can say "(rounded)". */
 export const isDisplayRounded = (

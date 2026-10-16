@@ -7,6 +7,9 @@ export const ENGINE_VERSION = "1.0.0";
 /** US refrigeration ton, exact. */
 export const BTUH_PER_TON = 12_000;
 
+/** 1 BTU_IT in joules (NIST SP 811, B.8). W_PER_BTUH is this ÷ 3,600. */
+export const J_PER_BTU = 1_055.05585262;
+
 /** BTU_IT/h → W (1 BTU_IT = 1,055.05585262 J). */
 export const W_PER_BTUH = 0.2930710701722222;
 

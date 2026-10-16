@@ -3,10 +3,12 @@ import { describe, expect, it } from "vitest";
 import {
   formatAmount,
   formatCompact,
+  formatConstant,
   formatCsvNumber,
   formatInputValue,
   formatNumber,
   formatPercent,
+  formatRatioPercent,
   isDisplayRounded,
   isPrecision,
 } from "@/engine";
@@ -121,6 +123,21 @@ describe("isPrecision", () => {
   it("accepts 2, 4, 6 only", () => {
     expect([2, 4, 6].every(isPrecision)).toBe(true);
     expect([0, 3, "4", null].some(isPrecision)).toBe(false);
+  });
+});
+
+describe("formatConstant", () => {
+  it("keeps every digit of a published constant, grouped", () => {
+    expect(formatConstant(0.2930710701722222)).toBe("0.2930710701722222");
+    expect(formatConstant(12_000)).toBe("12,000");
+    expect(formatConstant(1_055.05585262)).toBe("1,055.05585262");
+  });
+});
+
+describe("formatRatioPercent", () => {
+  it("shows a ratio as a percent", () => {
+    expect(formatRatioPercent(0.1)).toBe("10%");
+    expect(formatRatioPercent(0.125)).toBe("12.5%");
   });
 });
 

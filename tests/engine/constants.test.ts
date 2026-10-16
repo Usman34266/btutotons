@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { BTUH_PER_TON, BTU_WH_PER_W_W, FT2_PER_M2, W_PER_BTUH } from "@/engine";
+import {
+  BTUH_PER_TON,
+  BTU_WH_PER_W_W,
+  FT2_PER_M2,
+  J_PER_BTU,
+  W_PER_BTUH,
+} from "@/engine";
 
 describe("constants (NIST SP 811 B.8, International Table BTU)", () => {
   it("defines the US refrigeration ton as exactly 12,000 BTU/hr", () => {
@@ -8,7 +14,8 @@ describe("constants (NIST SP 811 B.8, International Table BTU)", () => {
   });
 
   it("derives W per BTU/hr from 1 BTU_IT = 1,055.05585262 J", () => {
-    expect(W_PER_BTUH).toBeCloseTo(1_055.05585262 / 3_600, 15);
+    expect(J_PER_BTU).toBe(1_055.05585262);
+    expect(W_PER_BTUH).toBeCloseTo(J_PER_BTU / 3_600, 15);
   });
 
   it("makes 1 ton ≈ 3.5168528 kW of cooling", () => {
