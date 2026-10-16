@@ -15,3 +15,6 @@ export const FT2_PER_M2 = 10.7639104167;
 
 /** EER (US, BTU/Wh) = COP (W/W) × this. */
 export const BTU_WH_PER_W_W = 3.412141633;
+
+/** Largest accepted input, in the selected unit (build prompt §8.3). */
+export const MAX_INPUT_VALUE = 1e12;

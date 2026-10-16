@@ -2,8 +2,7 @@
  * Locale layer. Only en-US is routed at launch; EU locales are modelled so
  * the engine strategies (eu-comma parser, eu size classes) have a home.
  */
-export type NumberParserId = "en-US" | "eu-comma";
-export type SizeClassRegion = "us" | "eu";
+import type { NumberParserId, SizeClassRegion } from "@/engine";
 
 export interface LocaleConfig {
   id: string;

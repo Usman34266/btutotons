@@ -1,0 +1,110 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  formatAmount,
+  formatCsvNumber,
+  formatInputValue,
+  formatNumber,
+  formatPercent,
+  isPrecision,
+} from "@/engine";
+
+describe("formatNumber", () => {
+  it("rounds to 4 decimals by default and trims trailing zeros", () => {
+    expect(formatNumber(19_000 / 12_000)).toBe("1.5833");
+    expect(formatNumber(2)).toBe("2");
+    expect(formatNumber(1.75)).toBe("1.75");
+    expect(formatNumber(24_000)).toBe("24,000");
+  });
+
+  it("supports 2 and 6 decimals", () => {
+    expect(formatNumber(19_000 / 12_000, { precision: 2 })).toBe("1.58");
+    expect(formatNumber(19_000 / 12_000, { precision: 6 })).toBe("1.583333");
+  });
+
+  it("shows 'less than' the step for tiny non-zero values", () => {
+    expect(formatNumber(0.5 / 12_000)).toBe("less than 0.0001");
+    expect(formatNumber(0.001, { precision: 2 })).toBe("less than 0.01");
+    expect(formatNumber(1e-7, { precision: 6 })).toBe("less than 0.000001");
+    expect(formatNumber(-0.00001)).toBe("less than 0.0001");
+  });
+
+  it("formats zero (and negative zero) as 0", () => {
+    expect(formatNumber(0)).toBe("0");
+    expect(formatNumber(-0)).toBe("0");
+    expect(formatNumber(-0, { signDisplay: "exceptZero" })).toBe("0");
+  });
+
+  it("can show an explicit sign for differences", () => {
+    expect(formatNumber(6_000, { signDisplay: "exceptZero" })).toBe("+6,000");
+    expect(formatNumber(-0.5, { signDisplay: "exceptZero" })).toBe("-0.5");
+  });
+
+  it("rounds just below a whole number up to it", () => {
+    expect(formatNumber(1.99999)).toBe("2");
+  });
+});
+
+describe("formatAmount", () => {
+  it("uses the unit symbol by default", () => {
+    expect(formatAmount(1.5, "tr")).toBe("1.5 TR");
+    expect(formatAmount(0.5 / 12_000, "tr")).toBe("less than 0.0001 TR");
+    expect(formatAmount(18_000, "btuh")).toBe("18,000 BTU/hr");
+  });
+
+  it("pluralizes long names on the displayed value", () => {
+    expect(formatAmount(1, "tr", { style: "long" })).toBe(
+      "1 refrigeration ton",
+    );
+    expect(formatAmount(1.00001, "tr", { style: "long" })).toBe(
+      "1 refrigeration ton",
+    );
+    expect(formatAmount(2, "tr", { style: "long" })).toBe(
+      "2 refrigeration tons",
+    );
+    expect(formatAmount(1.5, "tr", { style: "long" })).toBe(
+      "1.5 refrigeration tons",
+    );
+    expect(formatAmount(0, "tr", { style: "long" })).toBe(
+      "0 refrigeration tons",
+    );
+    expect(
+      formatAmount(1, "tr", { style: "long", signDisplay: "exceptZero" }),
+    ).toBe("+1 refrigeration ton");
+    expect(formatAmount(1, "tonhour", { style: "long" })).toBe("1 ton-hour");
+    expect(formatAmount(5.27, "kw", { style: "long" })).toBe("5.27 cooling kW");
+  });
+});
+
+describe("formatPercent", () => {
+  it("shows two decimals and a sign", () => {
+    expect(formatPercent(100 / 3)).toBe("+33.33%");
+    expect(formatPercent(-25)).toBe("-25%");
+    expect(formatPercent(0)).toBe("0%");
+    expect(formatPercent(0.001)).toBe("less than 0.01%");
+  });
+});
+
+describe("formatInputValue", () => {
+  it("shows a typed value with grouping and up to 10 decimals", () => {
+    expect(formatInputValue(19_000)).toBe("19,000");
+    expect(formatInputValue(3.5168528420667)).toBe("3.5168528421");
+    expect(formatInputValue(0.2930710701722222)).toBe("0.2930710702");
+  });
+});
+
+describe("formatCsvNumber", () => {
+  it("uses up to 12 significant digits, no separators, no exponent", () => {
+    expect(formatCsvNumber(19_000 / 12_000)).toBe("1.58333333333");
+    expect(formatCsvNumber(1e18)).toBe("1000000000000000000");
+    expect(formatCsvNumber(1e-7)).toBe("0.0000001");
+    expect(formatCsvNumber(24_000)).toBe("24000");
+  });
+});
+
+describe("isPrecision", () => {
+  it("accepts 2, 4, 6 only", () => {
+    expect([2, 4, 6].every(isPrecision)).toBe(true);
+    expect([0, 3, "4", null].some(isPrecision)).toBe(false);
+  });
+});

@@ -46,6 +46,8 @@ const eslintConfig = defineConfig([
       "src/lib/**/*.{ts,tsx}",
       "src/content/**/*.ts",
       "src/registry/**/*.ts",
+      "src/config/**/*.ts",
+      "scripts/**/*.ts",
     ],
     rules: {
       "no-restricted-imports": [
