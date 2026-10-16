@@ -50,3 +50,19 @@ that supersedes the old one, not editing it.
 - **D035 · 2026-10-16 · Equation text:** BTU/hr `19,000 ÷ 12,000 = 1.5833`; tons `1.5 × 12,000 = 18,000`; other units show the step to BTU/hr first (`24 × 1,000 = 24,000 BTU/hr; 24,000 ÷ 12,000 = 2`). Constants show up to 10 decimals (`0.2930710702`).
 - **D036 · 2026-10-16 · M1 ships only the P0 engine modules.** Ton-hours, power/EER strategies, room estimate and load report are built in M9–M11; their acceptance rows are `it.todo` in the same dataset. Electrical units are a `never` type until M10.
 - **D037 · 2026-10-16 · Coverage gate is 100% for statements, branches, functions and lines** in `src/engine` (stricter than the prompt's line-only gate).
+
+## M2: design system
+
+- **D038 · 2026-10-16 · `/dev/components` exists only under `next dev`.** The page is `page.dev.tsx`; `next.config.ts` (a phase function) adds the `dev.tsx` page extension only in `PHASE_DEVELOPMENT_SERVER`, so the static export never contains it.
+- **D039 · 2026-10-16 · Input and select outlines use `--muted`, not `--border`.** `--border` is 1.24:1 on the surface; WCAG 1.4.11 needs 3:1 for a control's boundary. `--border` stays for dividers.
+- **D040 · 2026-10-16 · Added `--on-accent` (text on a solid accent fill): light #FFFFFF, dark #0B0F14.** Reuses the existing `--surface` (light) and `--bg` (dark) values; no new color. 5.67:1 / 9.52:1.
+- **D041 · 2026-10-16 · `--electric` and `--success` text never sit on `--accent-soft`** (4.44:1 / 4.41:1 in light mode). Token values stay as specified; chips carry their own surface fill and the copied state sits on the page. Enforced by `tests/design/contrast.test.ts`.
+- **D042 · 2026-10-16 · Native `<select>` replaces shadcn/Radix Select** for unit pickers: the platform picker on phones, no JS, accessible by default (GOV.UK pattern).
+- **D043 · 2026-10-16 · On `--accent-soft`, secondary text uses `--ink`, never `--muted`.** Impeccable's detector flagged gray-on-color (5.62:1 passes AA, but gray on a tinted panel reads washed out). Enforced by the contrast test.
+- **D044 · 2026-10-16 · Custom `DigitMorph` instead of `@number-flow/react`** (removed). NumberFlow formats numbers itself with Intl, which would bypass `engine/format.ts`. Ours takes the engine's formatted string, aligns characters on the decimal point, rolls only changed digits (~200ms, transform/opacity), stays static on first render and under reduced motion, and gives screen readers the plain text.
+- **D045 · 2026-10-16 · Coolant tokens keep their own names (`--muted`, `--accent`, `--border`…); shadcn's variable set is removed.** The names clash with shadcn's meanings (shadcn `--accent` is a hover fill). Tailwind utilities map onto Coolant in `@theme` (table in DESIGN.md §8).
+- **D046 · 2026-10-16 · Ice-block geometry is engine code (`engine/ice-blocks.ts`).** Drawn at 2-decimal resolution; max 6 blocks; "+N" is overflow **tons** (7.5 tons → 6 blocks "+1.5"), compact from a million ("+83.3T"). Zero shows one dashed "melted" block. The visual is `aria-hidden`; the number is always text.
+- **D047 · 2026-10-16 · Selected state for tabs and segmented controls: surface fill + 1.5px inset `--accent` ring.** The previous gray border was 1.2:1.
+- **D048 · 2026-10-16 · Popovers use a border only, no shadow** ("borders first; only the converter card gets a shadow").
+- **D049 · 2026-10-16 · Every button size is ≥ 44px; shadcn's `xs`/`sm`/`icon-sm` sizes were removed** so they can't be used by mistake. Tab labels may wrap (360px).
+- **D050 · 2026-10-16 · Impeccable critique ran single-context (degraded),** because this session uses sub-agents only on explicit request. Detector: 0 CLI findings; browser overlay found em-dash-overuse (false positive: the `--token` names) and gray-on-color (fixed, D043). Snapshot in `.impeccable/critique/`, closed after the fixes.

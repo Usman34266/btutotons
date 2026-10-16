@@ -105,3 +105,27 @@ loading** (if async), **empty**.
 - **Never mislead.** A conversion is not a sizing recommendation. Cooling kW is not electricity use.
   Tonnage never determines breaker size.
 - The never-say list lives in `.claude/skills/btutotons/SKILL.md` and is part of every copy review.
+
+## 8. Token → utility map and placement rules
+
+| Utility                                       | Token                      | Notes                                        |
+| --------------------------------------------- | -------------------------- | -------------------------------------------- |
+| `bg-background` / `text-foreground`           | `--bg` / `--ink`           | page                                         |
+| `bg-surface`, `bg-card`, `bg-popover`         | `--surface`                | cards, inputs, popovers                      |
+| `text-ink`                                    | `--ink`                    | primary text                                 |
+| `text-muted-foreground`                       | `--muted`                  | hints, labels (never on `--accent-soft`)     |
+| `bg-muted`                                    | `--bg`                     | subtle fill (tab/segment tracks, hovers)     |
+| `bg-primary` / `text-primary-foreground`      | `--accent` / `--on-accent` | solid actions                                |
+| `bg-secondary`, `bg-accent-soft`              | `--accent-soft`            | result panel, secondary buttons              |
+| `text-accent`, `text-electric`, `text-energy` | chip / link colors         |                                              |
+| `text-danger` (`destructive`), `text-success` | errors, copied state       |                                              |
+| `border-border` / `border-input`              | `--border` / `--muted`     | dividers / input outlines (3:1, WCAG 1.4.11) |
+| `ring-ring`, global `:focus-visible`          | `--accent`                 | 2px + 2px offset                             |
+
+Placement rules (enforced by `tests/design/contrast.test.ts`):
+
+- On `--accent-soft`, secondary text uses `--ink`; size and weight carry the hierarchy. Never gray on the colored panel.
+- `--electric` and `--success` text sit only on `--bg` or `--surface` (4.44 / 4.41 on light `--accent-soft`). Chips carry their own surface fill.
+- Selected state (tabs, segmented controls): surface fill + 1.5px inset `--accent` ring. Never a gray border alone.
+- Elevation is declared once: borders everywhere; the converter card alone gets `shadow-card`.
+- Browser surfaces are themed: selection, caret, `accent-color`, scrollbars, underline offset.
