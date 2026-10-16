@@ -271,8 +271,12 @@ test.describe("converter: state", () => {
     await expect(
       page.getByRole("status").filter({ hasText: "Your 21,000" }),
     ).toHaveText(
-      "Your 21,000 BTU AC is between the 1.5 and 2 ton sizes. Between the 1.5 and 2 ton sizes. Exact: 1.75 tons.",
+      "Your 21,000 BTU AC is between the 1.5 and 2 ton sizes. 1.75 refrigeration tons.",
     );
+    await page.getByRole("radio", { name: "Tons → BTU/hr" }).click();
+    await expect(
+      page.getByRole("status").filter({ hasText: "BTU per hour" }),
+    ).toHaveText(/^1\.75 refrigeration tons equal 21,000 BTU per hour\.$/);
   });
 });
 

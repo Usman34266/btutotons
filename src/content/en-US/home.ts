@@ -64,6 +64,9 @@ export const home = {
     secondary: { btuh: "BTU/hr", coolingKw: "Cooling kW" },
     resultNote:
       "1 refrigeration ton = 12,000 BTU/hr. Cooling kW is cooling capacity, not electricity use.",
+    /** Screen-reader announcement: the sentence, then the precise value when the sentence rounds it. */
+    announcement: (sentence: string, value: string | null) =>
+      value ? `${sentence} ${value}.` : sentence,
   },
 
   sentence: {

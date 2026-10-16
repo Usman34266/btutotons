@@ -69,7 +69,17 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
         message={
           s.errorCode
             ? errors[s.errorCode]
-            : sentence && [sentence, sizeLine].filter(Boolean).join(" ")
+            : result &&
+              sentence &&
+              home.converter.announcement(
+                sentence,
+                direction === "to-tons"
+                  ? formatAmount(result.tons, "tr", {
+                      precision,
+                      style: "long",
+                    })
+                  : null,
+              )
         }
         delay={s.errorCode ? 0 : 900}
       />
