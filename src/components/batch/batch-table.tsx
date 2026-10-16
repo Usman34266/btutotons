@@ -1,0 +1,123 @@
+import { useId } from "react";
+
+import { getContent } from "@/content";
+import {
+  formatInputValue,
+  formatNumber,
+  type BatchRow,
+  type Precision,
+  type SizeClassResult,
+} from "@/engine";
+
+function sizeCell(sizeClass: SizeClassResult): string {
+  const copy = getContent().batch.table.sizeClass;
+  switch (sizeClass.type) {
+    case "class":
+      return copy.cls(formatInputValue(sizeClass.sizeClass.tons));
+    case "between":
+      return copy.between(
+        formatInputValue(sizeClass.lower.tons),
+        formatInputValue(sizeClass.upper.tons),
+      );
+    case "outside":
+      return copy.outside;
+  }
+}
+
+const NUM = "px-3 py-2.5 text-right font-mono tabular-nums whitespace-nowrap";
+const TEXT = "px-3 py-2.5 text-left";
+
+/**
+ * Every pasted line keeps its place. Invalid lines show their line number and
+ * the reason instead of results. Scrolls sideways on narrow screens, inside
+ * its own focusable region (the page itself never scrolls sideways).
+ */
+export function BatchTable({
+  rows,
+  precision,
+}: {
+  rows: readonly BatchRow[];
+  precision: Precision;
+}) {
+  const { batch, errors } = getContent();
+  const cols = batch.table.columns;
+  const captionId = useId();
+
+  return (
+    <div
+      role="region"
+      aria-labelledby={captionId}
+      tabIndex={0}
+      className="overflow-x-auto rounded-xl border border-border bg-surface"
+    >
+      <table className="w-full min-w-[42rem] border-collapse">
+        <caption id={captionId} className="sr-only">
+          {batch.table.caption}
+        </caption>
+        <thead className="text-label text-muted-foreground">
+          <tr className="border-b border-border">
+            <th scope="col" className={TEXT}>
+              {cols.line}
+            </th>
+            <th scope="col" className={TEXT}>
+              {cols.input}
+            </th>
+            <th scope="col" className="px-3 py-2.5 text-right">
+              {cols.btuh}
+            </th>
+            <th scope="col" className="px-3 py-2.5 text-right">
+              {cols.tons}
+            </th>
+            <th scope="col" className="px-3 py-2.5 text-right">
+              {cols.coolingKw}
+            </th>
+            <th scope="col" className={TEXT}>
+              {cols.sizeClass}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr
+              key={row.line}
+              data-status={row.status}
+              className="border-b border-border last:border-b-0"
+            >
+              <th scope="row" className={`${TEXT} font-medium`}>
+                {row.line}
+              </th>
+              {row.status === "ok" ? (
+                <>
+                  <td className={`${TEXT} font-mono tabular-nums`}>
+                    {formatInputValue(row.result.input.value)}
+                  </td>
+                  <td className={NUM}>
+                    {formatNumber(row.result.btuh, { precision })}
+                  </td>
+                  <td className={NUM}>
+                    {formatNumber(row.result.tons, { precision })}
+                  </td>
+                  <td className={NUM}>
+                    {formatNumber(row.result.coolingKw, { precision })}
+                  </td>
+                  <td className={`${TEXT} whitespace-nowrap`}>
+                    {sizeCell(row.result.sizeClass)}
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td className={`${TEXT} font-mono wrap-anywhere`}>
+                    {row.raw}
+                  </td>
+                  <td colSpan={4} className={`${TEXT} font-medium text-danger`}>
+                    {errors[row.error.code]}
+                  </td>
+                </>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}

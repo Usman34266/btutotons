@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { getContent } from "@/content";
 import type { ParseErrorCode } from "@/engine";
 
-import { UnitSelect } from "./unit-select";
+import { INPUT_UNITS, UnitSelect } from "./unit-select";
 import { UnitTooltip } from "./unit-tooltip";
 import type { Direction, InputUnit } from "./use-converter-state";
 
@@ -71,7 +71,13 @@ export function NumericInput({
           className="flex-1 text-lg"
         />
         {direction === "to-tons" ? (
-          <UnitSelect id={`${id}-unit`} value={unit} onChange={onUnitChange} />
+          <UnitSelect
+            id={`${id}-unit`}
+            value={unit}
+            onChange={onUnitChange}
+            units={INPUT_UNITS}
+            label={copy.unitLabel}
+          />
         ) : (
           <span className="inline-flex h-12 w-36 shrink-0 items-center rounded-lg border border-border bg-muted px-3 text-base text-muted-foreground sm:w-44">
             {copy.tonsUnit}
