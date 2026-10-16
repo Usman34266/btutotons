@@ -1,6 +1,12 @@
 import { CompareSection } from "@/components/compare/compare-section";
+import {
+  Explainer,
+  ReferenceChart,
+  TrustAndFaq,
+} from "@/components/content/reference-sections";
 import { Converter } from "@/components/converter/converter";
 import { Container } from "@/components/layout/container";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getContent } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
@@ -10,6 +16,10 @@ const { home } = getContent();
 
 export const metadata = pageMetadata("home");
 
+/**
+ * Sections 01–06 and 10–11 (build prompt §10.1). Room sizing, nameplate and
+ * next-step sections (07–09) appear when their pages are live.
+ */
 export default function HomePage() {
   return (
     <>
@@ -35,8 +45,15 @@ export default function HomePage() {
             </div>
             <CompareSection />
           </section>
+
+          <div className="flex flex-col gap-12 pt-6 md:gap-16 md:pt-10">
+            <ReferenceChart />
+            <Explainer />
+            <TrustAndFaq />
+          </div>
         </Container>
       </main>
+      <SiteFooter />
     </>
   );
 }

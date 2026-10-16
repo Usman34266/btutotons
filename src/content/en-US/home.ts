@@ -174,5 +174,10 @@ export const home = {
     heading: "Common AC ratings",
     /** Read before the visible "6,000 BTU/hr" so the button's name is "Convert 6,000 BTU/hr". */
     buttonVerb: "Convert",
+    /** Spec p. 17, section 03. */
+    hint: "Choose a capacity to fill the calculator, or open its worked example.",
+    detailsLabel: "Worked examples:",
+    /** Accessible name of a details link; starts with the visible number. */
+    detailsLink: (n: string) => `${n} BTU to Tons`,
   },
 } as const;
