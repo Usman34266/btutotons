@@ -35,3 +35,15 @@
     font-family: var(--font-plex-mono), ui-monospace, monospace;
   }
 }
+
+/*
+ * The result number never wraps, so very long values (e.g. 83 trillion tons)
+ * shrink to fit their container instead of widening the page. 0.62em is a
+ * little wider than a Plex tabular digit. Needs `--result-chars` and an
+ * inline-size container ancestor.
+ */
+@utility text-result-fit {
+  font-size: min(--theme(--text-result), 100cqi / (var(--result-chars) * 0.62));
+  line-height: --theme(--text-result--line-height);
+  font-weight: --theme(--text-result--font-weight);
+}

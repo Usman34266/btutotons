@@ -31,3 +31,9 @@
     animation: none !important;
   }
 }
+
+/* Direction flip: the BTU/hr and tons values trade places (React <ViewTransition share="morph">). */
+::view-transition-group(.morph) {
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--ease-out);
+}
