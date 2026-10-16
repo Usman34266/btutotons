@@ -8,7 +8,8 @@ const apply = (value: number, steps: readonly UnitStep[]): number =>
     value,
   );
 
-const inverse = (steps: readonly UnitStep[]): UnitStep[] =>
+/** The steps that undo a unit's `toBase`: BTU/hr → that unit. */
+export const inverse = (steps: readonly UnitStep[]): UnitStep[] =>
   [...steps]
     .reverse()
     .map(([op, factor]) => [op === "×" ? "÷" : "×", factor] as const);
