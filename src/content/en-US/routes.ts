@@ -12,6 +12,7 @@ export interface RouteCopy {
   description: string;
   /** Short name in breadcrumbs. */
   breadcrumb: string;
+  h1: string;
 }
 
 /**
@@ -19,12 +20,24 @@ export interface RouteCopy {
  * theirs from numericTemplate (lib/numeric-page.ts).
  */
 export const routes: Record<StaticRouteId, RouteCopy> = {
-  home: { ...home.meta, breadcrumb: "Home" },
-  "tons-to-btu": { ...tonsToBtu.meta, breadcrumb: tonsToBtu.h1 },
-  batch: { ...batch.meta, breadcrumb: "Batch BTU to Tons" },
-  nameplate: { ...nameplate.meta, breadcrumb: "Nameplate guide" },
-  methodology: { ...methodology.meta, breadcrumb: methodology.h1 },
-  about: { ...about.meta, breadcrumb: "About" },
-  privacy: { ...privacy.meta, breadcrumb: privacy.h1 },
-  terms: { ...terms.meta, breadcrumb: terms.h1 },
+  home: { ...home.meta, breadcrumb: "Home", h1: home.h1 },
+  "tons-to-btu": {
+    ...tonsToBtu.meta,
+    breadcrumb: tonsToBtu.h1,
+    h1: tonsToBtu.h1,
+  },
+  batch: { ...batch.meta, breadcrumb: "Batch BTU to Tons", h1: batch.h1 },
+  nameplate: {
+    ...nameplate.meta,
+    breadcrumb: "Nameplate guide",
+    h1: nameplate.h1,
+  },
+  methodology: {
+    ...methodology.meta,
+    breadcrumb: methodology.h1,
+    h1: methodology.h1,
+  },
+  about: { ...about.meta, breadcrumb: "About", h1: about.h1 },
+  privacy: { ...privacy.meta, breadcrumb: privacy.h1, h1: privacy.h1 },
+  terms: { ...terms.meta, breadcrumb: terms.h1, h1: terms.h1 },
 };

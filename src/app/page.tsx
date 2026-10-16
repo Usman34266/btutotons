@@ -9,6 +9,7 @@ import { Converter } from "@/components/converter/converter";
 import { Container } from "@/components/layout/container";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getContent } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
 import { COMPARE_ANCHOR } from "@/registry/routes";
@@ -56,6 +57,7 @@ export default function HomePage() {
         </Container>
       </main>
       <SiteFooter />
+      <JsonLd route="home" />
     </>
   );
 }

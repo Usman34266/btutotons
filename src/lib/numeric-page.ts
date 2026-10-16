@@ -129,11 +129,13 @@ export function numericPageModel(page: NumericPage): NumericPageModel {
         title: copy.btu.title(n, tons),
         description: copy.btu.description(n, tons),
         breadcrumb: h1,
+        h1,
       }
     : {
         title: copy.ton.title(n, btuh),
         description: copy.ton.description(n, btuh),
         breadcrumb: h1,
+        h1,
       };
 
   const home = { href: routes.home.path, label: copy.links.home } as const;

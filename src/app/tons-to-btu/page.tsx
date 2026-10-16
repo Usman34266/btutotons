@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { PageBreadcrumb } from "@/components/layout/page-breadcrumb";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getContent } from "@/content";
 import { capacity, convertCapacity, formatInputValue } from "@/engine";
 import { capacityRowOf } from "@/lib/capacity-rows";
@@ -74,6 +75,7 @@ export default function TonsToBtuPage() {
         </Container>
       </main>
       <SiteFooter />
+      <JsonLd route="tons-to-btu" />
     </>
   );
 }

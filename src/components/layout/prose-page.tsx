@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { JsonLd } from "@/components/seo/json-ld";
 import type { StaticRouteId } from "@/registry/routes";
 
 import { Container } from "./container";
@@ -36,6 +37,7 @@ export function ProsePage({
         </Container>
       </main>
       <SiteFooter />
+      <JsonLd route={route} />
     </>
   );
 }

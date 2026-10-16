@@ -9,6 +9,7 @@ import { Container } from "@/components/layout/container";
 import { PageBreadcrumb } from "@/components/layout/page-breadcrumb";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getContent } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
 import { numericPageBySlug, numericPageModel } from "@/lib/numeric-page";
@@ -108,6 +109,7 @@ export default async function NumericPage({ params }: Props) {
         </Container>
       </main>
       <SiteFooter />
+      <JsonLd route={numericRouteId(page)} />
     </>
   );
 }
