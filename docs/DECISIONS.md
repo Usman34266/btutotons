@@ -36,3 +36,17 @@ that supersedes the old one, not editing it.
 - **D024 · 2026-10-16 · Parser mapping for unlisted cases: `Infinity` and `NaN` → `NOT_A_NUMBER`.** The prompt lists them as rejected but gives no code; they fail the number regex like any other mixed string.
 - **D025 · 2026-10-16 · Spec PDF not in the repo.** The build prompt is the source of truth. FAQ copy ("10 Q&As from spec page 18", M5) and P1 page copy (spec pp. 24–26) are blocked until the PDF is added at `docs/source/btu-to-tons-spec-v2.pdf`.
 - **D026 · 2026-10-16 · `NODE_ENV` override.** The developer shell exports `NODE_ENV=local`. Next forces production for builds (warning only); Vitest pins `NODE_ENV=test` in its config. CI does not set it.
+- **D027 · 2026-10-16 · HSTS preload stays off (owner confirmed).** Reconsider after launch, once subdomain plans are settled. Supplements D018.
+
+## M1: engine
+
+- **D028 · 2026-10-16 · `DECIMAL_COMMA` applies to `^\d+,\d$` (e.g. `1,5`) and EU full form `1.000,5`; other stray commas are `NOT_A_NUMBER`.** The acceptance table pins `1,5` → DECIMAL_COMMA and `12,00` → NOT_A_NUMBER, so a two-digit tail can't be the trigger. A one-digit tail can never be a thousands group, so it is unambiguous.
+- **D029 · 2026-10-16 · Display trims all trailing zeros, not only on whole numbers** (`1.75`, not `1.7500`). Matches the prompt's own copy examples ("Exact: 1.75 tons") and the "2, not 2.0000" rule; easier to read for owners.
+- **D030 · 2026-10-16 · Batch rows carry both `row` (position among non-blank lines, used as the CSV row) and `line` (line number in the pasted text, for "fix line 12" messages).** Blank lines are skipped and do not count toward the 200 limit. Over the limit, nothing is converted.
+- **D031 · 2026-10-16 · CSV cell content:** `input_value` is the parsed number for valid rows and the raw (escaped) text for invalid rows; `size_class` is `1.5 ton`, `between 1.5 ton and 2 ton`, or empty; `status` is `ok` or the error code (human copy can be mapped in M4). CRLF line endings, RFC 4180 quoting after the formula-injection prefix.
+- **D032 · 2026-10-16 · Size class compares in each region's nominal unit (BTU/hr for US, kW for EU) with a 1e-9 relative epsilon** on the band edge and on ties. Without it, `1.1 × 12,000 = 13,200.000000000002` would fall outside the inclusive 1-ton band.
+- **D033 · 2026-10-16 · Tiny values:** a non-zero value smaller than the display step renders as the magnitude "less than 0.0001" (no sign). Compare results carry `direction` (`more`/`less`/`same`) so copy states the sign in words; "+6,000"-style signs apply only above the step. Percent uses 2 decimals.
+- **D034 · 2026-10-16 · Parser details:** the Unicode minus (U+2212) counts as a minus sign; `-0` reads as 0; scientific notation is detected before the sign check, so `-1e5` → `SCIENTIFIC`; numerals too long for a double → `TOO_LARGE`.
+- **D035 · 2026-10-16 · Equation text:** BTU/hr `19,000 ÷ 12,000 = 1.5833`; tons `1.5 × 12,000 = 18,000`; other units show the step to BTU/hr first (`24 × 1,000 = 24,000 BTU/hr; 24,000 ÷ 12,000 = 2`). Constants show up to 10 decimals (`0.2930710702`).
+- **D036 · 2026-10-16 · M1 ships only the P0 engine modules.** Ton-hours, power/EER strategies, room estimate and load report are built in M9–M11; their acceptance rows are `it.todo` in the same dataset. Electrical units are a `never` type until M10.
+- **D037 · 2026-10-16 · Coverage gate is 100% for statements, branches, functions and lines** in `src/engine` (stricter than the prompt's line-only gate).

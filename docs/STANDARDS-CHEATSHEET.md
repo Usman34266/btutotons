@@ -85,7 +85,7 @@ cooling kW  = BTU/hr × W_PER_BTUH ÷ 1,000
 | `-1`                                              | `NEGATIVE`         |
 | `12abc`, `12,00` (malformed group)                | `NOT_A_NUMBER`     |
 | `Infinity`, `NaN` (our mapping, see DECISIONS.md) | `NOT_A_NUMBER`     |
-| `1,5`                                             | `DECIMAL_COMMA`    |
+| `1,5`, `1.000,5` (see D028)                       | `DECIMAL_COMMA`    |
 | `1e5`                                             | `SCIENTIFIC`       |
 | > 10¹²                                            | `TOO_LARGE`        |
 | 0 where zero is invalid (EER, COP, duration)      | `ZERO_NOT_ALLOWED` |
