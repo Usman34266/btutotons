@@ -44,8 +44,11 @@ interface State {
   revealedRaw: string | null;
   /** The URL fragment this state was last synced with; null before hydration. */
   syncedHash: string | null;
-  /** Last flip: the text before it and the text carried across, so flipping back is exact. */
-  carry: { from: string; to: string } | null;
+  /**
+   * Last change of input unit (flip or unit select): the text and unit before
+   * it and the text carried across, so switching back is exact.
+   */
+  carry: { from: string; fromUnit: CapacityUnitId; to: string } | null;
 }
 
 /** Wait before showing an error while the user is still typing ("19," on the way to "19,000"). */
@@ -79,6 +82,23 @@ function derive(s: State) {
       })
     : null;
   return { inputUnit, parsed, result };
+}
+
+/**
+ * The field text for the same quantity in another input unit:
+ * 19,000 BTU/hr → 1.5833333333 tons → 19,000 BTU/hr. Invalid text stays as typed.
+ */
+function carryTo(s: State, unit: CapacityUnitId): Pick<State, "raw" | "carry"> {
+  const fromUnit = inputUnitOf(s);
+  let raw = s.raw;
+  if (s.carry && s.carry.to === s.raw && s.carry.fromUnit === unit) {
+    // Switched back without editing: restore the user's own text exactly.
+    raw = s.carry.from;
+  } else {
+    const { result } = derive(s);
+    if (result) raw = formatInputValue(fromBtuh(result.btuh, unit));
+  }
+  return { raw, carry: { from: s.raw, fromUnit, to: raw } };
 }
 
 function initialState({
@@ -231,36 +251,31 @@ export function useConverterState(
     errorCode,
 
     setRaw: (raw) => commit((s) => ({ ...s, raw })),
-    setUnit: (unit) => commit((s) => ({ ...s, unit })),
+    // A unit change keeps the quantity, not the digits (spec p. 8).
+    setUnit: (unit) =>
+      commit((s) => {
+        if (unit === s.unit) return s;
+        if (s.direction === "to-btuh") return { ...s, unit };
+        const moved = carryTo(s, unit);
+        return {
+          ...s,
+          unit,
+          ...moved,
+          revealedRaw: moved.raw === s.raw ? s.revealedRaw : null,
+        };
+      }),
     setPrecision: (precision) => {
       safeStorage.set(STORAGE_KEYS.precision, String(precision));
       commit((s) => ({ ...s, precision }));
     },
-    // Flipping carries the answer across: 19,000 BTU/hr → 1.5833333333 tons → 19,000 BTU/hr.
+    // Flipping carries the answer across, like a unit change.
     setDirection: (direction) => {
       // A transition, so <ViewTransition> can morph the two values into each other's place.
       startTransition(() =>
         commit((s) => {
           if (direction === s.direction) return s;
-          const current = derive(s).result;
-          let raw = s.raw;
-          if (s.carry && s.carry.to === s.raw) {
-            // Flipped back without editing: restore the user's own text exactly.
-            raw = s.carry.from;
-          } else if (current) {
-            raw = formatInputValue(
-              direction === "to-btuh"
-                ? current.tons
-                : fromBtuh(current.btuh, s.unit),
-            );
-          }
-          return {
-            ...s,
-            direction,
-            raw,
-            carry: { from: s.raw, to: raw },
-            revealedRaw: null,
-          };
+          const moved = carryTo(s, inputUnitOf({ direction, unit: s.unit }));
+          return { ...s, direction, ...moved, revealedRaw: null };
         }),
       );
     },

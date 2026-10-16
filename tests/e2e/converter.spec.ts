@@ -213,6 +213,28 @@ test.describe("converter: state", () => {
     await expect(resultValue(page)).toHaveText("1.5833");
   });
 
+  test("changing the unit keeps the quantity, not the digits", async ({
+    page,
+  }) => {
+    await openConverter(page);
+    const unit = page.getByLabel("Unit");
+    await convert(page, "24000");
+    await unit.selectOption("kw");
+    await expect(field(page)).toHaveValue("7.0337056841");
+    await expect(resultValue(page)).toHaveText("2");
+    await expect(page).toHaveURL(/#v=7\.03370568410*&u=kw&p=4$/);
+    // Switching straight back restores the exact text typed.
+    await unit.selectOption("btuh");
+    await expect(field(page)).toHaveValue("24000");
+    await unit.selectOption("kbtuh");
+    await expect(field(page)).toHaveValue("24");
+    await expect(resultValue(page)).toHaveText("2");
+    // Text that isn't a number yet stays as typed.
+    await convert(page, "12abc");
+    await unit.selectOption("btumin");
+    await expect(field(page)).toHaveValue("12abc");
+  });
+
   test("quick values fill the calculator", async ({ page }) => {
     await openConverter(page);
     await page.getByRole("radio", { name: "Tons → BTU/hr" }).click();
@@ -258,7 +280,7 @@ test.describe("converter: copy and share", () => {
     await page.getByRole("button", { name: "Copy result" }).click();
     await expect(page.getByRole("button", { name: "Copied" })).toBeVisible();
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      "19,000 BTU/hr = 1.5833 refrigeration tons = 5.5684 cooling kW. Sold as a 1.5 ton AC. Exact: 1.58 tons.",
+      "19,000 BTU/hr = 1.5833 refrigeration tons = 5.5684 cooling kW. Sold as a 1.5 ton AC. Exact: 1.58 tons. Calculation: 19,000 ÷ 12,000 = 1.5833.",
     );
   });
 

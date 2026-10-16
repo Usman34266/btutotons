@@ -23,8 +23,8 @@ test.describe("mobile 360px", () => {
   test("no horizontal scroll in any state", async ({ page }) => {
     await openConverter(page);
     expect(await overflowX(page)).toBe(0);
-    await convert(page, "1000000000000");
     await page.getByLabel("Unit").selectOption("mmbtuh");
+    await convert(page, "1000000000000");
     await expect(page.getByTestId("result")).toBeVisible();
     expect(await overflowX(page)).toBe(0);
     // The longest values shrink or wrap; none is clipped by the card (16px gutter).
