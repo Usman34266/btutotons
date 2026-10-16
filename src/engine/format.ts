@@ -24,8 +24,11 @@ function formatter(
 
 export interface FormatOptions {
   precision?: Precision;
-  /** "exceptZero" shows "+" on positive values (differences). */
-  signDisplay?: "auto" | "exceptZero";
+  /**
+   * "exceptZero" shows "+" on positive values (differences). "never" gives the
+   * magnitude, for copy that states the direction in words ("6,000 BTU/hr less").
+   */
+  signDisplay?: "auto" | "exceptZero" | "never";
 }
 
 /**
@@ -47,7 +50,7 @@ export function formatNumber(
   const f =
     signDisplay === "auto"
       ? plain
-      : formatter(`n${precision}s`, {
+      : formatter(`n${precision}${signDisplay}`, {
           maximumFractionDigits: precision,
           signDisplay,
         });
@@ -72,9 +75,11 @@ export function formatAmount(
   return `${text} ${isOne ? def.singular : def.plural}`;
 }
 
-/** Percent with 2 decimals and an explicit sign: "+33.33%". */
-export const formatPercent = (value: number): string =>
-  `${formatNumber(value, { precision: 2, signDisplay: "exceptZero" })}%`;
+/** Percent with 2 decimals, by default with an explicit sign: "+33.33%". */
+export const formatPercent = (
+  value: number,
+  signDisplay: FormatOptions["signDisplay"] = "exceptZero",
+): string => `${formatNumber(value, { precision: 2, signDisplay })}%`;
 
 /** A user-entered value or a constant, as typed: grouped, up to 10 decimals. */
 export const formatInputValue = (value: number): string =>

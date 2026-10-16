@@ -41,6 +41,14 @@ describe("formatNumber", () => {
     expect(formatNumber(-0.5, { signDisplay: "exceptZero" })).toBe("-0.5");
   });
 
+  it("can show the magnitude only, for copy that states the direction", () => {
+    expect(formatNumber(-6_000, { signDisplay: "never" })).toBe("6,000");
+    expect(formatNumber(0.5, { signDisplay: "never" })).toBe("0.5");
+    expect(
+      formatAmount(-1, "tr", { style: "long", signDisplay: "never" }),
+    ).toBe("1 refrigeration ton");
+  });
+
   it("rounds just below a whole number up to it", () => {
     expect(formatNumber(1.99999)).toBe("2");
   });
@@ -83,6 +91,11 @@ describe("formatPercent", () => {
     expect(formatPercent(-25)).toBe("-25%");
     expect(formatPercent(0)).toBe("0%");
     expect(formatPercent(0.001)).toBe("less than 0.01%");
+  });
+
+  it("can drop the sign", () => {
+    expect(formatPercent(-25, "never")).toBe("25%");
+    expect(formatPercent(100 / 3, "never")).toBe("33.33%");
   });
 });
 
