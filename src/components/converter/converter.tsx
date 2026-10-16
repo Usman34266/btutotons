@@ -59,6 +59,7 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
         formatAmount(result.coolingKw, "kw", { precision, style: "long" }),
       ],
       size: sizeLine || null,
+      equation: result.equation,
     });
 
   return (

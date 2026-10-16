@@ -146,12 +146,16 @@ export const home = {
       input,
       outputs,
       size,
+      equation,
     }: {
       input: string;
       outputs: string[];
       size: string | null;
+      equation: string;
     }) =>
-      [`${[input, ...outputs].join(" = ")}.`, size].filter(Boolean).join(" "),
+      [`${[input, ...outputs].join(" = ")}.`, size, `Calculation: ${equation}.`]
+        .filter(Boolean)
+        .join(" "),
   },
 
   quickValues: {
