@@ -271,14 +271,36 @@ test.describe("homepage content", () => {
     await expect(page).toHaveURL(/\/18000-btu-to-tons\/$/);
   });
 
-  test("the footer links only to live tools", async ({ page }) => {
+  test("the footer links only to live pages", async ({ page }) => {
     await open(page, "/");
-    const footer = page.getByRole("navigation", { name: "Related tools" });
-    await expect(footer.getByRole("link")).toHaveText([
+    const tools = page.getByRole("navigation", { name: "Related tools" });
+    await expect(tools.getByRole("link")).toHaveText([
       "BTU to Tons Calculator",
       "Tons to BTU Calculator",
       "Batch BTU to Tons",
+      "Nameplate guide",
     ]);
+    const site = page.getByRole("navigation", { name: "About this site" });
+    await expect(site.getByRole("link")).toHaveText([
+      "About",
+      "Methodology",
+      "Privacy",
+      "Terms",
+    ]);
+  });
+
+  test("section 08 and the trust block link to the guide and the method", async ({
+    page,
+  }) => {
+    await open(page, "/");
+    await page.getByRole("link", { name: "Read the nameplate guide" }).click();
+    await expect(page).toHaveURL(/\/ac-tonnage-by-model-number\/$/);
+    await open(page, "/");
+    await page
+      .getByTestId("trust")
+      .getByRole("link", { name: "How the numbers are calculated" })
+      .click();
+    await expect(page).toHaveURL(/\/methodology\/$/);
   });
 });
 
@@ -291,6 +313,12 @@ test.describe("360px", () => {
       "/8000-btu-to-tons/",
       "/1-5-ton-to-btu/",
       "/tons-to-btu/",
+      "/ac-tonnage-by-model-number/",
+      "/methodology/",
+      "/about/",
+      "/privacy/",
+      "/terms/",
+      "/not-a-page/",
     ]) {
       await open(page, path);
       expect(await overflowX(page), path).toBe(0);

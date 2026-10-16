@@ -67,6 +67,25 @@ export function Explainer() {
   );
 }
 
+/** Homepage section 08: teaser for the nameplate guide. */
+export function NameplateTeaser() {
+  const { nameplate } = getContent().reference;
+  return (
+    <section
+      aria-labelledby="nameplate-heading"
+      className="flex max-w-prose flex-col gap-3"
+    >
+      <h2 id="nameplate-heading">{nameplate.heading}</h2>
+      <p>{nameplate.body}</p>
+      <p>
+        <Link href={routes.nameplate.path} className={LINK}>
+          {nameplate.link}
+        </Link>
+      </p>
+    </section>
+  );
+}
+
 /** Homepage section 10: method, then the FAQ. Reviewer and date only when real. */
 export function TrustAndFaq() {
   const { trust, faq } = getContent().reference;
@@ -91,6 +110,11 @@ export function TrustAndFaq() {
             )}
           </p>
         )}
+        <p>
+          <Link href={routes.methodology.path} className={LINK}>
+            {trust.methodLink}
+          </Link>
+        </p>
       </div>
 
       <section aria-labelledby="faq-heading" className="flex flex-col gap-6">

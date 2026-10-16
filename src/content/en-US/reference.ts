@@ -21,8 +21,16 @@ export const reference = {
     reverseLink: "Tons to BTU Calculator",
   },
 
+  /** Section 08 (spec p. 17). */
+  nameplate: {
+    heading: "Find the capacity on your AC nameplate",
+    body: "Use the cooling-capacity rating when available. Model-number codes vary by manufacturer and product family.",
+    link: "Read the nameplate guide",
+  },
+
   trust: {
     label: "Method:",
+    methodLink: "How the numbers are calculated",
     method:
       "standard refrigeration-ton conversion using International Table BTU (NIST). Calculations are shown for reference. Size classes and estimates use separate, documented assumptions.",
     /** Shown only once site.releaseDate is set. */

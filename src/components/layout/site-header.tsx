@@ -7,9 +7,12 @@ import { CHART_ANCHOR, routes } from "@/registry/routes";
 import { Container } from "./container";
 import { ThemeToggle } from "./theme-toggle";
 
+const NAV_LINK =
+  "inline-flex min-h-11 items-center rounded-lg px-3 text-ink hover:bg-muted";
+
 /**
- * Logo, nav and theme toggle. "Converters" and "Guides" join the nav when
- * their targets exist, so the header never links to a missing page (D073).
+ * Logo, nav and theme toggle. "Converters" joins the nav when its target
+ * exists, so the header never links to a missing page (D073).
  */
 export function SiteHeader() {
   const { nav } = getContent().common;
@@ -22,15 +25,20 @@ export function SiteHeader() {
         >
           {site.name}
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <nav aria-label={nav.label}>
             <ul className="flex items-center">
               <li>
                 <Link
                   href={`${routes.home.path}#${CHART_ANCHOR}`}
-                  className="inline-flex min-h-11 items-center rounded-lg px-3 text-ink hover:bg-muted"
+                  className={NAV_LINK}
                 >
                   {nav.chart}
+                </Link>
+              </li>
+              <li>
+                <Link href={routes.nameplate.path} className={NAV_LINK}>
+                  {nav.guides}
                 </Link>
               </li>
             </ul>
