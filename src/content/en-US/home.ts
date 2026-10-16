@@ -161,6 +161,15 @@ export const home = {
         .join(" "),
   },
 
+  /** Homepage section 04 (spec p. 17): compare lives at /#compare, the list tool on its own page. */
+  tools: {
+    heading: "Compare two ratings or convert a list",
+    intro:
+      "Check the difference between two capacities, or paste multiple values for a downloadable conversion table.",
+    compare: "Compare two ratings",
+    batch: "Convert a list",
+  },
+
   quickValues: {
     heading: "Common AC ratings",
     /** Read before the visible "6,000 BTU/hr" so the button's name is "Convert 6,000 BTU/hr". */

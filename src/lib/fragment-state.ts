@@ -36,15 +36,14 @@ export function parseFragment(hash: string): FragmentState {
   return state;
 }
 
+/** Without a precision, the reader falls back to the stored preference. */
 export function buildFragment({
   value,
   unit,
   precision,
-}: Required<FragmentState>): string {
-  const params = new URLSearchParams({
-    v: formatCsvNumber(value),
-    u: unit,
-    p: String(precision),
-  });
+}: Required<Pick<FragmentState, "value" | "unit">> &
+  Pick<FragmentState, "precision">): string {
+  const params = new URLSearchParams({ v: formatCsvNumber(value), u: unit });
+  if (precision !== undefined) params.set("p", String(precision));
   return `#${params.toString()}`;
 }

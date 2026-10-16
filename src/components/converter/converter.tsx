@@ -5,6 +5,7 @@ import { ViewTransition, useId, useRef } from "react";
 
 import { getContent } from "@/content";
 import { UNITS, formatAmount, formatInputValue } from "@/engine";
+import { CONVERTER_ID } from "@/lib/converter-handoff";
 
 import { DirectionTabs } from "./direction-tabs";
 import { LiveStatus } from "./live-status";
@@ -63,7 +64,7 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
     });
 
   return (
-    <div className="flex flex-col gap-6">
+    <div id={CONVERTER_ID} className="flex flex-col gap-6">
       <Toaster position="bottom-center" />
       <LiveStatus
         message={
