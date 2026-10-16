@@ -89,9 +89,25 @@
     cursor: pointer;
   }
 
+  a,
+  button,
+  input,
+  label,
+  select,
+  summary,
+  textarea,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
   html {
     accent-color: var(--accent);
     scrollbar-color: var(--muted) var(--bg);
+    -webkit-tap-highlight-color: color-mix(
+      in srgb,
+      var(--accent) 15%,
+      transparent
+    );
   }
 
   input,
