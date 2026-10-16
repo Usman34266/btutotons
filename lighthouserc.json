@@ -2,7 +2,13 @@
   "ci": {
     "collect": {
       "staticDistDir": "./out",
-      "url": ["/"],
+      "url": [
+        "/",
+        "/12000-btu-to-tons/",
+        "/ac-tonnage-by-model-number/",
+        "/batch-btu-to-tons/",
+        "/methodology/"
+      ],
       "numberOfRuns": 3
     },
     "assert": {

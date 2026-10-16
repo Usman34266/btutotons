@@ -1,4 +1,4 @@
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import {
   DEFAULT_PRECISION,
   convertCapacity,
@@ -12,7 +12,7 @@ import {
 
 /** Size class for a table cell: "1.5 ton", "Between 0.5 and 0.75 ton" or "—". */
 export function sizeClassCell(sizeClass: SizeClassResult): string {
-  const copy = getContent().common.sizeClassCell;
+  const copy = getUiContent().common.sizeClassCell;
   switch (sizeClass.type) {
     case "class":
       return copy.cls(formatInputValue(sizeClass.sizeClass.tons));

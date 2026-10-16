@@ -3,7 +3,8 @@
 import { Ban, Hash, Snowflake, Zap, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 
-import { getContent, type NameplateField } from "@/content";
+import type { NameplateField } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { cn } from "@/lib/cn";
 
 /** Plate order, top to bottom; the key below uses the same numbers. */
@@ -55,7 +56,7 @@ export function InteractiveNameplate({
   /** The example rating, already formatted ("35,000"). */
   capacityText: string;
 }) {
-  const { plate, hotspots, read } = getContent().nameplate;
+  const { plate, hotspots, read } = getUiContent().nameplate;
   const [selected, setSelected] = useState<NameplateField>("capacity");
 
   const select = (field: NameplateField) => {

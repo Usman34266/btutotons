@@ -2,7 +2,8 @@
 
 import { CircleHelp } from "lucide-react";
 
-import { getContent, type GlossaryTerm } from "@/content";
+import type { GlossaryTerm } from "@/content";
+import { getUiContent } from "@/content/ui";
 
 import { InfoPopover } from "./info-popover";
 
@@ -14,7 +15,7 @@ export function UnitTooltip({
   term: GlossaryTerm;
   className?: string;
 }) {
-  const { terms, whatIs } = getContent().unitsGlossary;
+  const { terms, whatIs } = getUiContent().unitsGlossary;
   const { label, body } = terms[term];
 
   return (

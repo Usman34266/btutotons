@@ -1,18 +1,35 @@
 "use client";
 
 import { Info } from "lucide-react";
-import type { ReactNode } from "react";
+import { lazy, type ReactNode, Suspense, useEffect, useState } from "react";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/cn";
+import { InfoTrigger } from "./info-trigger";
+
+let radix: Promise<typeof import("./info-popover-radix")> | undefined;
+const loadRadix = () => (radix ??= import("./info-popover-radix"));
+const RadixInfoPopover = lazy(loadRadix);
+
+/** Fetches the popover code once the page has loaded and the main thread is free. */
+function usePrefetchAfterLoad() {
+  useEffect(() => {
+    const idle = () =>
+      "requestIdleCallback" in window
+        ? requestIdleCallback(() => void loadRadix())
+        : setTimeout(() => void loadRadix(), 200);
+    if (document.readyState === "complete") {
+      idle();
+      return;
+    }
+    window.addEventListener("load", idle, { once: true });
+    return () => window.removeEventListener("load", idle);
+  }, []);
+}
 
 /**
  * Small explanation behind an icon button. A popover, not a hover tooltip:
- * keyboard (Enter/Space, Escape) and touch work. 44px hit area.
+ * keyboard (Enter/Space, Escape) and touch work. The popover code (Radix,
+ * ~23 KB gzipped) stays out of the initial bundle: a plain trigger renders
+ * first and the first click mounts the Radix popover already open.
  */
 export function InfoPopover({
   label,
@@ -25,21 +42,27 @@ export function InfoPopover({
   children: ReactNode;
   className?: string;
 }) {
+  const [armed, setArmed] = useState(false);
+  usePrefetchAfterLoad();
+
+  const plain = (
+    <InfoTrigger
+      label={label}
+      className={className}
+      aria-expanded={false}
+      data-state="closed"
+      onClick={() => setArmed(true)}
+    >
+      {icon}
+    </InfoTrigger>
+  );
+
+  if (!armed) return plain;
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <button
-          type="button"
-          aria-label={label}
-          className={cn(
-            "relative inline-flex size-6 shrink-0 items-center justify-center rounded-full align-middle text-muted-foreground transition-colors duration-150 after:absolute after:-inset-2.5 after:content-[''] hover:text-ink data-[state=open]:text-accent",
-            className,
-          )}
-        >
-          {icon}
-        </button>
-      </PopoverTrigger>
-      <PopoverContent>{children}</PopoverContent>
-    </Popover>
+    <Suspense fallback={plain}>
+      <RadixInfoPopover label={label} icon={icon} className={className}>
+        {children}
+      </RadixInfoPopover>
+    </Suspense>
   );
 }

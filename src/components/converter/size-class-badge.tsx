@@ -1,4 +1,5 @@
-import { getContent, type Segment } from "@/content";
+import type { Segment } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { formatInputValue, formatNumber, type SizeClassResult } from "@/engine";
 
 import { InfoPopover } from "./info-popover";
@@ -9,7 +10,7 @@ export function sizeClassSegments(
   sizeClass: SizeClassResult,
   tons: number,
 ): Segment[] {
-  const copy = getContent().home.sizeClass;
+  const copy = getUiContent().home.sizeClass;
   const exact = formatNumber(tons, { precision: 2 });
   switch (sizeClass.type) {
     case "class":
@@ -35,7 +36,7 @@ export function SizeClassBadge({
 }) {
   const segments = sizeClassSegments(sizeClass, tons);
   if (segments.length === 0) return null;
-  const copy = getContent().home.sizeClass;
+  const copy = getUiContent().home.sizeClass;
 
   return (
     <p data-testid="size-class">

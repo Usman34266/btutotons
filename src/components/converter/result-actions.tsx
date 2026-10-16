@@ -4,7 +4,7 @@ import { Check, Copy, RotateCcw, Share2 } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { copyText } from "@/lib/clipboard";
 import { shareLink } from "@/lib/share";
 
@@ -22,7 +22,7 @@ export function ResultActions({
   onReset(): void;
   showReset: boolean;
 }) {
-  const copy = getContent().home.actions;
+  const copy = getUiContent().home.actions;
   const [copied, setCopied] = useState(false);
 
   if (!copyValue && !showReset) return null;

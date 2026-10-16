@@ -5,7 +5,7 @@ import { useEffect, useId, useSyncExternalStore } from "react";
 import { LiveStatus } from "@/components/converter/live-status";
 import { UnitSelect } from "@/components/converter/unit-select";
 import { Input } from "@/components/ui/input";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import {
   CAPACITY_UNIT_IDS,
   DEFAULT_PRECISION,
@@ -33,7 +33,7 @@ function CompareField({
   side: "a" | "b";
   field: CapacityField;
 }) {
-  const { compare, errors } = getContent();
+  const { compare, errors } = getUiContent();
   const id = useId();
   const errorId = `${id}-error`;
   return (

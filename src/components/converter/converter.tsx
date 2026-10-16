@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { ViewTransition, useId, useRef } from "react";
 
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { UNITS, formatAmount, formatInputValue } from "@/engine";
 import { CONVERTER_ID } from "@/lib/converter-handoff";
 
@@ -30,7 +30,7 @@ const Toaster = dynamic(
  * --accent-soft. Mobile: tabs → input → result → actions → quick values.
  */
 export function Converter({ initial }: { initial?: ConverterInitial }) {
-  const { home, errors } = getContent();
+  const { home, errors } = getUiContent();
   const s = useConverterState(initial);
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);

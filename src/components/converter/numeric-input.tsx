@@ -3,7 +3,7 @@
 import type { Ref } from "react";
 
 import { Input } from "@/components/ui/input";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import type { ParseErrorCode } from "@/engine";
 
 import { INPUT_UNITS, UnitSelect } from "./unit-select";
@@ -35,7 +35,7 @@ export function NumericInput({
   onUnitChange(unit: InputUnit): void;
   onBlur(): void;
 }) {
-  const { home, errors } = getContent();
+  const { home, errors } = getUiContent();
   const copy = home.converter;
   const hintId = `${id}-hint`;
   const errorId = `${id}-error`;

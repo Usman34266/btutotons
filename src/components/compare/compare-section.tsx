@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useId, useState, useSyncExternalStore } from "react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { cn } from "@/lib/cn";
 import { COMPARE_ANCHOR, routes } from "@/registry/routes";
 
@@ -24,7 +24,7 @@ const getFalse = () => false;
 
 /** "Compare two ratings" (collapsed, loads on open) and the link to the list tool. */
 export function CompareSection() {
-  const copy = getContent().home.tools;
+  const copy = getUiContent().home.tools;
   const panelId = useId();
   const [open, setOpen] = useState(false);
 

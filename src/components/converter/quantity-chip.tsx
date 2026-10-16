@@ -1,6 +1,6 @@
 import { Snowflake, Thermometer, Zap, type LucideIcon } from "lucide-react";
 
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import type { QuantityKind } from "@/engine";
 import { cn } from "@/lib/cn";
 
@@ -35,7 +35,7 @@ export function QuantityChip({
       )}
     >
       <Icon aria-hidden="true" className="size-4" />
-      {getContent().unitsGlossary.quantityKinds[kind]}
+      {getUiContent().unitsGlossary.quantityKinds[kind]}
     </span>
   );
 }

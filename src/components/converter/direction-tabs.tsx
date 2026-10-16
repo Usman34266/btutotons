@@ -1,7 +1,7 @@
 "use client";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 
 import type { Direction } from "./use-converter-state";
 
@@ -15,7 +15,7 @@ export function DirectionTabs({
   value: Direction;
   onChange(d: Direction): void;
 }) {
-  const copy = getContent().home.converter;
+  const copy = getUiContent().home.converter;
   return (
     <ToggleGroup
       type="single"

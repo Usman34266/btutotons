@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { QuantityChip } from "@/components/converter/quantity-chip";
 import { Button } from "@/components/ui/button";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import {
   UNITS,
   formatAmount,
@@ -24,7 +24,7 @@ const toast = () => import("sonner").then((m) => m.toast);
 
 /** Summary, difference and percent, in that order (spec p. 10). */
 export function compareLines(r: Comparison, precision: Precision): string[] {
-  const copy = getContent().compare;
+  const copy = getUiContent().compare;
   const magnitude = { precision, signDisplay: "never" } as const;
   if (r.direction === "same") {
     return [copy.summary.same, ...(r.percent.ok ? [] : [copy.baselineZero])];
@@ -56,7 +56,7 @@ export function CompareResult({
   lines: string[] | null;
   className?: string;
 }) {
-  const { compare, home } = getContent();
+  const { compare, home } = getUiContent();
   const [copied, setCopied] = useState(false);
 
   if (!result || !lines) {

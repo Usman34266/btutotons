@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { formatInputValue } from "@/engine";
 import { btuPageSlug } from "@/registry/numeric-pages";
 
@@ -10,7 +10,7 @@ export const QUICK_VALUES_BTUH = [
 ] as const;
 
 export function QuickValues({ onSelect }: { onSelect(btuh: number): void }) {
-  const copy = getContent().home.quickValues;
+  const copy = getUiContent().home.quickValues;
   return (
     <section
       aria-labelledby="quick-values-heading"

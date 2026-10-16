@@ -3,7 +3,7 @@
 import { ViewTransition, type CSSProperties, type ReactNode } from "react";
 
 import { IceBlocks } from "@/components/visuals/ice-blocks";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import {
   formatInputValue,
   formatNumber,
@@ -27,7 +27,7 @@ export function resultSentence(
   result: ConversionResult,
   precision: Precision,
 ) {
-  const { sentence } = getContent().home;
+  const { sentence } = getUiContent().home;
   const value = formatInputValue(result.input.value);
   if (direction === "to-btuh")
     return sentence.toBtuh(value, formatNumber(result.btuh, { precision }));
@@ -73,7 +73,7 @@ export function ResultPanel({
   invalid: boolean;
   actions: ReactNode;
 }) {
-  const copy = getContent().home.converter;
+  const copy = getUiContent().home.converter;
 
   if (!result) {
     const empty = copy.empty[direction];

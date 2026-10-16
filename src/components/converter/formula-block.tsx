@@ -8,7 +8,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import {
   BTUH_PER_TON,
   W_PER_BTUH,
@@ -28,7 +28,7 @@ export function FormulaBlock({
   precision: Precision;
   onPrecisionChange(p: Precision): void;
 }) {
-  const copy = getContent().home.math;
+  const copy = getUiContent().home.math;
   return (
     <Collapsible>
       <CollapsibleTrigger asChild>

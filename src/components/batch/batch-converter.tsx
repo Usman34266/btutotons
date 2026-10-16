@@ -7,7 +7,7 @@ import { UnitSelect } from "@/components/converter/unit-select";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { DEFAULT_LOCALE, LOCALES } from "@/config/locale";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import {
   BATCH_MAX_ROWS,
   CAPACITY_UNIT_IDS,
@@ -27,7 +27,7 @@ const REGION = LOCALES[DEFAULT_LOCALE].sizeClassRegion;
  * table follows edits, so fixing a line updates its row in place.
  */
 export function BatchConverter() {
-  const copy = getContent().batch;
+  const copy = getUiContent().batch;
   const id = useId();
   const valuesId = `${id}-values`;
   const hintId = `${id}-hint`;

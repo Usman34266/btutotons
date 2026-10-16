@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import {
   formatInputValue,
   type BatchRow,
@@ -45,7 +45,7 @@ export function BatchTable({
   rows: readonly BatchRow[];
   precision: Precision;
 }) {
-  const { batch, errors } = getContent();
+  const { batch, errors } = getUiContent();
   const cols = batch.table.columns;
   const captionId = useId();
 

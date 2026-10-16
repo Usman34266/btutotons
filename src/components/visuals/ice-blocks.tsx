@@ -1,4 +1,4 @@
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { formatCompact, iceBlocks } from "@/engine";
 import { cn } from "@/lib/cn";
 
@@ -91,7 +91,7 @@ export function IceBlocks({
         )}
       </div>
       <figcaption className={cn("text-label", captionClassName)}>
-        {getContent().unitsGlossary.iceBlocksCaption}
+        {getUiContent().unitsGlossary.iceBlocksCaption}
       </figcaption>
     </figure>
   );

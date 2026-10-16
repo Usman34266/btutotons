@@ -3,7 +3,7 @@
 import { Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { toCsv, type BatchRow, type CapacityUnitId } from "@/engine";
 import { analytics } from "@/lib/analytics";
 
@@ -15,7 +15,7 @@ export function CsvDownload({
   rows: readonly BatchRow[];
   unit: CapacityUnitId;
 }) {
-  const copy = getContent().batch.form;
+  const copy = getUiContent().batch.form;
   return (
     <Button
       type="button"

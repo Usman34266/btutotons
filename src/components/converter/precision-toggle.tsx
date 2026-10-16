@@ -3,7 +3,7 @@
 import { useId } from "react";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { PRECISIONS, isPrecision, type Precision } from "@/engine";
 
 export function PrecisionToggle({
@@ -13,7 +13,7 @@ export function PrecisionToggle({
   value: Precision;
   onChange(p: Precision): void;
 }) {
-  const label = getContent().home.math.precisionLabel;
+  const label = getUiContent().home.math.precisionLabel;
   const labelId = useId();
   return (
     <div className="flex flex-wrap items-center gap-3">

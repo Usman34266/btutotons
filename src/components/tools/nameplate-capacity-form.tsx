@@ -13,7 +13,7 @@ import {
 import { segmentsText } from "@/components/converter/segments";
 import { UnitSelect } from "@/components/converter/unit-select";
 import { Input } from "@/components/ui/input";
-import { getContent } from "@/content";
+import { getUiContent } from "@/content/ui";
 import { convertCapacity, formatAmount, type CapacityUnitId } from "@/engine";
 import { buildFragment } from "@/lib/fragment-state";
 import { routes } from "@/registry/routes";
@@ -23,7 +23,7 @@ const UNITS: readonly CapacityUnitId[] = ["btuh", "kw"];
 
 /** Rated capacity → tons, through the normal engine. Never reads a model number. */
 export function NameplateCapacityForm({ initialRaw }: { initialRaw: string }) {
-  const { nameplate, errors } = getContent();
+  const { nameplate, errors } = getUiContent();
   const copy = nameplate.form;
   const field = useCapacityField("btuh", initialRaw);
   const id = useId();

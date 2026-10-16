@@ -63,6 +63,8 @@ app/ (routes) → components/ → hooks → engine facade (engine/index.ts) → 
   **Adding a page or redirect = adding an entry.** The route registry drives metadata, sitemap,
   links, breadcrumbs and tests.
 - `src/content/<locale>/`: all user-facing copy, keyed by locale. Only `en-US` is live.
+ Client components (and anything they import) read `getUiContent()` from `@/content/ui`, never
+ `@/content`, so page-only copy stays out of the browser bundle. A test enforces it.
 - `src/components/`: narrow props (e.g. `ResultPanel` takes a `ConversionResult`).
 - `src/lib/analytics/`: `Analytics` interface; props carry only mode, unit, error code, route. **Never values.**
 - `src/config/`: `site.ts`, `fonts.ts`, `locale.ts`.
