@@ -52,3 +52,6 @@ next-env.d.ts
 # wrangler
 /.wrangler/
 .dev.vars*
+
+# impeccable runtime (live server); critique snapshots are kept
+/.impeccable/live/
