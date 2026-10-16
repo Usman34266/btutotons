@@ -51,6 +51,7 @@ export {
   formatInputValue,
   formatNumber,
   formatPercent,
+  isDisplayRounded,
   isPrecision,
   type AmountOptions,
   type FormatOptions,

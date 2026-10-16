@@ -85,6 +85,12 @@ export const formatPercent = (
 export const formatInputValue = (value: number): string =>
   formatter("input", { maximumFractionDigits: 10 }).format(value);
 
+/** True when the display at this precision drops digits ("0.6667" for 2/3), so copy can say "(rounded)". */
+export const isDisplayRounded = (
+  value: number,
+  precision: Precision = DEFAULT_PRECISION,
+): boolean => formatNumber(value, { precision }) !== formatInputValue(value);
+
 /** Short labels ("+1.5", "+83T"): 2 decimals, compact notation from a million. */
 export const formatCompact = (value: number): string =>
   Math.abs(value) >= 1e6

@@ -7,6 +7,7 @@ import {
   formatInputValue,
   formatNumber,
   formatPercent,
+  isDisplayRounded,
   isPrecision,
 } from "@/engine";
 
@@ -120,6 +121,16 @@ describe("isPrecision", () => {
   it("accepts 2, 4, 6 only", () => {
     expect([2, 4, 6].every(isPrecision)).toBe(true);
     expect([0, 3, "4", null].some(isPrecision)).toBe(false);
+  });
+});
+
+describe("isDisplayRounded", () => {
+  it("is true only when the display drops digits", () => {
+    expect(isDisplayRounded(8_000 / 12_000)).toBe(true);
+    expect(isDisplayRounded(10_000 / 12_000)).toBe(true);
+    expect(isDisplayRounded(0.5)).toBe(false);
+    expect(isDisplayRounded(1.75, 2)).toBe(false);
+    expect(isDisplayRounded(1.755, 2)).toBe(true);
   });
 });
 
