@@ -38,6 +38,10 @@ const rules: Record<string, Record<string, string>> = {
   "/_next/static/*": {
     "Cache-Control": "public, max-age=31536000, immutable",
   },
+  // Next writes generated share cards without a file extension, and the
+  // asset server types files by extension; nosniff would then block them.
+  "/opengraph-image": { "Content-Type": "image/png" },
+  "/*/opengraph-image": { "Content-Type": "image/png" },
 };
 
 const body = Object.entries(rules)
