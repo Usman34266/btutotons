@@ -37,6 +37,7 @@ Node 24 (`nvm use`), pnpm.
 ```bash
 pnpm dev             # dev server
 pnpm build           # generate _redirects/_headers, then static export to out/
+pnpm budget          # homepage initial JS ≤ 185 KB gzipped (after a build)
 pnpm preview         # serve out/ with Wrangler on :4173 (redirects, headers, 404 as prod)
 pnpm lint            # ESLint (incl. architecture rules)
 pnpm typecheck       # next typegen && tsc --noEmit

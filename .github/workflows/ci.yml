@@ -35,6 +35,8 @@ jobs:
 
       - run: pnpm build
 
+      - run: pnpm budget
+
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
 
