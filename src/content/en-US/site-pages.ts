@@ -112,3 +112,38 @@ export const terms = {
   /** Shown only once site.releaseDate is set. */
   updated: (date: string) => `Last updated: ${date}.`,
 } as const;
+
+/** /contact/: listed (sitemap, footer) only once site.contactEmail is set (D106). */
+export const contact = {
+  meta: {
+    title: "Contact BTU to Tons",
+    description:
+      "Questions about a result, a correction or feedback on the BTU to Tons converter. How to get in touch.",
+  },
+  h1: "Contact",
+  lead: "Questions about a result, a correction or feedback on the converter? We'd like to hear from you.",
+  email: "Email:",
+  /** While site.contactEmail is null; the page is unlisted then. */
+  pending: "An email address will be listed here soon.",
+  sections: [
+    {
+      heading: "Before you write",
+      body: [
+        "The methodology explains every formula and constant behind the results.",
+        "We can't tell you what size AC a space needs, and we don't give breaker or wire sizes.",
+      ],
+    },
+  ],
+  methodLink: "How the numbers are calculated",
+} as const;
+
+/** /embed/: the converter alone, inside other sites' iframes. */
+export const embedPage = {
+  meta: {
+    title: "BTU to Tons Calculator (embed)",
+    description:
+      "The BTU to Tons converter for embedding in other websites: BTU/hr to refrigeration tons and back, with cooling kW.",
+  },
+  h1: "BTU to Tons Calculator",
+  poweredBy: "Free calculator by",
+} as const;

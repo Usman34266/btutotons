@@ -4,7 +4,7 @@ import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 import { jsonLdText, structuredData } from "@/lib/structured-data";
 import { redirects } from "@/registry/redirects";
-import { ROUTES } from "@/registry/routes";
+import { ROUTES, isPublished } from "@/registry/routes";
 
 const graphOf = (id: Parameters<typeof structuredData>[0]) =>
   structuredData(id)["@graph"] as Record<string, unknown>[];
@@ -12,12 +12,19 @@ const ofType = (graph: Record<string, unknown>[], type: string) =>
   graph.find((n) => n["@type"] === type);
 
 describe("sitemap", () => {
-  it("lists every registry route once, absolute with a trailing slash", () => {
+  it("lists every published route once, absolute with a trailing slash", () => {
     const urls = sitemap().map((e) => e.url);
-    expect(urls).toHaveLength(ROUTES.length);
+    expect(urls).toHaveLength(ROUTES.filter(isPublished).length);
     expect(new Set(urls).size).toBe(urls.length);
     for (const u of urls)
       expect(u).toMatch(/^https:\/\/btutotons\.com\/(.+\/)?$/);
+  });
+
+  it("leaves out the embed page, and contact until it has an address (D106)", () => {
+    const paths = sitemap().map((e) => new URL(e.url).pathname);
+    expect(paths).not.toContain("/embed/");
+    expect(paths).not.toContain("/contact/");
+    expect(paths).toHaveLength(28);
   });
 
   it("never lists a redirect source", () => {

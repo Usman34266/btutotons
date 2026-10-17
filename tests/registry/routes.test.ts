@@ -3,8 +3,9 @@ import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+import { site } from "@/config/site";
 import { redirects } from "@/registry/redirects";
-import { ROUTES, breadcrumbTrail, route } from "@/registry/routes";
+import { ROUTES, breadcrumbTrail, isPublished, route } from "@/registry/routes";
 
 const appDir = resolve(import.meta.dirname, "../../src/app");
 
@@ -15,8 +16,8 @@ const pageFile = (r: (typeof ROUTES)[number]) =>
     : resolve(appDir, `.${r.path}page.tsx`);
 
 describe("route registry", () => {
-  it("has 8 static routes and 20 numeric pages", () => {
-    expect(ROUTES.filter((r) => !r.numeric)).toHaveLength(8);
+  it("has 10 static routes and 20 numeric pages", () => {
+    expect(ROUTES.filter((r) => !r.numeric)).toHaveLength(10);
     expect(ROUTES.filter((r) => r.numeric?.kind === "btu")).toHaveLength(12);
     expect(ROUTES.filter((r) => r.numeric?.kind === "ton")).toHaveLength(8);
   });
@@ -49,6 +50,12 @@ describe("route registry", () => {
       expect(trail[0]?.id).toBe("home");
       expect(trail.at(-1)?.id).toBe(r.id);
     }
+  });
+
+  it("keeps the embed page unlisted, and contact until it has an address (D106)", () => {
+    expect(isPublished(route("embed"))).toBe(false);
+    expect(isPublished(route("contact"))).toBe(site.contactEmail !== null);
+    expect(isPublished(route("about"))).toBe(true);
   });
 
   it("uses spec slugs: digits without commas, decimal tons with a hyphen", () => {

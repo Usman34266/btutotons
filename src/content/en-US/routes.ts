@@ -4,7 +4,7 @@ import { batch } from "./batch";
 import { home } from "./home";
 import { methodology } from "./methodology";
 import { nameplate } from "./nameplate";
-import { about, privacy, terms } from "./site-pages";
+import { about, contact, embedPage, privacy, terms } from "./site-pages";
 import { tonsToBtu } from "./tons-to-btu";
 
 export interface RouteCopy {
@@ -40,4 +40,6 @@ export const routes: Record<StaticRouteId, RouteCopy> = {
   about: { ...about.meta, breadcrumb: "About", h1: about.h1 },
   privacy: { ...privacy.meta, breadcrumb: privacy.h1, h1: privacy.h1 },
   terms: { ...terms.meta, breadcrumb: terms.h1, h1: terms.h1 },
+  contact: { ...contact.meta, breadcrumb: contact.h1, h1: contact.h1 },
+  embed: { ...embedPage.meta, breadcrumb: embedPage.h1, h1: embedPage.h1 },
 };

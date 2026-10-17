@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { getContent } from "@/content";
 import { routeCopy } from "@/lib/metadata";
-import { routes, type RouteDef } from "@/registry/routes";
+import { isPublished, routes, type RouteDef } from "@/registry/routes";
 
 import { Container } from "./container";
 
@@ -13,12 +13,14 @@ const TOOL_ROUTES = [
   routes.batch,
   routes.nameplate,
 ];
+/** Contact joins once it's listed (a real address exists, D106). */
 const SITE_ROUTES = [
   routes.about,
   routes.methodology,
   routes.privacy,
   routes.terms,
-] as const;
+  routes.contact,
+].filter(isPublished);
 
 const LINK =
   "-mx-1 inline-flex min-h-11 items-center rounded px-1 text-ink underline underline-offset-4 hover:text-accent";

@@ -113,7 +113,7 @@ describe("preview build", () => {
 
     const urls = sitemap().map((e) => new URL(e.url).pathname);
     for (const r of unit) expect(urls).not.toContain(r.path);
-    expect(urls).toHaveLength(routes.ROUTES.length - unit.length);
+    expect(urls).toHaveLength(routes.ROUTES.filter(routes.isPublished).length);
 
     const targets = new Set<string>(unit.map((r) => r.path));
     for (const r of redirects) expect(targets.has(r.to)).toBe(false);

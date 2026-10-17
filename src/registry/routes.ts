@@ -6,6 +6,7 @@
  * P1 unit pages also need `published` (D100).
  */
 import { PREVIEW_UNPUBLISHED } from "@/config/build";
+import { site } from "@/config/site";
 
 import { NUMERIC_PAGES, type NumericPage } from "./numeric-pages";
 import { UNIT_PAGES, type UnitPage } from "./unit-pages";
@@ -18,13 +19,17 @@ export type StaticRouteId =
   | "methodology"
   | "about"
   | "privacy"
-  | "terms";
+  | "terms"
+  | "contact"
+  | "embed";
 export type RouteId = StaticRouteId | `n:${string}` | `u:${string}`;
 
 interface BaseRoute {
   path: "/" | `/${string}/`;
   /** Breadcrumb parent. Only the home page has none. */
   parent?: RouteId;
+  /** false: exported, but noindex and left out of the sitemap and site links. */
+  listed?: boolean;
 }
 
 export type RouteDef =
@@ -51,6 +56,15 @@ const STATIC_ROUTES = {
   about: { id: "about", path: "/about/", parent: "home" },
   privacy: { id: "privacy", path: "/privacy/", parent: "home" },
   terms: { id: "terms", path: "/terms/", parent: "home" },
+  /** Listed once there is a real address to show (site.contactEmail). */
+  contact: {
+    id: "contact",
+    path: "/contact/",
+    parent: "home",
+    listed: site.contactEmail !== null,
+  },
+  /** The converter alone, for other sites' iframes. Never indexed. */
+  embed: { id: "embed", path: "/embed/", parent: "home", listed: false },
 } as const satisfies Record<StaticRouteId, RouteDef>;
 
 export const numericRouteId = (page: NumericPage) => `n:${page.slug}` as const;
@@ -78,9 +92,9 @@ export const ROUTES: readonly RouteDef[] = [
   })),
 ];
 
-/** False only for an unpublished P1 page in a preview build: noindex, no sitemap. */
+/** False for unlisted routes and for unpublished P1 pages in a preview build: noindex, no sitemap. */
 export const isPublished = (r: RouteDef): boolean =>
-  !r.unit || r.unit.published;
+  r.listed !== false && (!r.unit || r.unit.published);
 
 const BY_ID = new Map(ROUTES.map((r) => [r.id, r]));
 

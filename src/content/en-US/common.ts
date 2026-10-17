@@ -16,6 +16,7 @@ export const common = {
       methodology: "Methodology",
       privacy: "Privacy",
       terms: "Terms",
+      contact: "Contact",
     },
   },
 
