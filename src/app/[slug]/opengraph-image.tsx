@@ -1,6 +1,5 @@
 import { OG_CONTENT_TYPE, OG_SIZE, ogAlt, ogImage } from "@/lib/og/card";
-import { numericPageBySlug } from "@/lib/numeric-page";
-import { numericRouteId } from "@/registry/routes";
+import { slugRoute } from "@/registry/routes";
 
 export { generateStaticParams } from "./page";
 
@@ -14,7 +13,7 @@ export default async function Image({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const page = numericPageBySlug((await params).slug);
-  if (!page) throw new Error("Unknown numeric page");
-  return ogImage(numericRouteId(page));
+  const r = slugRoute((await params).slug);
+  if (!r) throw new Error("Unknown page");
+  return ogImage(r.id);
 }

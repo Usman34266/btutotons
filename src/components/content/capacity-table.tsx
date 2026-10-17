@@ -8,12 +8,15 @@ import type { PageLink } from "@/lib/numeric-page";
 export interface CapacityTableRow {
   key: string;
   cells: CapacityRow;
-  /** Lead cell links here; null for the current page's own row. */
+  /** Lead cell links here, or plain text when null. */
   link: PageLink | null;
+  /** The current page's own row: tinted, never a link. */
+  current?: boolean;
 }
 
 const CELL = "px-2 py-2.5 sm:px-3";
 const NUM = `${CELL} text-right font-mono tabular-nums whitespace-nowrap`;
+const NUMERIC_COLUMNS = ["btuh", "tons", "coolingKw"] as const;
 
 /**
  * Equivalent capacities in normal HTML. `lead` is the column the rows are
@@ -31,11 +34,14 @@ export function CapacityTable({
   caption: string;
   captionVisible?: boolean;
   rows: readonly CapacityTableRow[];
-  lead: "btuh" | "tons";
+  lead: (typeof NUMERIC_COLUMNS)[number];
 }) {
   const cols = getContent().common.capacityColumns;
-  const order =
-    lead === "btuh" ? (["btuh", "tons"] as const) : (["tons", "btuh"] as const);
+  const [second, third] = NUMERIC_COLUMNS.filter((c) => c !== lead) as [
+    (typeof NUMERIC_COLUMNS)[number],
+    (typeof NUMERIC_COLUMNS)[number],
+  ];
+  const order = [lead, second, third] as const;
   const captionId = `${id}-caption`;
 
   return (
@@ -65,7 +71,7 @@ export function CapacityTable({
               {cols[order[1]]}
             </th>
             <th scope="col" className={`${CELL} text-right`}>
-              {cols.coolingKw}
+              {cols[order[2]]}
             </th>
             <th scope="col" className={`${CELL} text-left`}>
               {cols.sizeClass}
@@ -78,7 +84,7 @@ export function CapacityTable({
               key={row.key}
               className={cn(
                 "border-b border-border last:border-b-0",
-                !row.link && "bg-accent-soft",
+                row.current && "bg-accent-soft",
               )}
             >
               <th
@@ -100,7 +106,7 @@ export function CapacityTable({
                 )}
               </th>
               <td className={NUM}>{row.cells[order[1]]}</td>
-              <td className={NUM}>{row.cells.coolingKw}</td>
+              <td className={NUM}>{row.cells[order[2]]}</td>
               <td className={`${CELL} text-left`}>{row.cells.sizeClass}</td>
             </tr>
           ))}

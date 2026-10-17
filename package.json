@@ -7,6 +7,8 @@
     "dev": "next dev",
     "generate": "tsx scripts/generate-redirects.ts && tsx scripts/generate-headers.ts",
     "build": "pnpm generate && next build && tsx scripts/alias-encoded-assets.ts",
+    "build:preview": "NEXT_PUBLIC_BTUTOTONS_PREVIEW=1 pnpm build",
+    "build:preview": "NEXT_PUBLIC_BTUTOTONS_PREVIEW=1 pnpm build",
     "budget": "tsx scripts/check-js-budget.ts",
     "preview": "wrangler dev --port 4173",
     "lint": "eslint .",

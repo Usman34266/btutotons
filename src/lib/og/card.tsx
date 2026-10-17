@@ -9,6 +9,7 @@ import { getContent } from "@/content";
 import { colorTokens } from "@/lib/design-tokens";
 import { routeCopy } from "@/lib/metadata";
 import { numericPageModel } from "@/lib/numeric-page";
+import { unitPageModel } from "@/lib/unit-page";
 import { route, type RouteId } from "@/registry/routes";
 
 export const OG_SIZE = { width: 1200, height: 630 };
@@ -47,6 +48,10 @@ function cardFor(id: RouteId): OgCard {
       headline: m.equation,
       body: segmentsText(m.answer),
     };
+  }
+  if (r.unit) {
+    const m = unitPageModel(r.unit);
+    return { eyebrow: m.h1, headline: m.example.equation, body: m.opening };
   }
   const copy = routeCopy(r);
   return { eyebrow: site.name, headline: copy.h1, body: copy.description };
