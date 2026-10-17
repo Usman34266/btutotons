@@ -91,6 +91,13 @@ export const formatRatioPercent = (ratio: number): string =>
 export const formatInputValue = (value: number): string =>
   formatter("input", { maximumFractionDigits: 10 }).format(value);
 
+/** A user-entered amount as typed, with the long unit name: "3.5 cooling kW", "1 refrigeration ton". */
+export function formatInputAmount(value: number, unit: UnitId): string {
+  const text = formatInputValue(value);
+  const def = UNITS[unit];
+  return `${text} ${text === "1" ? def.singular : def.plural}`;
+}
+
 /** A published constant, every digit kept: "0.2930710701722222". */
 export const formatConstant = (value: number): string =>
   formatter("constant", { maximumFractionDigits: 16 }).format(value);

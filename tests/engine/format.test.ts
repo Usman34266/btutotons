@@ -5,6 +5,7 @@ import {
   formatCompact,
   formatConstant,
   formatCsvNumber,
+  formatInputAmount,
   formatInputValue,
   formatNumber,
   formatPercent,
@@ -12,6 +13,15 @@ import {
   isDisplayRounded,
   isPrecision,
 } from "@/engine";
+
+describe("formatInputAmount", () => {
+  it("keeps the value as typed and pluralizes the long unit name", () => {
+    expect(formatInputAmount(3.5, "kw")).toBe("3.5 cooling kW");
+    expect(formatInputAmount(1, "tr")).toBe("1 refrigeration ton");
+    expect(formatInputAmount(3.3333333333, "btus")).toBe("3.3333333333 BTU/s");
+    expect(formatInputAmount(24_000, "btuh")).toBe("24,000 BTU/hr");
+  });
+});
 
 describe("formatNumber", () => {
   it("rounds to 4 decimals by default and trims trailing zeros", () => {

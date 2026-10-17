@@ -50,6 +50,7 @@ export {
   formatCompact,
   formatConstant,
   formatCsvNumber,
+  formatInputAmount,
   formatInputValue,
   formatNumber,
   formatPercent,
