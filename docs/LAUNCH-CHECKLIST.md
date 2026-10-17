@@ -5,15 +5,18 @@ when it's true in production.
 
 ## Repository and CI
 
-- [ ] GitHub repository created and this repo pushed to it (no remote yet).
-- [ ] Repository secrets `CLOUDFLARE_API_TOKEN` (the "Edit Cloudflare Workers" token template) and `CLOUDFLARE_ACCOUNT_ID`.
-- [ ] Repository variable `CLOUDFLARE_DEPLOY_ENABLED=true` (the deploy job skips until it's set).
-- [ ] CI green on `main`: lint, format, typecheck, unit tests with coverage, build, Playwright, Lighthouse
+- [x] GitHub repository created and this repo pushed to it (`Usman34266/btutotons`).
+- [x] Repository secrets `CLOUDFLARE_API_TOKEN` (the "Edit Cloudflare Workers" token template) and `CLOUDFLARE_ACCOUNT_ID`.
+- [x] Repository variable `CLOUDFLARE_DEPLOY_ENABLED=true` (the deploy job skips until it's set).
+- [x] CI green on `main`: lint, format, typecheck, unit tests with coverage, build, Playwright, Lighthouse
       (build prompt §15, §16).
+- [x] Cloudflare's own Git build disconnected, so only CI deploys (D111).
 
 ## Cloudflare (build prompt §15)
 
-- [ ] `btutotons.com` attached to the `btutotons` Worker as a custom domain (`wrangler.jsonc` has no route yet).
+- [x] `btutotons.com` attached to the `btutotons` Worker as a custom domain (also in `wrangler.jsonc`; D111).
+- [ ] Email to `contact@btutotons.com` still arrives now that Cloudflare runs the DNS (the MX records point to
+      the registrar's forwarding at hosts.co.uk); if not, set up Cloudflare Email Routing.
 - [ ] Rocket Loader off.
 - [ ] Email Obfuscation off.
 - [ ] Always Use HTTPS on.

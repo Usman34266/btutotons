@@ -2,6 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "btutotons",
   "compatibility_date": "2026-10-01",
+  "routes": [{ "pattern": "btutotons.com", "custom_domain": true }],
+  // One public address: btutotons.com. Pull requests still get *-btutotons.<account>.workers.dev previews.
+  "workers_dev": false,
+  "preview_urls": true,
   // Static assets only: no Worker script, no server runtime.
   // public/_redirects and public/_headers are copied into out/ by next build.
   "assets": {
