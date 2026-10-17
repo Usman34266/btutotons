@@ -49,13 +49,13 @@ describe("robots", () => {
 });
 
 describe("structured data", () => {
-  it("has the organization without a logo while none exists", () => {
+  it("has the organization with its absolute logo URL (D109)", () => {
     const org = ofType(graphOf("home"), "Organization");
     expect(org).toMatchObject({
       name: "BTU to Tons",
       url: "https://btutotons.com/",
+      logo: "https://btutotons.com/logo.png",
     });
-    expect(org).not.toHaveProperty("logo");
   });
 
   it("describes the page with its own title, description and URL", () => {

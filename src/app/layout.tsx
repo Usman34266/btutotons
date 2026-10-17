@@ -13,6 +13,15 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   applicationName: site.name,
+  // Files written to public/ by scripts/generate-brand-assets.tsx (D109).
+  // sizes="32x32" on the ICO keeps Chrome on the SVG.
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export const viewport: Viewport = {

@@ -108,7 +108,7 @@ Proposed: set numeric targets after four weeks of baseline data (owner to confir
 | --- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
 | 1   | HVAC reviewer name and sign-off (size-class band and lists; P1 methods). `site.reviewer = null` until then. | Reviewer line in trust block; every P1 tool              |
 | 2   | Actual release date for "Method updated".                                                                   | Trust block, methodology                                 |
-| 3   | Organization logo file.                                                                                     | JSON-LD `Organization.logo`, header mark                 |
+| 3   | Organization logo file. **Resolved 2026-10-17 (D109).**                                                     | JSON-LD `Organization.logo`, header mark                 |
 | 4   | Whether Cloudflare Zaraz custom events are acceptable (verified cookieless). Otherwise page views only.     | Custom analytics events                                  |
 | 5   | Final status of the EU ecodesign/labelling revision.                                                        | Europe pages only                                        |
 | 6   | Spec PDF (`docs/source/btu-to-tons-spec-v2.pdf`) not yet in the repo.                                       | FAQ copy (spec p.18) in M5; P1 page copy (spec pp.24–26) |

@@ -19,6 +19,7 @@ import { pairSentence } from "@/lib/unit-pair";
 import { DigitMorph } from "./digit-morph";
 import { FormulaBlock } from "./formula-block";
 import { LiveStatus } from "./live-status";
+import { PrintBrand } from "./print-brand";
 import { QuantityChip } from "./quantity-chip";
 import { ResultActions } from "./result-actions";
 import { segmentsText } from "./segments";
@@ -104,6 +105,7 @@ export function PairConverter({
 
   return (
     <div data-print-area className="flex flex-col gap-6">
+      <PrintBrand />
       <Toaster position="bottom-center" />
       <LiveStatus
         message={s.errorCode ? errors[s.errorCode] : sentence}

@@ -29,7 +29,8 @@ Each stays `null` and hidden until a real value exists (CLAUDE.md rule 6). Launc
 - [ ] Embed: after deploy, frame `https://btutotons.com/embed/` from another https site and confirm it loads; every other page must refuse framing.
 - [ ] `releaseDate`: turns on "Method updated" and the sitemap's `lastModified`.
 - [ ] `reviewer`: turns on the reviewer line once a real HVAC review has happened.
-- [ ] `logo`: adds the Organization logo to the JSON-LD.
+- [ ] `logo`: set to `/logo.png` (D109). After deploy, confirm the Organization logo in Google's Rich Results Test
+      and the favicon in a browser tab (light and dark).
 - [ ] `customEvents` (Zaraz) stays `false` until verified cookieless (PRD open decision #4).
 
 ## After the first production deploy

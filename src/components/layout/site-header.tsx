@@ -1,14 +1,14 @@
 import Link from "next/link";
 
-import { site } from "@/config/site";
 import { getContent } from "@/content";
 import { CHART_ANCHOR, routes } from "@/registry/routes";
 
 import { Container } from "./container";
+import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 
 const NAV_LINK =
-  "inline-flex min-h-11 items-center rounded-lg px-3 text-ink hover:bg-muted";
+  "inline-flex min-h-11 items-center rounded-lg px-2 text-ink hover:bg-muted sm:px-3";
 
 /**
  * Logo, nav and theme toggle. "Converters" joins the nav when its target
@@ -23,7 +23,7 @@ export function SiteHeader() {
           href="/"
           className="-mx-2 inline-flex min-h-11 items-center rounded-lg px-2 text-lg font-semibold text-ink"
         >
-          {site.name}
+          <Logo />
         </Link>
         <div className="flex items-center gap-1 sm:gap-2">
           <nav aria-label={nav.label}>

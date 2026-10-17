@@ -36,7 +36,7 @@ Node 24 (`nvm use`), pnpm.
 
 ```bash
 pnpm dev             # dev server
-pnpm build           # generate _redirects/_headers, then static export to out/
+pnpm build           # generate _redirects/_headers/brand icons, then static export to out/
 pnpm build:preview   # same, plus unpublished P1 pages (noindex) for testing
 pnpm budget          # homepage initial JS ≤ 185 KB gzipped (after a build)
 pnpm preview         # serve out/ with Wrangler on :4173 (redirects, headers, 404 as prod)
@@ -71,7 +71,7 @@ app/ (routes) → components/ → hooks → engine facade (engine/index.ts) → 
 - `src/components/`: narrow props (e.g. `ResultPanel` takes a `ConversionResult`).
 - `src/lib/analytics/`: `Analytics` interface; props carry only mode, unit, error code, route. **Never values.**
 - `src/config/`: `site.ts`, `fonts.ts`, `locale.ts`.
-- `scripts/`: build-time generators (`_redirects`, `_headers`, OG fallback).
+- `scripts/`: build-time generators (`_redirects`, `_headers`, brand icons and logo, OG fallback).
 
 ## Conventions
 

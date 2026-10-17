@@ -11,6 +11,7 @@ import { CONVERTER_ID } from "@/lib/converter-handoff";
 import { DirectionTabs } from "./direction-tabs";
 import { LiveStatus } from "./live-status";
 import { NumericInput } from "./numeric-input";
+import { PrintBrand } from "./print-brand";
 import { QuickValues } from "./quick-values";
 import { ResultActions } from "./result-actions";
 import { ResultPanel, resultSentence } from "./result-panel";
@@ -73,6 +74,7 @@ export function Converter({
 
   return (
     <div id={CONVERTER_ID} data-print-area className="flex flex-col gap-6">
+      <PrintBrand />
       <Toaster position="bottom-center" />
       <LiveStatus
         message={

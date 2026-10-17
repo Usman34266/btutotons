@@ -6,6 +6,7 @@ import { ImageResponse } from "next/og";
 import { segmentsText } from "@/components/converter/segments";
 import { site } from "@/config/site";
 import { getContent } from "@/content";
+import { BrandMark } from "@/lib/brand-mark";
 import { colorTokens } from "@/lib/design-tokens";
 import { routeCopy } from "@/lib/metadata";
 import { numericPageModel } from "@/lib/numeric-page";
@@ -74,7 +75,16 @@ export function ogImage(id: RouteId) {
         color: T.ink,
       }}
     >
-      <div style={{ display: "flex", fontSize: 34, fontWeight: 600 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 16,
+          fontSize: 34,
+          fontWeight: 600,
+        }}
+      >
+        <BrandMark color={T.accent} size={44} />
         {eyebrow}
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>

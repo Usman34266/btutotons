@@ -32,7 +32,7 @@ export const site: SiteConfig = {
   locale: "en-US",
   reviewer: null,
   releaseDate: null,
-  logo: null,
+  logo: "/logo.png",
   operator: null,
   contactEmail: "contact@btutotons.com",
   customEvents: false,

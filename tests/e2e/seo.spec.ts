@@ -30,6 +30,29 @@ test.describe("SEO files", () => {
     }
   });
 
+  test("brand icons and the Organization logo are linked and served (D109)", async ({
+    request,
+  }) => {
+    const html = await (await request.get("/")).text();
+    expect(html).toContain(
+      '<link rel="icon" href="/icon.svg" type="image/svg+xml"/>',
+    );
+    expect(html).toContain(
+      '<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>',
+    );
+    const files = {
+      "/icon.svg": "image/svg+xml",
+      "/favicon.ico": "image/",
+      "/apple-touch-icon.png": "image/png",
+      "/logo.png": "image/png",
+    };
+    for (const [path, type] of Object.entries(files)) {
+      const res = await request.get(path);
+      expect(res.status(), path).toBe(200);
+      expect(res.headers()["content-type"], path).toContain(type);
+    }
+  });
+
   test("robots.txt allows all and names the sitemap", async ({ request }) => {
     const text = await (await request.get("/robots.txt")).text();
     expect(text).toContain("Allow: /");

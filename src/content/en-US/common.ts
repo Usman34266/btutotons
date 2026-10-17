@@ -8,6 +8,8 @@ export const common = {
   nav: { label: "Main", chart: "Chart", guides: "Guides" },
 
   footer: {
+    tagline:
+      "Convert AC ratings between BTU/hr, refrigeration tons and cooling kW.",
     relatedTools: "Related tools",
     siteLinks: "About this site",
     /** Link names; the pages' own H1s are longer. */

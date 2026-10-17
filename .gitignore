@@ -40,9 +40,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# generated at prebuild from the registry
+# generated at prebuild from the registry and the logo mark
 /public/_redirects
 /public/_headers
+/public/icon.svg
+/public/favicon.ico
+/public/apple-touch-icon.png
+/public/logo.png
 
 # test output
 /playwright-report/
