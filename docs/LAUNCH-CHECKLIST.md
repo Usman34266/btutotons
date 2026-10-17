@@ -25,7 +25,8 @@ when it's true in production.
 Each stays `null` and hidden until a real value exists (CLAUDE.md rule 6). Launching with them unset is fine.
 
 - [ ] Owner's final legal read of `/about/`, `/privacy/` and `/terms/` (D089).
-- [ ] `operator` and `contactEmail`: shown on the legal pages once set.
+- [ ] `operator` and `contactEmail`: shown on the legal pages once set. Setting `contactEmail` also lists `/contact/` (sitemap, footer, indexing; D106).
+- [ ] Embed: after deploy, frame `https://btutotons.com/embed/` from another https site and confirm it loads; every other page must refuse framing.
 - [ ] `releaseDate`: turns on "Method updated" and the sitemap's `lastModified`.
 - [ ] `reviewer`: turns on the reviewer line once a real HVAC review has happened.
 - [ ] `logo`: adds the Organization logo to the JSON-LD.

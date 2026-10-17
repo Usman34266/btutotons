@@ -81,6 +81,8 @@ app/ (routes) → components/ → hooks → engine facade (engine/index.ts) → 
 - P1 pages stay `published: false` in `registry/unit-pages.ts` until the HVAC review is in
   `DECISIONS.md`; publishing = flipping the flag (adds sitemap, aliases, indexing).
 - Share state only in the URL fragment (`#v=24000&u=btuh&p=4`), never query strings.
+- Print shows only `[data-print-area]` (the converter); hide controls inside it with `print:hidden`.
+  Only `/embed/` may be framed (`scripts/generate-headers.ts`); keep every other path `frame-ancestors 'none'`.
 - `localStorage` only through `lib/safe-storage.ts`; the site works without storage.
 - No `dangerouslySetInnerHTML` except JSON-LD built from our own data.
 - Small, focused commits; run `pnpm check` first.
