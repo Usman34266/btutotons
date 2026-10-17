@@ -34,6 +34,6 @@ export const site: SiteConfig = {
   releaseDate: null,
   logo: null,
   operator: null,
-  contactEmail: null,
+  contactEmail: "contact@btutotons.com",
   customEvents: false,
 };

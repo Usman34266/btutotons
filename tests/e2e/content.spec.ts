@@ -286,6 +286,7 @@ test.describe("homepage content", () => {
       "Methodology",
       "Privacy",
       "Terms",
+      "Contact",
     ]);
   });
 

@@ -62,13 +62,10 @@ test.describe("static pages", () => {
   test("never show a placeholder that needs a human", async ({ request }) => {
     for (const { path } of PAGES) {
       const html = await (await request.get(path)).text();
-      for (const text of [
-        "Last updated",
-        "Method updated",
-        "mailto:",
-        "run by",
-      ])
+      for (const text of ["Last updated", "Method updated", "run by"])
         expect(html, `${path}: ${text}`).not.toContain(text);
+      for (const [mailto] of html.matchAll(/mailto:[^"\\]*/g))
+        expect(mailto, path).toBe("mailto:contact@btutotons.com");
     }
   });
 
