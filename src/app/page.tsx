@@ -1,4 +1,5 @@
 import { CompareSection } from "@/components/compare/compare-section";
+import { ConversionLinks } from "@/components/content/conversion-links";
 import {
   Explainer,
   NameplateTeaser,
@@ -52,6 +53,7 @@ export default function HomePage() {
             <ReferenceChart />
             <Explainer />
             <NameplateTeaser />
+            <ConversionLinks />
             <TrustAndFaq />
           </div>
         </Container>
