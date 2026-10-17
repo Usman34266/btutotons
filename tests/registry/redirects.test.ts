@@ -33,8 +33,8 @@ describe("redirect registry", () => {
       to: "/tons-to-btu/",
       status: 301,
     });
-    // 1 static + 12 BTU aliases + 8 ton aliases + the reverse hub alias.
-    expect(redirects).toHaveLength(22);
+    // 1 static + 12 BTU aliases + 8 ton aliases + the reverse hub alias + 4 unit-page aliases.
+    expect(redirects).toHaveLength(26);
   });
 
   it("only redirects to live routes", () => {

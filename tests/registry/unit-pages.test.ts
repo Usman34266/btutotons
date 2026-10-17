@@ -1,6 +1,16 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import sitemap from "@/app/sitemap";
+import { pageMetadata, routeCopy } from "@/lib/metadata";
 import { unitPageBySlug, unitPageModel } from "@/lib/unit-page";
+import { redirects } from "@/registry/redirects";
+import {
+  ROUTES,
+  SLUG_ROUTES,
+  breadcrumbTrail,
+  isPublished,
+  slugRoute,
+} from "@/registry/routes";
 import { UNIT_PAGES } from "@/registry/unit-pages";
 
 /** Spec pp. 24–25 titles; /kw-to-btu/ copy says "cooling kW" (D100). */
@@ -19,28 +29,15 @@ const model = (slug: string) => {
   return unitPageModel(page);
 };
 
-/** Registry modules as the preview build (NEXT_PUBLIC_BTUTOTONS_PREVIEW=1) sees them. */
-async function loadPreview() {
-  vi.stubEnv("NEXT_PUBLIC_BTUTOTONS_PREVIEW", "1");
-  vi.resetModules();
-  return {
-    routes: await import("@/registry/routes"),
-    redirects: (await import("@/registry/redirects")).redirects,
-    metadata: await import("@/lib/metadata"),
-    sitemap: (await import("@/app/sitemap")).default,
-    model: (await import("@/lib/unit-page")).unitPageModel,
-  };
-}
-
 afterEach(() => {
   vi.unstubAllEnvs();
   vi.resetModules();
 });
 
 describe("unit page registry", () => {
-  it("has the six spec pages, all unpublished until the HVAC review (D100)", () => {
+  it("has the six spec pages, published after the HVAC review (D100, D108)", () => {
     expect(UNIT_PAGES.map((p) => p.slug)).toEqual(Object.keys(SPEC_TITLES));
-    for (const p of UNIT_PAGES) expect(p.published).toBe(false);
+    for (const p of UNIT_PAGES) expect(p.published).toBe(true);
   });
 
   it("only points inverses at other unit pages, both ways", () => {
@@ -62,80 +59,60 @@ describe("unit page registry", () => {
   });
 });
 
-describe("production build", () => {
-  it("exports no unpublished unit page", async () => {
-    const { ROUTES, SLUG_ROUTES, slugRoute } =
-      await import("@/registry/routes");
-    expect(ROUTES.filter((r) => r.unit)).toEqual([]);
-    expect(SLUG_ROUTES).toHaveLength(20);
-    for (const p of UNIT_PAGES) expect(slugRoute(p.slug)).toBeUndefined();
-  });
-
-  it("redirects no alias to an unpublished page", async () => {
-    const { redirects } = await import("@/registry/redirects");
-    const targets = new Set(UNIT_PAGES.map((p) => `/${p.slug}/`));
-    for (const r of redirects) expect(targets.has(r.to)).toBe(false);
-  });
-
-  it("links no inverse that isn't exported", () => {
-    for (const p of UNIT_PAGES)
-      expect(model(p.slug).links.map((l) => l.href)).toEqual(["/"]);
-  });
-});
-
-describe("preview build", () => {
-  it("exports all six pages through the [slug] template", async () => {
-    const { routes } = await loadPreview();
-    const unit = routes.ROUTES.filter((r) => r.unit);
+describe("published build (D108)", () => {
+  it("exports all six pages through the [slug] template", () => {
+    const unit = ROUTES.filter((r) => r.unit);
     expect(unit.map((r) => r.path)).toEqual(
       UNIT_PAGES.map((p) => `/${p.slug}/`),
     );
-    expect(routes.SLUG_ROUTES).toHaveLength(26);
+    expect(SLUG_ROUTES).toHaveLength(26);
     for (const r of unit) {
-      expect(routes.isPublished(r)).toBe(false);
-      expect(routes.slugRoute(r.unit!.slug)).toBe(r);
-      expect(routes.breadcrumbTrail(r.id).map((t) => t.id)).toEqual([
-        "home",
-        r.id,
-      ]);
+      expect(isPublished(r)).toBe(true);
+      expect(slugRoute(r.unit!.slug)).toBe(r);
+      expect(breadcrumbTrail(r.id).map((t) => t.id)).toEqual(["home", r.id]);
     }
   });
 
-  it("marks them noindex, keeps them out of the sitemap and adds no aliases", async () => {
-    const { routes, metadata, sitemap, redirects } = await loadPreview();
-    const unit = routes.ROUTES.filter((r) => r.unit);
-    for (const r of unit)
-      expect(metadata.pageMetadata(r.id).robots).toEqual({
-        index: false,
-        follow: false,
-      });
-    expect(metadata.pageMetadata("home").robots).toBeUndefined();
+  it("indexes them, lists them in the sitemap and 301s their aliases", () => {
+    const unit = ROUTES.filter((r) => r.unit);
+    for (const r of unit) expect(pageMetadata(r.id).robots).toBeUndefined();
 
     const urls = sitemap().map((e) => new URL(e.url).pathname);
-    for (const r of unit) expect(urls).not.toContain(r.path);
-    expect(urls).toHaveLength(routes.ROUTES.filter(routes.isPublished).length);
+    for (const r of unit) expect(urls).toContain(r.path);
 
-    const targets = new Set<string>(unit.map((r) => r.path));
-    for (const r of redirects) expect(targets.has(r.to)).toBe(false);
+    for (const p of UNIT_PAGES)
+      for (const from of p.aliases)
+        expect(redirects).toContainEqual({
+          from,
+          to: `/${p.slug}/`,
+          status: 301,
+        });
   });
 
-  it("uses the spec titles and unique descriptions", async () => {
-    const { routes, metadata } = await loadPreview();
-    const unit = routes.ROUTES.filter((r) => r.unit);
+  it("uses the spec titles and unique descriptions", () => {
+    const unit = ROUTES.filter((r) => r.unit);
     for (const r of unit)
-      expect(metadata.routeCopy(r).title).toBe(SPEC_TITLES[r.unit!.slug]);
-    const all = routes.ROUTES.map((r) => metadata.routeCopy(r));
+      expect(routeCopy(r).title).toBe(SPEC_TITLES[r.unit!.slug]);
+    const all = ROUTES.map((r) => routeCopy(r));
     expect(new Set(all.map((c) => c.title)).size).toBe(all.length);
     expect(new Set(all.map((c) => c.description)).size).toBe(all.length);
   });
 
-  it("links each page to home and its exported inverse", async () => {
-    const { model: previewModel } = await loadPreview();
-    const links = (slug: string) =>
-      previewModel(unitPageBySlug(slug)!).links.map((l) => l.href);
+  it("links each page to home and its exported inverse", () => {
+    const links = (slug: string) => model(slug).links.map((l) => l.href);
     expect(links("kw-to-tons")).toEqual(["/", "/tons-to-kw/"]);
     expect(links("kw-to-btu")).toEqual(["/", "/btu-to-kw/"]);
     expect(links("btu-per-second-to-tons")).toEqual(["/"]);
+  });
+
+  it("builds the same pages with the preview flag on", async () => {
+    vi.stubEnv("NEXT_PUBLIC_BTUTOTONS_PREVIEW", "1");
+    vi.resetModules();
+    const preview = await import("@/registry/routes");
+    expect(preview.SLUG_ROUTES).toHaveLength(26);
+    expect(preview.ROUTES.filter(preview.isPublished)).toHaveLength(
+      ROUTES.filter(isPublished).length,
+    );
   });
 });
 

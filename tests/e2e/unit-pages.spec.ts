@@ -3,9 +3,6 @@ import { expect, test, type Page } from "@playwright/test";
 
 import { errorMessage, field, resultValue, sentence } from "./helpers";
 
-/** Set when the served build is `pnpm build:preview` (D100). */
-const PREVIEW = process.env.NEXT_PUBLIC_BTUTOTONS_PREVIEW === "1";
-
 const PAGES = [
   {
     path: "/kw-to-tons/",
@@ -51,12 +48,12 @@ const PAGES = [
   },
 ] as const;
 
-const ALIASES = [
-  "/kw-to-ton/",
-  "/ton-to-kw/",
-  "/btu-per-minute-to-ton/",
-  "/btu-per-second-to-ton/",
-];
+const ALIASES: Record<string, string> = {
+  "/kw-to-ton/": "/kw-to-tons/",
+  "/ton-to-kw/": "/tons-to-kw/",
+  "/btu-per-minute-to-ton/": "/btu-per-minute-to-tons/",
+  "/btu-per-second-to-ton/": "/btu-per-second-to-tons/",
+};
 
 async function open(page: Page, path: string) {
   await page.goto(path);
@@ -73,42 +70,26 @@ async function sitemapPaths(page: Page) {
   );
 }
 
-test.describe("unit pages: production build", () => {
-  test.skip(PREVIEW, "preview build exports the unpublished pages");
-
-  test("unpublished pages and their aliases are real 404s", async ({
-    request,
-  }) => {
-    for (const path of [...PAGES.map((p) => p.path), ...ALIASES]) {
-      const res = await request.get(path, { maxRedirects: 0 });
-      expect(res.status(), path).toBe(404);
-    }
-  });
-
-  test("the sitemap leaves them out", async ({ page }) => {
-    const paths = await sitemapPaths(page);
-    for (const p of PAGES) expect(paths).not.toContain(p.path);
-  });
-});
-
-test.describe("unit pages: preview build", () => {
-  test.skip(!PREVIEW, "needs `pnpm build:preview`");
-
-  test("are exported noindex, outside the sitemap, with share cards", async ({
-    page,
-  }) => {
+test.describe("unit pages (published, D108)", () => {
+  test("are indexable, in the sitemap, with share cards", async ({ page }) => {
     const paths = await sitemapPaths(page);
     for (const p of PAGES) {
       const res = await page.request.get(p.path);
       expect(res.status(), p.path).toBe(200);
       const html = await res.text();
-      expect(html, p.path).toContain(
-        '<meta name="robots" content="noindex, nofollow"/>',
-      );
-      expect(paths).not.toContain(p.path);
+      expect(html, p.path).not.toContain('name="robots"');
+      expect(paths).toContain(p.path);
       const card = await page.request.get(`${p.path}opengraph-image`);
       expect(card.status(), p.path).toBe(200);
       expect(card.headers()["content-type"]).toBe("image/png");
+    }
+  });
+
+  test("301 their singular aliases", async ({ request }) => {
+    for (const [from, to] of Object.entries(ALIASES)) {
+      const res = await request.get(from, { maxRedirects: 0 });
+      expect(res.status(), from).toBe(301);
+      expect(res.headers().location, from).toBe(to);
     }
   });
 

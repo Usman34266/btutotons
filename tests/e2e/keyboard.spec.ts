@@ -45,7 +45,7 @@ test.describe("keyboard", () => {
     await page.keyboard.press("Enter");
     await expect(resultValue(page)).toHaveText("2");
     await page.keyboard.press("Tab");
-    await expect(page.getByLabel("Unit")).toBeFocused();
+    await expect(page.getByLabel("Unit", { exact: true })).toBeFocused();
   });
 
   test("unit tooltip opens with Enter and closes with Escape, returning focus", async ({

@@ -12,7 +12,12 @@ afterEach(() => {
 describe("homepage conversion links (D106)", () => {
   it("links every published numeric page once, in both directions", () => {
     const groups = conversionGroups();
-    expect(groups.map((g) => g.id)).toEqual(["calculators", "btu", "ton"]);
+    expect(groups.map((g) => g.id)).toEqual([
+      "calculators",
+      "btu",
+      "ton",
+      "unit",
+    ]);
     const hrefs = groups.flatMap((g) => g.links.map((l) => l.href));
     expect(new Set(hrefs).size).toBe(hrefs.length);
     for (const r of ROUTES.filter((r) => r.numeric && isPublished(r)))
@@ -32,12 +37,26 @@ describe("homepage conversion links (D106)", () => {
     ]);
   });
 
+  it("lists the published unit pages in their own group (D108)", () => {
+    expect(conversionGroups()[3]?.links.map((l) => l.href)).toEqual(
+      ROUTES.filter((r) => r.unit && isPublished(r)).map((r) => r.path),
+    );
+  });
+
   it("leaves unpublished unit pages out, even in a preview build", async () => {
+    vi.doMock("@/registry/unit-pages", async (original) => {
+      const mod = await original<typeof import("@/registry/unit-pages")>();
+      return {
+        ...mod,
+        UNIT_PAGES: mod.UNIT_PAGES.map((p) => ({ ...p, published: false })),
+      };
+    });
     vi.stubEnv("NEXT_PUBLIC_BTUTOTONS_PREVIEW", "1");
     vi.resetModules();
     const { conversionGroups: preview } =
       await import("@/lib/conversion-links");
     expect(preview().map((g) => g.id)).not.toContain("unit");
+    vi.doUnmock("@/registry/unit-pages");
   });
 });
 

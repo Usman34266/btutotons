@@ -36,14 +36,8 @@ jobs:
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
 
-      # Unpublished P1 pages (D100): exported noindex only by the preview build.
-      - name: Preview build (unpublished pages)
-        run: pnpm build:preview
-
-      - name: E2E against the preview build
-        run: pnpm test:e2e:preview
-
-      # The production build comes last: budget, e2e, Lighthouse and the deploy artifact use it.
+      # No unpublished P1 page exists (D108). When one does, run `pnpm build:preview` and
+      # `pnpm test:e2e:preview` here, before the production build.
       - run: pnpm build
 
       - run: pnpm budget

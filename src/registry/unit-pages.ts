@@ -1,7 +1,8 @@
 /**
  * Unit-pair converter pages (build prompt §16 M8; spec pp. 24–25). Each has a
  * fixed input and output unit. P1: `published` stays false until the
- * independent HVAC review is recorded in docs/DECISIONS.md (D100).
+ * independent HVAC review is recorded in docs/DECISIONS.md (D100); all six
+ * are published (D108).
  */
 import type { CapacityUnitId } from "@/engine";
 
@@ -35,7 +36,7 @@ export const UNIT_PAGES: readonly UnitPage[] = [
     slug: "kw-to-tons",
     from: "kw",
     to: "tr",
-    published: false,
+    published: true,
     inverse: "tons-to-kw",
     example: 3.5,
     aliases: ["/kw-to-ton/"],
@@ -44,7 +45,7 @@ export const UNIT_PAGES: readonly UnitPage[] = [
     slug: "tons-to-kw",
     from: "tr",
     to: "kw",
-    published: false,
+    published: true,
     inverse: "kw-to-tons",
     example: 2,
     table: US_SIZE_CLASS_TONS,
@@ -54,7 +55,7 @@ export const UNIT_PAGES: readonly UnitPage[] = [
     slug: "btu-to-kw",
     from: "btuh",
     to: "kw",
-    published: false,
+    published: true,
     inverse: "kw-to-btu",
     example: 24_000,
     aliases: [],
@@ -63,7 +64,7 @@ export const UNIT_PAGES: readonly UnitPage[] = [
     slug: "kw-to-btu",
     from: "kw",
     to: "btuh",
-    published: false,
+    published: true,
     inverse: "btu-to-kw",
     example: 3.5,
     table: [1, 2.5, 3.5, 5, 7, 10],
@@ -73,7 +74,7 @@ export const UNIT_PAGES: readonly UnitPage[] = [
     slug: "btu-per-minute-to-tons",
     from: "btumin",
     to: "tr",
-    published: false,
+    published: true,
     example: 200,
     aliases: ["/btu-per-minute-to-ton/"],
   },
@@ -81,7 +82,7 @@ export const UNIT_PAGES: readonly UnitPage[] = [
     slug: "btu-per-second-to-tons",
     from: "btus",
     to: "tr",
-    published: false,
+    published: true,
     example: 10,
     aliases: ["/btu-per-second-to-ton/"],
   },

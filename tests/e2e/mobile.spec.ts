@@ -23,7 +23,7 @@ test.describe("mobile 360px", () => {
   test("no horizontal scroll in any state", async ({ page }) => {
     await openConverter(page);
     expect(await overflowX(page)).toBe(0);
-    await page.getByLabel("Unit").selectOption("mmbtuh");
+    await page.getByLabel("Unit", { exact: true }).selectOption("mmbtuh");
     await convert(page, "1000000000000");
     await expect(page.getByTestId("result")).toBeVisible();
     expect(await overflowX(page)).toBe(0);

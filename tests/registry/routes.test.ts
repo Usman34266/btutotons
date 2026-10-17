@@ -16,8 +16,9 @@ const pageFile = (r: (typeof ROUTES)[number]) =>
     : resolve(appDir, `.${r.path}page.tsx`);
 
 describe("route registry", () => {
-  it("has 10 static routes and 20 numeric pages", () => {
-    expect(ROUTES.filter((r) => !r.numeric)).toHaveLength(10);
+  it("has 10 static routes, 20 numeric pages and 6 unit pages", () => {
+    expect(ROUTES.filter((r) => !r.numeric && !r.unit)).toHaveLength(10);
+    expect(ROUTES.filter((r) => r.unit)).toHaveLength(6);
     expect(ROUTES.filter((r) => r.numeric?.kind === "btu")).toHaveLength(12);
     expect(ROUTES.filter((r) => r.numeric?.kind === "ton")).toHaveLength(8);
   });

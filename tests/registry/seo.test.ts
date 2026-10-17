@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
+import { site } from "@/config/site";
 import { jsonLdText, structuredData } from "@/lib/structured-data";
 import { redirects } from "@/registry/redirects";
 import { ROUTES, isPublished } from "@/registry/routes";
@@ -20,11 +21,12 @@ describe("sitemap", () => {
       expect(u).toMatch(/^https:\/\/btutotons\.com\/(.+\/)?$/);
   });
 
-  it("leaves out the embed page, and contact until it has an address (D106)", () => {
+  it("leaves out the embed page, and lists contact once it has an address (D106)", () => {
     const paths = sitemap().map((e) => new URL(e.url).pathname);
     expect(paths).not.toContain("/embed/");
-    expect(paths).not.toContain("/contact/");
-    expect(paths).toHaveLength(28);
+    expect(paths.includes("/contact/")).toBe(site.contactEmail !== null);
+    // 9 listed static pages + 20 numeric + 6 unit pages.
+    expect(paths).toHaveLength(35);
   });
 
   it("never lists a redirect source", () => {

@@ -79,7 +79,7 @@ test.describe("converter: acceptance values", () => {
     ["mmbtuh", "0.024", "2"],
   ] as const) {
     test(`${value} ${unit} → ${tons} tons`, async ({ page }) => {
-      await page.getByLabel("Unit").selectOption(unit);
+      await page.getByLabel("Unit", { exact: true }).selectOption(unit);
       await convert(page, value);
       await expect(resultValue(page)).toHaveText(tons);
     });
@@ -224,7 +224,7 @@ test.describe("converter: state", () => {
     page,
   }) => {
     await openConverter(page);
-    const unit = page.getByLabel("Unit");
+    const unit = page.getByLabel("Unit", { exact: true });
     await convert(page, "24000");
     await unit.selectOption("kw");
     await expect(field(page)).toHaveValue("7.0337056841");
