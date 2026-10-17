@@ -128,6 +128,8 @@ export const home = {
 
   math: {
     toggle: "Show the math",
+    /** Heading of the always-open math on a printout. */
+    printHeading: "The math",
     formulas: (perTon: string, wPerBtuh: string) => [
       `Tons = BTU/hr ÷ ${perTon}`,
       `Cooling kW = BTU/hr × ${wPerBtuh} ÷ 1,000`,
@@ -160,9 +162,6 @@ export const home = {
         .filter(Boolean)
         .join(" "),
     print: "Print",
-    /** Printed above the calculator; screen readers and the screen never show it. */
-    printHeading: (url: string) => `BTU to Tons calculator · ${url}`,
-    printCalculation: (equation: string) => `Calculation: ${equation}`,
     embed: "Embed",
     embedDialog: {
       title: "Embed this calculator",

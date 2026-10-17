@@ -19,7 +19,6 @@ import { pairSentence } from "@/lib/unit-pair";
 import { DigitMorph } from "./digit-morph";
 import { FormulaBlock } from "./formula-block";
 import { LiveStatus } from "./live-status";
-import { PrintHeading } from "./print-heading";
 import { QuantityChip } from "./quantity-chip";
 import { ResultActions } from "./result-actions";
 import { segmentsText } from "./segments";
@@ -106,7 +105,6 @@ export function PairConverter({
   return (
     <div data-print-area className="flex flex-col gap-6">
       <Toaster position="bottom-center" />
-      <PrintHeading />
       <LiveStatus
         message={s.errorCode ? errors[s.errorCode] : sentence}
         delay={s.errorCode ? 0 : 900}
@@ -127,7 +125,7 @@ export function PairConverter({
             </label>
             {inputTerm && <UnitTooltip term={inputTerm} />}
           </div>
-          <p id={hintId} className="text-muted-foreground">
+          <p id={hintId} className="text-muted-foreground print:hidden">
             {copy.inputHint[direction]}
           </p>
           <div className="flex gap-2">
@@ -163,7 +161,10 @@ export function PairConverter({
         <div className="bg-accent-soft p-4 sm:p-6 md:col-span-5">
           {result ? (
             <div className="flex flex-col gap-4" data-testid="result">
-              <QuantityChip kind="capacity" className="self-start" />
+              <QuantityChip
+                kind="capacity"
+                className="self-start print:hidden"
+              />
               <p className="text-lg" data-testid="result-sentence">
                 {sentence}
               </p>
@@ -183,7 +184,12 @@ export function PairConverter({
                   )}
                 </span>
               </div>
-              <SizeClassBadge sizeClass={result.sizeClass} tons={result.tons} />
+              <div className="print:hidden">
+                <SizeClassBadge
+                  sizeClass={result.sizeClass}
+                  tons={result.tons}
+                />
+              </div>
               {secondary.length > 0 && (
                 <dl className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-1 border-t border-accent/20 pt-3">
                   {secondary.map(({ unit, value }) => (
@@ -202,7 +208,7 @@ export function PairConverter({
                   ))}
                 </dl>
               )}
-              <p className="-mt-2 text-label">{copy.resultNote}</p>
+              <p className="-mt-2 text-label print:hidden">{copy.resultNote}</p>
               <FormulaBlock
                 equation={result.equation}
                 precision={precision}

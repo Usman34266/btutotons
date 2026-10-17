@@ -11,7 +11,6 @@ import { CONVERTER_ID } from "@/lib/converter-handoff";
 import { DirectionTabs } from "./direction-tabs";
 import { LiveStatus } from "./live-status";
 import { NumericInput } from "./numeric-input";
-import { PrintHeading } from "./print-heading";
 import { QuickValues } from "./quick-values";
 import { ResultActions } from "./result-actions";
 import { ResultPanel, resultSentence } from "./result-panel";
@@ -75,7 +74,6 @@ export function Converter({
   return (
     <div id={CONVERTER_ID} data-print-area className="flex flex-col gap-6">
       <Toaster position="bottom-center" />
-      <PrintHeading />
       <LiveStatus
         message={
           s.errorCode

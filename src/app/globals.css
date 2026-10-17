@@ -132,6 +132,11 @@
     display: none !important;
   }
 
+  /* Tooltips, info icons, tabs, quick values and actions: nothing to press on paper. */
+  [data-print-area] button {
+    display: none !important;
+  }
+
   [data-print-area] {
     print-color-adjust: exact;
   }

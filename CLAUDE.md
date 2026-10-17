@@ -45,7 +45,7 @@ pnpm typecheck       # next typegen && tsc --noEmit
 pnpm test            # Vitest (engine + registry)
 pnpm test:coverage   # engine must stay at 100%
 pnpm test:e2e        # Playwright against `wrangler dev` (needs a fresh `pnpm build`)
-pnpm test:e2e:preview # the same, after `pnpm build:preview` (runs the unpublished-page tests)
+pnpm test:e2e:preview # the same, after `pnpm build:preview` (for unpublished-page tests)
 pnpm lhci            # Lighthouse CI on out/
 pnpm check           # lint + typecheck + unit tests (run before every commit)
 ```
@@ -78,10 +78,11 @@ app/ (routes) → components/ → hooks → engine facade (engine/index.ts) → 
 - TypeScript strict + `noUncheckedIndexedAccess`. No `any` without a comment explaining why.
 - User-input mistakes return `Result` errors, never throw.
 - Numeric and unit-pair routes come from one `[slug]` template + registry + copy builders.
-- P1 pages stay `published: false` in `registry/unit-pages.ts` until the HVAC review is in
-  `DECISIONS.md`; publishing = flipping the flag (adds sitemap, aliases, indexing).
+- New P1 pages start `published: false` until the HVAC review is in `DECISIONS.md`; publishing =
+  flipping the flag (adds sitemap, aliases, indexing, homepage links). The six M8 pages are live (D108).
 - Share state only in the URL fragment (`#v=24000&u=btuh&p=4`), never query strings.
-- Print shows only `[data-print-area]` (the converter); hide controls inside it with `print:hidden`.
+- Print shows only `[data-print-area]` (the converter card): input, result, other units and the math.
+  Every button inside it is hidden by CSS; hide other extras with `print:hidden`.
   Only `/embed/` may be framed (`scripts/generate-headers.ts`); keep every other path `frame-ancestors 'none'`.
 - `localStorage` only through `lib/safe-storage.ts`; the site works without storage.
 - No `dangerouslySetInnerHTML` except JSON-LD built from our own data.

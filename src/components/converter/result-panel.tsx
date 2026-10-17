@@ -101,7 +101,7 @@ export function ResultPanel({
 
   return (
     <div className="flex flex-col gap-4" data-testid="result">
-      <QuantityChip kind="capacity" className="self-start" />
+      <QuantityChip kind="capacity" className="self-start print:hidden" />
       <p className="text-lg" data-testid="result-sentence">
         <Segments segments={resultSentence(direction, result, precision)} />
       </p>
@@ -128,8 +128,10 @@ export function ResultPanel({
         </div>
       </ViewTransition>
 
-      <SizeClassBadge sizeClass={result.sizeClass} tons={result.tons} />
-      <IceBlocks tons={result.tons} captionClassName="text-ink" />
+      <div className="flex flex-col gap-4 print:hidden">
+        <SizeClassBadge sizeClass={result.sizeClass} tons={result.tons} />
+        <IceBlocks tons={result.tons} captionClassName="text-ink" />
+      </div>
 
       <dl className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-1 border-t border-accent/20 pt-3">
         {toTons && result.input.unit !== "btuh" && (
@@ -157,7 +159,7 @@ export function ResultPanel({
           {kw}
         </dd>
       </dl>
-      <p className="-mt-2 text-label">{copy.resultNote}</p>
+      <p className="-mt-2 text-label print:hidden">{copy.resultNote}</p>
       <FormulaBlock
         equation={result.equation}
         precision={precision}

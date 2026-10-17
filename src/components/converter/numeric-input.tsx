@@ -48,7 +48,7 @@ export function NumericInput({
         </label>
         <UnitTooltip term={direction === "to-tons" ? "btuh" : "ton"} />
       </div>
-      <p id={hintId} className="text-muted-foreground">
+      <p id={hintId} className="text-muted-foreground print:hidden">
         {copy.inputHint[direction]}
       </p>
       <div className="flex gap-2">

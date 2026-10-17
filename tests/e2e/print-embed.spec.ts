@@ -13,10 +13,11 @@ test.describe("homepage conversion links", () => {
     const hrefs = await section
       .getByRole("link")
       .evaluateAll((as) => as.map((a) => a.getAttribute("href")));
-    expect(hrefs).toHaveLength(22);
+    expect(hrefs).toHaveLength(28);
     expect(hrefs).toContain("/24000-btu-to-tons/");
     expect(hrefs).toContain("/1-5-ton-to-btu/");
     expect(hrefs).toContain("/batch-btu-to-tons/");
+    expect(hrefs).toContain("/kw-to-tons/");
     for (const href of hrefs) {
       const res = await page.request.get(href!, { maxRedirects: 0 });
       expect(res.status(), href!).toBe(200);
@@ -53,27 +54,33 @@ test.describe("print", () => {
     await expect(page.getByTestId("conversion-links")).toBeHidden();
     await expect(field(page)).toBeVisible();
     await expect(resultValue(page)).toHaveText("2");
+    await expect(page.getByTestId("result-sentence")).toBeVisible();
+    await expect(page.getByText("The math", { exact: true })).toBeVisible();
     await expect(
-      page.getByText("Calculation: 24,000 ÷ 12,000 = 2"),
+      page.getByText("24,000 ÷ 12,000 = 2", { exact: true }),
     ).toBeVisible();
-    await expect(
-      page.getByText("BTU to Tons calculator · btutotons.com"),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Copy result" }),
-    ).toBeHidden();
-    await expect(
-      page.getByRole("button", { name: "Show the math" }),
-    ).toBeHidden();
+    await expect(page.getByText("Your numbers")).toBeVisible();
+    await expect(page.getByText("Tons = BTU/hr ÷ 12,000")).toBeVisible();
+    await expect(page.getByText("Decimal places")).toBeHidden();
+    await expect(page.getByText("Common AC ratings")).toBeHidden();
+    await expect(page.getByTestId("size-class")).toBeHidden();
+    await expect(page.locator("[data-print-area] figure")).toBeHidden();
+    await expect(page.getByText("Find it on")).toBeHidden();
+    const visibleButtons = await page
+      .getByRole("button")
+      .evaluateAll((els) => els.filter((el) => el.checkVisibility()).length);
+    expect(visibleButtons).toBe(0);
   });
 
-  test("prints the calculation on a numeric page too", async ({ page }) => {
+  test("prints the math on a numeric page too", async ({ page }) => {
     await page.goto("/2-ton-to-btu/");
     await page.waitForLoadState("networkidle");
     await page.emulateMedia({ media: "print" });
     await expect(page.getByTestId("worked-example")).toBeHidden();
     await expect(
-      page.getByText("Calculation: 2 × 12,000 = 24,000"),
+      page.getByTestId("result").getByText("2 × 12,000 = 24,000", {
+        exact: true,
+      }),
     ).toBeVisible();
   });
 });
@@ -151,20 +158,19 @@ test.describe("embed", () => {
 });
 
 test.describe("contact", () => {
-  test("stays unlisted until there's an address to show", async ({ page }) => {
+  test("shows the address and is listed in the footer and sitemap", async ({
+    page,
+  }) => {
     await page.goto("/contact/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Contact");
-    await expect(page.getByTestId("contact-email")).toHaveText(
-      "An email address will be listed here soon.",
-    );
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-      "content",
-      "noindex, nofollow",
-    );
+    await expect(
+      page.getByTestId("contact-email").getByRole("link"),
+    ).toHaveAttribute("href", "mailto:contact@btutotons.com");
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
     await expect(
       page.locator("footer").getByRole("link", { name: "Contact" }),
-    ).toHaveCount(0);
+    ).toHaveAttribute("href", "/contact/");
     const xml = await (await page.request.get("/sitemap.xml")).text();
-    expect(xml).not.toContain("/contact/");
+    expect(xml).toContain("/contact/");
   });
 });
