@@ -8,9 +8,9 @@ import { ROUTES, breadcrumbTrail, route } from "@/registry/routes";
 
 const appDir = resolve(import.meta.dirname, "../../src/app");
 
-/** Numeric routes render from the one [slug] template. */
+/** Numeric and unit routes render from the one [slug] template. */
 const pageFile = (r: (typeof ROUTES)[number]) =>
-  r.numeric
+  r.numeric || r.unit
     ? resolve(appDir, "[slug]/page.tsx")
     : resolve(appDir, `.${r.path}page.tsx`);
 

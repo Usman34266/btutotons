@@ -5,7 +5,9 @@ import { describe, expect, it } from "vitest";
 
 import { segmentsText } from "@/components/converter/segments";
 import { numericPageModel } from "@/lib/numeric-page";
+import { unitPageModel } from "@/lib/unit-page";
 import { NUMERIC_PAGES } from "@/registry/numeric-pages";
+import { UNIT_PAGES } from "@/registry/unit-pages";
 
 /** Build prompt §10.5. Targeted patterns, so plain words like "only when" stay allowed. */
 const NEVER_SAY: readonly [string, RegExp][] = [
@@ -59,8 +61,25 @@ const numericCopy = NUMERIC_PAGES.map((page) => {
   };
 });
 
+/** The six unit pages (published or not), as rendered from the template. */
+const unitCopy = UNIT_PAGES.map((page) => {
+  const m = unitPageModel(page);
+  return {
+    name: page.slug,
+    text: [
+      m.meta.title,
+      m.meta.description,
+      m.h1,
+      m.opening,
+      ...m.sections.flatMap((s) => [s.heading, ...s.paragraphs]),
+      m.example.sentence,
+      m.example.equation,
+    ].join("\n"),
+  };
+});
+
 describe("never-say list", () => {
-  it.each([...sourceCopy, ...numericCopy])("$name", ({ text }) => {
+  it.each([...sourceCopy, ...numericCopy, ...unitCopy])("$name", ({ text }) => {
     for (const [rule, pattern] of NEVER_SAY)
       expect(text, rule).not.toMatch(pattern);
   });

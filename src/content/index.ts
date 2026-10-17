@@ -13,6 +13,8 @@ export type {
   NameplateField,
   RouteCopy,
   Segment,
+  UnitFacts,
+  UnitPageCopy,
 } from "./en-US";
 
 const CONTENT: Record<LocaleId, Content> = { "en-US": enUS };

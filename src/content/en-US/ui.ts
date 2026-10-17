@@ -5,4 +5,5 @@ export { compare } from "./compare";
 export { errors } from "./errors";
 export { home } from "./home";
 export { nameplate } from "./nameplate";
+export { unitPair } from "./unit-pages";
 export { unitsGlossary } from "./units-glossary";

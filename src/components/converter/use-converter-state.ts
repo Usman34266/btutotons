@@ -27,10 +27,17 @@ import { STORAGE_KEYS, safeStorage } from "@/lib/safe-storage";
 export type Direction = "to-tons" | "to-btuh";
 export type InputUnit = Exclude<CapacityUnitId, "tr">;
 
+/** A unit-pair page: fixed input and output units (D100). */
+export interface UnitPair {
+  from: CapacityUnitId;
+  to: CapacityUnitId;
+}
+
 export interface ConverterInitial {
   direction?: Direction;
   unit?: InputUnit;
   value?: number;
+  pair?: UnitPair;
 }
 
 interface State {
@@ -49,6 +56,8 @@ interface State {
    * it and the text carried across, so switching back is exact.
    */
   carry: { from: string; fromUnit: CapacityUnitId; to: string } | null;
+  /** Set on unit-pair pages: the units never change. */
+  pair: UnitPair | null;
 }
 
 /** Wait before showing an error while the user is still typing ("19," on the way to "19,000"). */
@@ -79,6 +88,7 @@ function derive(s: State) {
     ? convertCapacity(parsed.value, {
         precision: s.precision,
         region: REGION,
+        ...(s.pair && { to: s.pair.to }),
       })
     : null;
   return { inputUnit, parsed, result };
@@ -105,15 +115,21 @@ function initialState({
   direction = "to-tons",
   unit = "btuh",
   value,
+  pair,
 }: ConverterInitial): State {
+  const fixed = pair && {
+    direction: pair.from === "tr" ? ("to-btuh" as const) : ("to-tons" as const),
+    unit: pair.from === "tr" ? unit : pair.from,
+  };
   return {
-    direction,
-    unit,
+    direction: fixed ? fixed.direction : direction,
+    unit: fixed ? fixed.unit : unit,
     raw: value === undefined ? "" : formatInputValue(value),
     precision: DEFAULT_PRECISION,
     revealedRaw: null,
     syncedHash: null,
     carry: null,
+    pair: pair ?? null,
   };
 }
 
@@ -129,6 +145,8 @@ function applyHash(state: State, hash: string, stored: string | null): State {
     syncedHash: hash,
   };
   if (fragment.value === undefined || !fragment.unit) return next;
+  // A unit-pair page only takes values in its own input unit.
+  if (state.pair && fragment.unit !== state.pair.from) return next;
   return {
     ...next,
     direction: fragment.unit === "tr" ? "to-btuh" : "to-tons",

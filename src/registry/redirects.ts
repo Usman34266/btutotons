@@ -6,6 +6,7 @@
 import { numberSlug } from "@/lib/slug";
 
 import { BTU_PAGE_VALUES, TON_PAGE_VALUES } from "./numeric-pages";
+import { UNIT_PAGES } from "./unit-pages";
 
 export interface RedirectRule {
   from: `/${string}/`;
@@ -26,4 +27,11 @@ export const redirects: readonly RedirectRule[] = [
     to: `/${numberSlug(tons)}-ton-to-btu/`,
     status: 301,
   })),
+  ...UNIT_PAGES.filter((p) => p.published).flatMap((p) =>
+    p.aliases.map((from): RedirectRule => ({
+      from,
+      to: `/${p.slug}/`,
+      status: 301,
+    })),
+  ),
 ];
