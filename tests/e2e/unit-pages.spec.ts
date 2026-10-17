@@ -137,6 +137,7 @@ test.describe("unit pages: preview build", () => {
         .getByTestId("result")
         .getByText(
           "3.5 × 1,000 ÷ 0.2930710702 = 11,942.4957 BTU/hr; 11,942.4957 ÷ 12,000 = 0.9952",
+          { exact: true },
         ),
     ).toBeVisible();
   });

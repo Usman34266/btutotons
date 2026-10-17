@@ -5,11 +5,13 @@ import { ViewTransition, useId, useRef } from "react";
 
 import { getUiContent } from "@/content/ui";
 import { UNITS, formatAmount, formatInputValue } from "@/engine";
+import { cn } from "@/lib/cn";
 import { CONVERTER_ID } from "@/lib/converter-handoff";
 
 import { DirectionTabs } from "./direction-tabs";
 import { LiveStatus } from "./live-status";
 import { NumericInput } from "./numeric-input";
+import { PrintHeading } from "./print-heading";
 import { QuickValues } from "./quick-values";
 import { ResultActions } from "./result-actions";
 import { ResultPanel, resultSentence } from "./result-panel";
@@ -29,7 +31,14 @@ const Toaster = dynamic(
  * The BTU/hr ↔ tons converter. Desktop: input 7/12, result 5/12 on
  * --accent-soft. Mobile: tabs → input → result → actions → quick values.
  */
-export function Converter({ initial }: { initial?: ConverterInitial }) {
+export function Converter({
+  initial,
+  embedded = false,
+}: {
+  initial?: ConverterInitial;
+  /** Inside another site's iframe (/embed/): no quick values, print or embed. */
+  embedded?: boolean;
+}) {
   const { home, errors } = getUiContent();
   const s = useConverterState(initial);
   const inputId = useId();
@@ -64,8 +73,9 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
     });
 
   return (
-    <div id={CONVERTER_ID} className="flex flex-col gap-6">
+    <div id={CONVERTER_ID} data-print-area className="flex flex-col gap-6">
       <Toaster position="bottom-center" />
+      <PrintHeading />
       <LiveStatus
         message={
           s.errorCode
@@ -94,7 +104,9 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
           }}
           className="flex flex-col gap-6 p-4 sm:p-6 md:col-span-7"
         >
-          <DirectionTabs value={direction} onChange={s.setDirection} />
+          <div className="print:hidden">
+            <DirectionTabs value={direction} onChange={s.setDirection} />
+          </div>
           {/* Keyed by direction: the old value unmounts and the new one mounts, so the pair can morph. */}
           <ViewTransition
             key={direction}
@@ -120,7 +132,10 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
 
         <div
           ref={resultRef}
-          className="bg-accent-soft p-4 sm:p-6 md:col-span-5 md:row-span-2 md:min-h-[32rem]"
+          className={cn(
+            "bg-accent-soft p-4 sm:p-6 md:col-span-5 md:row-span-2 print:min-h-0",
+            !embedded && "md:min-h-[32rem]",
+          )}
         >
           <ResultPanel
             direction={direction}
@@ -134,6 +149,7 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
                 copyValue={copyValue || null}
                 shareText={sentence ?? ""}
                 showReset={s.raw !== ""}
+                tools={!embedded}
                 onReset={() => {
                   s.reset();
                   inputRef.current?.focus();
@@ -143,23 +159,25 @@ export function Converter({ initial }: { initial?: ConverterInitial }) {
           />
         </div>
 
-        <div className="border-t border-border p-4 sm:p-6 md:col-span-7 md:row-start-2">
-          <QuickValues
-            onSelect={(btuh) => {
-              s.selectPreset(btuh);
-              const panel = resultRef.current;
-              if (panel && panel.getBoundingClientRect().top < 0) {
-                const smooth = !window.matchMedia(
-                  "(prefers-reduced-motion: reduce)",
-                ).matches;
-                panel.scrollIntoView({
-                  block: "start",
-                  behavior: smooth ? "smooth" : "auto",
-                });
-              }
-            }}
-          />
-        </div>
+        {!embedded && (
+          <div className="border-t border-border p-4 sm:p-6 md:col-span-7 md:row-start-2 print:hidden">
+            <QuickValues
+              onSelect={(btuh) => {
+                s.selectPreset(btuh);
+                const panel = resultRef.current;
+                if (panel && panel.getBoundingClientRect().top < 0) {
+                  const smooth = !window.matchMedia(
+                    "(prefers-reduced-motion: reduce)",
+                  ).matches;
+                  panel.scrollIntoView({
+                    block: "start",
+                    behavior: smooth ? "smooth" : "auto",
+                  });
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

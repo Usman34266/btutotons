@@ -19,6 +19,7 @@ import { pairSentence } from "@/lib/unit-pair";
 import { DigitMorph } from "./digit-morph";
 import { FormulaBlock } from "./formula-block";
 import { LiveStatus } from "./live-status";
+import { PrintHeading } from "./print-heading";
 import { QuantityChip } from "./quantity-chip";
 import { ResultActions } from "./result-actions";
 import { segmentsText } from "./segments";
@@ -103,8 +104,9 @@ export function PairConverter({
     });
 
   return (
-    <div className="flex flex-col gap-6">
+    <div data-print-area className="flex flex-col gap-6">
       <Toaster position="bottom-center" />
+      <PrintHeading />
       <LiveStatus
         message={s.errorCode ? errors[s.errorCode] : sentence}
         delay={s.errorCode ? 0 : 900}

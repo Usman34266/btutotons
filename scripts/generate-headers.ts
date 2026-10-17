@@ -11,44 +11,60 @@ import { resolve } from "node:path";
 const ANALYTICS_SCRIPT = "https://static.cloudflareinsights.com";
 const ANALYTICS_BEACON = "https://cloudflareinsights.com";
 
-const csp = [
-  "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' ${ANALYTICS_SCRIPT}`,
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data:",
-  "font-src 'self'",
-  `connect-src 'self' ${ANALYTICS_BEACON}`,
-  "manifest-src 'self'",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-  "upgrade-insecure-requests",
-].join("; ");
+const cspWith = (frameAncestors: string) =>
+  [
+    "default-src 'self'",
+    `script-src 'self' 'unsafe-inline' ${ANALYTICS_SCRIPT}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data:",
+    "font-src 'self'",
+    `connect-src 'self' ${ANALYTICS_BEACON}`,
+    "manifest-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    `frame-ancestors ${frameAncestors}`,
+    "upgrade-insecure-requests",
+  ].join("; ");
 
-const rules: Record<string, Record<string, string>> = {
+interface Rule {
+  /** Headers from broader rules to drop (`! Name`). */
+  detach?: string[];
+  set?: Record<string, string>;
+}
+
+const rules: Record<string, Rule> = {
   "/*": {
-    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-    "X-Content-Type-Options": "nosniff",
-    "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
-    "X-Frame-Options": "DENY",
-    "Content-Security-Policy": csp,
+    set: {
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+      "X-Frame-Options": "DENY",
+      "Content-Security-Policy": cspWith("'none'"),
+    },
+  },
+  // Other sites may frame the embed page, and only it (D106).
+  "/embed/*": {
+    detach: ["X-Frame-Options", "Content-Security-Policy"],
+    set: { "Content-Security-Policy": cspWith("*") },
   },
   "/_next/static/*": {
-    "Cache-Control": "public, max-age=31536000, immutable",
+    set: { "Cache-Control": "public, max-age=31536000, immutable" },
   },
   // Next writes generated share cards without a file extension, and the
   // asset server types files by extension; nosniff would then block them.
-  "/opengraph-image": { "Content-Type": "image/png" },
-  "/*/opengraph-image": { "Content-Type": "image/png" },
+  "/opengraph-image": { set: { "Content-Type": "image/png" } },
+  "/*/opengraph-image": { set: { "Content-Type": "image/png" } },
 };
 
 const body = Object.entries(rules)
-  .map(([path, headers]) =>
-    [path, ...Object.entries(headers).map(([k, v]) => `  ${k}: ${v}`)].join(
-      "\n",
-    ),
+  .map(([path, { detach = [], set = {} }]) =>
+    [
+      path,
+      ...detach.map((name) => `  ! ${name}`),
+      ...Object.entries(set).map(([k, v]) => `  ${k}: ${v}`),
+    ].join("\n"),
   )
   .join("\n\n");
 

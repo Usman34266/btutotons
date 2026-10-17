@@ -159,6 +159,36 @@ export const home = {
       [`${[input, ...outputs].join(" = ")}.`, size, `Calculation: ${equation}.`]
         .filter(Boolean)
         .join(" "),
+    print: "Print",
+    /** Printed above the calculator; screen readers and the screen never show it. */
+    printHeading: (url: string) => `BTU to Tons calculator · ${url}`,
+    printCalculation: (equation: string) => `Calculation: ${equation}`,
+    embed: "Embed",
+    embedDialog: {
+      title: "Embed this calculator",
+      body: "Paste this code into your website or blog post to add the free BTU to tons converter. It loads from btutotons.com, links back to it and stays up to date.",
+      codeLabel: "Embed code",
+      copyCode: "Copy code",
+      codeCopied: "Code copied",
+      copyFailed: "Couldn't copy. Select the code and copy it instead.",
+      close: "Close",
+      /** The iframe's accessible name on the host page. */
+      frameTitle: "BTU to Tons Calculator",
+      credit: "Calculator by",
+    },
+  },
+
+  /** Homepage links to every published conversion page (D106). */
+  conversions: {
+    heading: "All BTU and ton conversions",
+    intro:
+      "Each page shows the answer, the calculation and nearby capacities, with the converter ready for another value.",
+    groups: {
+      btu: "BTU/hr to tons",
+      ton: "Tons to BTU/hr",
+      unit: "Cooling kW and other units",
+      calculators: "Calculators",
+    },
   },
 
   /** Homepage section 04 (spec p. 17): compare lives at /#compare, the list tool on its own page. */

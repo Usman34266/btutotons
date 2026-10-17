@@ -124,3 +124,19 @@
     color: var(--ink);
   }
 }
+
+/* Print: only the calculator ([data-print-area]) and what's inside it. */
+@media print {
+  body:has([data-print-area])
+    *:not(:has([data-print-area]), [data-print-area], [data-print-area] *) {
+    display: none !important;
+  }
+
+  [data-print-area] {
+    print-color-adjust: exact;
+  }
+
+  [data-print-area] .shadow-card {
+    box-shadow: none;
+  }
+}
