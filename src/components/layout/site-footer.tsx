@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { site } from "@/config/site";
 import { getContent } from "@/content";
 import { routeCopy } from "@/lib/metadata";
 import { isPublished, routes, type RouteDef } from "@/registry/routes";
@@ -90,6 +91,9 @@ export function SiteFooter() {
             }))}
           />
         </div>
+        <p className="border-t border-border pt-6 text-sm text-muted-foreground md:col-span-12">
+          {footer.copyright(new Date().getFullYear(), site.name)}
+        </p>
       </Container>
     </footer>
   );

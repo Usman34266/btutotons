@@ -10,12 +10,13 @@ export interface Segment {
 /** Unit words used inside sentences ("Your 19,000 BTU AC"). */
 const SENTENCE_UNIT: Record<Exclude<CapacityUnitId, "tr">, string> = {
   btuh: "BTU",
-  kbtuh: "kBTU/hr",
+  kbtuh: "MBH",
   mmbtuh: "MMBTU/hr",
   btumin: "BTU/min",
   btus: "BTU/s",
   kw: "kW (cooling)",
   w: "W (cooling)",
+  hp: "hp",
 };
 
 const tons = (n: string) => `${n} ${plural(n, "ton", "tons")}`;
@@ -185,7 +186,9 @@ export const home = {
     groups: {
       btu: "BTU/hr to tons",
       ton: "Tons to BTU/hr",
-      unit: "Cooling kW and other units",
+      kw: "Cooling kW and watts",
+      mbh: "MBH and horsepower",
+      time: "BTU per minute and per second",
       calculators: "Calculators",
     },
   },

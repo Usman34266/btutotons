@@ -29,6 +29,12 @@ export const methodology = {
           `${watts} W`,
           "From the BTU_IT, divided by 3,600 seconds.",
         ] as const,
+      hp: (watts: string) =>
+        [
+          "1 horsepower",
+          `${watts} W`,
+          "Mechanical horsepower (550 ft·lbf/s). Used only on the horsepower pages.",
+        ] as const,
       tonKw: (kw: string) =>
         [
           "1 refrigeration ton",

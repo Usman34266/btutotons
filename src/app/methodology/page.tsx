@@ -13,6 +13,7 @@ import {
   MAX_INPUT_VALUE,
   UNITS,
   W_PER_BTUH,
+  W_PER_HP,
   capacity,
   convertCapacity,
   formatConstant,
@@ -86,6 +87,7 @@ export default function MethodologyPage() {
     m.constants.rows.ton(formatConstant(BTUH_PER_TON)),
     m.constants.rows.btu(formatConstant(J_PER_BTU)),
     m.constants.rows.watt(formatConstant(W_PER_BTUH)),
+    m.constants.rows.hp(formatConstant(W_PER_HP)),
     m.constants.rows.tonKw(formatNumber(tonKw, { precision: 6 })),
   ];
   const unitRows = CAPACITY_UNIT_IDS.map((id) => {

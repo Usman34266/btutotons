@@ -49,7 +49,7 @@ often on a phone with weak signal.
 
 ### P1: extensions (M8–M12; each route published only when live and HVAC-reviewed)
 
-kW and time-unit routes · ton-hours · power & cost (EER US/EU, COP, known watts) · room AC estimator
+kW, MBH, watt and horsepower routes (D112) · time-unit routes · ton-hours · power & cost (EER US/EU, COP, known watts) · room AC estimator
 (ENERGY STAR table) + capacity ruler + load-report panel · offline PWA, QR "show customer", capacity
 card export.
 
@@ -59,7 +59,7 @@ card export.
 - Ads and ad slots.
 - Markets other than the US at launch (EU is built in the engine and locale layer, not routed).
 - Sizing recommendations of any kind; Manual J; breaker or wire sizing.
-- Units: horsepower, kcal/hr, fuel mass, CO₂, cooling-tower tons, Japanese tons.
+- Units: kcal/hr, fuel mass, CO₂, cooling-tower tons, Japanese tons.
 
 ## 5. Functional requirements (P0)
 

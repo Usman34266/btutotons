@@ -17,7 +17,7 @@ describe("parseFragment", () => {
     expect(parseFragment("#v=abc&u=btuh")).toEqual({ unit: "btuh" });
     expect(parseFragment("#v=-5&u=btuh")).toEqual({ unit: "btuh" });
     expect(parseFragment("#v=1e5&u=btuh")).toEqual({ unit: "btuh" });
-    expect(parseFragment("#v=24000&u=hp")).toEqual({});
+    expect(parseFragment("#v=24000&u=kcalh")).toEqual({});
     expect(parseFragment("#v=24000")).toEqual({});
     expect(parseFragment("#p=3")).toEqual({});
     expect(parseFragment("#p=6")).toEqual({ precision: 6 });

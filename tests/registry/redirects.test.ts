@@ -34,7 +34,7 @@ describe("redirect registry", () => {
       status: 301,
     });
     // 1 static + 12 BTU aliases + 8 ton aliases + the reverse hub alias + 4 unit-page aliases.
-    expect(redirects).toHaveLength(26);
+    expect(redirects).toHaveLength(32);
   });
 
   it("only redirects to live routes", () => {

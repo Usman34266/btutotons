@@ -130,7 +130,12 @@ function UnitTemplate({ page }: { page: UnitPage }) {
         </p>
       </div>
 
-      <PairConverter pair={m.pair} example={page.example} />
+      <PairConverter
+        pair={m.pair}
+        example={page.example}
+        presets={page.presets}
+        field={m.field}
+      />
 
       <div className="flex max-w-prose flex-col gap-10 pt-4">
         {m.sections.map((s) => (

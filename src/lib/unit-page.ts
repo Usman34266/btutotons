@@ -5,11 +5,15 @@ import {
   J_PER_BTU,
   UNITS,
   W_PER_BTUH,
+  W_PER_HP,
   capacity,
   convertCapacity,
   formatConstant,
   formatInputValue,
   formatNumber,
+  hpToBtuh,
+  tonsToKw,
+  wattsToBtuh,
   type CapacityUnitId,
 } from "@/engine";
 import { NUMERIC_PAGES } from "@/registry/numeric-pages";
@@ -43,6 +47,7 @@ export interface UnitPageModel {
   } | null;
   links: PageLink[];
   pair: UnitPair;
+  field?: { label: string; hint: string };
 }
 
 const COLUMN: Partial<Record<CapacityUnitId, Column>> = {
@@ -60,6 +65,10 @@ const facts = (): UnitFacts => ({
   btuhPerKw: formatNumber(convertCapacity(capacity(1, "kw")).btuh, {
     precision: 6,
   }),
+  btuhPerW: formatNumber(wattsToBtuh(1), { precision: 6 }),
+  wPerHp: formatConstant(W_PER_HP),
+  btuhPerHp: formatNumber(hpToBtuh(1), { precision: 2 }),
+  kwFor3Tons: formatNumber(tonsToKw(3), { precision: 2 }),
 });
 
 const headingId = (heading: string) =>
@@ -134,5 +143,6 @@ export function unitPageModel(page: UnitPage): UnitPageModel {
         : []),
     ],
     pair: { from: page.from, to: page.to },
+    ...(copy.field && { field: copy.field }),
   };
 }

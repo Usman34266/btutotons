@@ -32,14 +32,8 @@ describe("unit registry", () => {
     const labels = Object.values(UNITS)
       .map((u) => u.label.toLowerCase())
       .join(" ");
-    for (const banned of [
-      "horsepower",
-      "hp",
-      "kcal",
-      "co2",
-      "japanese",
-      "cooling-tower",
-    ]) {
+    // Mechanical horsepower was added in D112.
+    for (const banned of ["kcal", "co2", "japanese", "cooling-tower"]) {
       expect(labels).not.toContain(banned);
     }
   });
@@ -47,6 +41,7 @@ describe("unit registry", () => {
   it("recognises capacity unit ids", () => {
     expect(isCapacityUnit("btuh")).toBe(true);
     expect(isCapacityUnit("btu")).toBe(false);
-    expect(isCapacityUnit("hp")).toBe(false);
+    expect(isCapacityUnit("hp")).toBe(true);
+    expect(isCapacityUnit("kcalh")).toBe(false);
   });
 });

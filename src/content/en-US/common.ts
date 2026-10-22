@@ -5,12 +5,27 @@ export const common = {
   breadcrumb: "Breadcrumb",
 
   /** Header links; each is added only when its target exists (D073, D082). */
-  nav: { label: "Main", chart: "Chart", guides: "Guides" },
+  nav: {
+    label: "Main",
+    chart: "Chart",
+    guides: "Guides",
+    /** Header menu of every calculator (D115); "Menu" below 640px, where it also holds Chart and Guides. */
+    calculators: "Calculators",
+    menu: "Menu",
+    menuGroups: {
+      tons: "BTU and tons",
+      kw: "Cooling kW and watts",
+      other: "MBH and horsepower",
+    },
+  },
 
   footer: {
     tagline:
       "Convert AC ratings between BTU/hr, refrigeration tons and cooling kW.",
     relatedTools: "Related tools",
+    /** "© 2026 BTU to Tons. Built with ♥ …"; the year is the build year (D116). */
+    copyright: (year: number, name: string) =>
+      `© ${year} ${name}. Built with ♥ for HVAC professionals and curious minds.`,
     siteLinks: "About this site",
     /** Link names; the pages' own H1s are longer. */
     names: {

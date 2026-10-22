@@ -23,6 +23,18 @@ const SPEC_TITLES: Record<string, string> = {
   "btu-per-second-to-tons": "BTU/s to Tons Calculator [Time-Unit Formula]",
 };
 
+/** SEO plan titles (D112); /watts-to-btu/ has no chart, so "Examples" (D113). */
+const SEO_PLAN_TITLES: Record<string, string> = {
+  "mbh-to-btu": "MBH to BTU/hr Calculator [Formula & Examples]",
+  "btu-to-mbh": "BTU to MBH Calculator [1 MBH = 1,000 BTU/hr]",
+  "watts-to-btu": "Watts to BTU/hr Calculator [Formula & Examples]",
+  "btu-to-watts": "BTU to Watts Calculator [Thermal Power Conversion]",
+  "btu-per-second-to-watts": "BTU/s to Watts Calculator [1 BTU/s = 1,055.06 W]",
+  "watts-to-btu-per-second": "Watts to BTU/s Calculator [1 W = 0.000948 BTU/s]",
+  "btu-to-hp": "BTU to Horsepower Calculator [BTU/hr to hp]",
+  "hp-to-btu": "Horsepower to BTU/hr Calculator [1 hp = 2,544.43 BTU/hr]",
+};
+
 const model = (slug: string) => {
   const page = unitPageBySlug(slug);
   if (!page) throw new Error(slug);
@@ -36,8 +48,14 @@ afterEach(() => {
 
 describe("unit page registry", () => {
   it("has the six spec pages, published after the HVAC review (D100, D108)", () => {
-    expect(UNIT_PAGES.map((p) => p.slug)).toEqual(Object.keys(SPEC_TITLES));
-    for (const p of UNIT_PAGES) expect(p.published).toBe(true);
+    const spec = UNIT_PAGES.filter((p) => p.slug in SPEC_TITLES);
+    expect(spec.map((p) => p.slug)).toEqual(Object.keys(SPEC_TITLES));
+    for (const p of spec) expect(p.published).toBe(true);
+  });
+
+  it("publishes the D112 pages after their HVAC review (D114)", () => {
+    for (const p of UNIT_PAGES.filter((p) => !(p.slug in SPEC_TITLES)))
+      expect(p.published).toBe(true);
   });
 
   it("only points inverses at other unit pages, both ways", () => {
@@ -60,12 +78,12 @@ describe("unit page registry", () => {
 });
 
 describe("published build (D108)", () => {
-  it("exports all six pages through the [slug] template", () => {
+  it("exports all 14 pages through the [slug] template", () => {
     const unit = ROUTES.filter((r) => r.unit);
     expect(unit.map((r) => r.path)).toEqual(
-      UNIT_PAGES.map((p) => `/${p.slug}/`),
+      UNIT_PAGES.filter((p) => p.published).map((p) => `/${p.slug}/`),
     );
-    expect(SLUG_ROUTES).toHaveLength(26);
+    expect(SLUG_ROUTES).toHaveLength(34);
     for (const r of unit) {
       expect(isPublished(r)).toBe(true);
       expect(slugRoute(r.unit!.slug)).toBe(r);
@@ -80,7 +98,7 @@ describe("published build (D108)", () => {
     const urls = sitemap().map((e) => new URL(e.url).pathname);
     for (const r of unit) expect(urls).toContain(r.path);
 
-    for (const p of UNIT_PAGES)
+    for (const p of UNIT_PAGES.filter((p) => p.published))
       for (const from of p.aliases)
         expect(redirects).toContainEqual({
           from,
@@ -92,7 +110,9 @@ describe("published build (D108)", () => {
   it("uses the spec titles and unique descriptions", () => {
     const unit = ROUTES.filter((r) => r.unit);
     for (const r of unit)
-      expect(routeCopy(r).title).toBe(SPEC_TITLES[r.unit!.slug]);
+      expect(routeCopy(r).title).toBe(
+        SPEC_TITLES[r.unit!.slug] ?? SEO_PLAN_TITLES[r.unit!.slug],
+      );
     const all = ROUTES.map((r) => routeCopy(r));
     expect(new Set(all.map((c) => c.title)).size).toBe(all.length);
     expect(new Set(all.map((c) => c.description)).size).toBe(all.length);
@@ -109,7 +129,7 @@ describe("published build (D108)", () => {
     vi.stubEnv("NEXT_PUBLIC_BTUTOTONS_PREVIEW", "1");
     vi.resetModules();
     const preview = await import("@/registry/routes");
-    expect(preview.SLUG_ROUTES).toHaveLength(26);
+    expect(preview.SLUG_ROUTES).toHaveLength(34);
     expect(preview.ROUTES.filter(preview.isPublished)).toHaveLength(
       ROUTES.filter(isPublished).length,
     );
@@ -154,7 +174,7 @@ describe("unit page content", () => {
     expect(text("kw-to-btu")).toContain("about 3,412.141633");
   });
 
-  it("says cooling kW, never thermal kW", () => {
+  it("says cooling kW, never thermal kW (D100; D112 pages may add 'thermal' once)", () => {
     for (const p of UNIT_PAGES) {
       const m = model(p.slug);
       const text = [
@@ -164,7 +184,8 @@ describe("unit page content", () => {
         m.opening,
         ...m.sections.flatMap((s) => [s.heading, ...s.paragraphs]),
       ].join(" ");
-      expect(text).not.toMatch(/thermal/i);
+      if (p.slug in SPEC_TITLES) expect(text).not.toMatch(/thermal/i);
+      expect(text).not.toMatch(/thermal kW/i);
     }
   });
 

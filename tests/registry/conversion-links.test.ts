@@ -16,7 +16,9 @@ describe("homepage conversion links (D106)", () => {
       "calculators",
       "btu",
       "ton",
-      "unit",
+      "kw",
+      "mbh",
+      "time",
     ]);
     const hrefs = groups.flatMap((g) => g.links.map((l) => l.href));
     expect(new Set(hrefs).size).toBe(hrefs.length);
@@ -37,10 +39,21 @@ describe("homepage conversion links (D106)", () => {
     ]);
   });
 
-  it("lists the published unit pages in their own group (D108)", () => {
-    expect(conversionGroups()[3]?.links.map((l) => l.href)).toEqual(
-      ROUTES.filter((r) => r.unit && isPublished(r)).map((r) => r.path),
+  it("lists every published unit page once, in the menu's groups (D108, D115)", () => {
+    const unit = conversionGroups()
+      .slice(3)
+      .flatMap((g) => g.links.map((l) => l.href));
+    expect([...unit].sort()).toEqual(
+      ROUTES.filter((r) => r.unit && isPublished(r))
+        .map((r) => r.path)
+        .sort(),
     );
+    expect(conversionGroups()[4]?.links.map((l) => l.href)).toEqual([
+      "/mbh-to-btu/",
+      "/btu-to-mbh/",
+      "/btu-to-hp/",
+      "/hp-to-btu/",
+    ]);
   });
 
   it("leaves unpublished unit pages out, even in a preview build", async () => {
@@ -55,7 +68,7 @@ describe("homepage conversion links (D106)", () => {
     vi.resetModules();
     const { conversionGroups: preview } =
       await import("@/lib/conversion-links");
-    expect(preview().map((g) => g.id)).not.toContain("unit");
+    expect(preview().map((g) => g.id)).toEqual(["calculators", "btu", "ton"]);
     vi.doUnmock("@/registry/unit-pages");
   });
 });

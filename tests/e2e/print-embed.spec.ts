@@ -13,7 +13,8 @@ test.describe("homepage conversion links", () => {
     const hrefs = await section
       .getByRole("link")
       .evaluateAll((as) => as.map((a) => a.getAttribute("href")));
-    expect(hrefs).toHaveLength(28);
+    // 2 calculators + 12 + 8 numeric pages + 14 unit pages (D115, D116).
+    expect(hrefs).toHaveLength(36);
     expect(hrefs).toContain("/24000-btu-to-tons/");
     expect(hrefs).toContain("/1-5-ton-to-btu/");
     expect(hrefs).toContain("/batch-btu-to-tons/");

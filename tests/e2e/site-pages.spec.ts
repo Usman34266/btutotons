@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-import { field, resultValue } from "./helpers";
+import { field, headerLink, resultValue } from "./helpers";
 
 const SITE = "https://btutotons.com";
 const GUIDE = "/ac-tonnage-by-model-number/";
@@ -164,10 +164,7 @@ test.describe("nameplate guide", () => {
 
   test("the header Guides link opens it", async ({ page }) => {
     await open(page, "/");
-    await page
-      .getByRole("navigation", { name: "Main" })
-      .getByRole("link", { name: "Guides" })
-      .click();
+    await (await headerLink(page, "Guides")).click();
     await expect(page).toHaveURL(new RegExp(`${GUIDE}$`));
   });
 });
@@ -185,7 +182,8 @@ test.describe("methodology", () => {
       "Tons = BTU/hr ÷ 12,000",
       "A value within 10% of a nominal size",
       "Nominal sizes: 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 3.5, 4, 5 tons.",
-      "Calculation engine version 1.0.0.",
+      "745.6998715822702 W",
+      "Calculation engine version 1.1.0.",
       'href="https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"',
     ])
       expect(html, text).toContain(text);
@@ -209,5 +207,31 @@ test.describe("404", () => {
       .getByRole("link", { name: "BTU to tons conversion chart" })
       .click();
     await expect(page).toHaveURL(/\/#chart$/);
+  });
+});
+
+test.describe("calculators menu (D115)", () => {
+  test("lists every calculator with an icon and closes after navigating", async ({
+    page,
+  }) => {
+    await open(page, "/");
+    const nav = page.getByRole("navigation", { name: "Main" });
+    await nav.locator("summary").click();
+    const menu = page.locator("#calculators-menu");
+    // BTU to tons, tons to BTU, batch, plus 14 unit pages.
+    await expect(menu.locator("section a")).toHaveCount(17);
+    await expect(menu.locator("section a svg")).toHaveCount(17);
+    await menu.getByRole("link", { name: "BTU/hr to Watts" }).click();
+    await expect(page).toHaveURL(/\/btu-to-watts\/$/);
+    await expect(menu).not.toHaveAttribute("open");
+  });
+
+  test("closes on Escape and returns focus to its button", async ({ page }) => {
+    await open(page, "/");
+    const summary = page.locator("#calculators-menu summary");
+    await summary.click();
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#calculators-menu")).not.toHaveAttribute("open");
+    await expect(summary).toBeFocused();
   });
 });

@@ -5,7 +5,7 @@
 export type QuantityKind = "capacity" | "energy" | "electrical";
 
 export type CapacityUnitId =
-  "btuh" | "tr" | "kw" | "w" | "kbtuh" | "mmbtuh" | "btumin" | "btus";
+  "btuh" | "tr" | "kw" | "w" | "kbtuh" | "mmbtuh" | "btumin" | "btus" | "hp";
 export type EnergyUnitId = "btu" | "tonhour";
 /** Electrical units arrive with the power tool (M10). */
 export type ElectricalUnitId = never;

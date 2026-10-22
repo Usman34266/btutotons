@@ -54,10 +54,16 @@ const termOf = (unit: CapacityUnitId): GlossaryTerm | undefined =>
 export function PairConverter({
   pair,
   example,
+  presets,
+  field,
 }: {
   pair: UnitPair;
   /** Shown as the placeholder. */
   example: number;
+  /** Values that fill the field (D113). */
+  presets?: readonly number[];
+  /** Page-specific label and hint; otherwise the homepage's. */
+  field?: { label: string; hint: string };
 }) {
   const { home, errors, unitPair } = getUiContent();
   const copy = home.converter;
@@ -123,12 +129,12 @@ export function PairConverter({
         >
           <div className="flex items-center gap-1">
             <label htmlFor={id} className="text-label text-ink">
-              {copy.inputLabel[direction]}
+              {field?.label ?? copy.inputLabel[direction]}
             </label>
             {inputTerm && <UnitTooltip term={inputTerm} />}
           </div>
           <p id={hintId} className="text-muted-foreground print:hidden">
-            {copy.inputHint[direction]}
+            {field?.hint ?? copy.inputHint[direction]}
           </p>
           <div className="flex gap-2">
             <Input
@@ -157,6 +163,35 @@ export function PairConverter({
             <p id={errorId} className="font-medium text-danger">
               {errors[s.errorCode]}
             </p>
+          )}
+          {presets && (
+            <div className="mt-2 flex flex-col gap-2 print:hidden">
+              <h2 className="text-label text-ink">
+                {unitPair.presets.heading}
+              </h2>
+              <ul className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+                {presets.map((value) => {
+                  const shown = formatInputValue(value);
+                  return (
+                    <li key={value}>
+                      <button
+                        type="button"
+                        onClick={() => s.setRaw(shown)}
+                        className="flex min-h-11 w-full items-center justify-center gap-1 rounded-lg border border-input bg-surface px-2 py-1.5 transition-colors duration-150 hover:bg-muted active:translate-y-px"
+                      >
+                        <span className="sr-only">
+                          {unitPair.presets.buttonVerb}{" "}
+                        </span>
+                        <span className="font-medium text-ink">{shown}</span>{" "}
+                        <span className="text-sm text-muted-foreground">
+                          {from.symbol}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           )}
         </form>
 
