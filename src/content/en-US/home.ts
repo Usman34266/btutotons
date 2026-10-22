@@ -16,6 +16,7 @@ const SENTENCE_UNIT: Record<Exclude<CapacityUnitId, "tr">, string> = {
   btus: "BTU/s",
   kw: "kW (cooling)",
   w: "W (cooling)",
+  hp: "hp",
 };
 
 const tons = (n: string) => `${n} ${plural(n, "ton", "tons")}`;

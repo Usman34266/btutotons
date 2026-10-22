@@ -1,4 +1,4 @@
-import { BTUH_PER_TON, W_PER_BTUH } from "./constants";
+import { BTUH_PER_TON, W_PER_BTUH, W_PER_HP } from "./constants";
 import type {
   CapacityUnitId,
   EnergyUnitId,
@@ -99,6 +99,18 @@ export const UNITS: { readonly [U in UnitId]: UnitDef & { id: U } } = {
     plural: "BTU/s",
     toBase: [["×", 3_600]],
   },
+  hp: {
+    id: "hp",
+    kind: "capacity",
+    label: "horsepower",
+    symbol: "hp",
+    singular: "horsepower",
+    plural: "horsepower",
+    toBase: [
+      ["×", W_PER_HP],
+      ["÷", W_PER_BTUH],
+    ],
+  },
   btu: {
     id: "btu",
     kind: "energy",
@@ -129,6 +141,7 @@ export const CAPACITY_UNIT_IDS: readonly CapacityUnitId[] = [
   "mmbtuh",
   "btumin",
   "btus",
+  "hp",
 ];
 
 export const ENERGY_UNIT_IDS: readonly EnergyUnitId[] = ["btu", "tonhour"];

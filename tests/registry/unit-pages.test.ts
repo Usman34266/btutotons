@@ -36,8 +36,14 @@ afterEach(() => {
 
 describe("unit page registry", () => {
   it("has the six spec pages, published after the HVAC review (D100, D108)", () => {
-    expect(UNIT_PAGES.map((p) => p.slug)).toEqual(Object.keys(SPEC_TITLES));
-    for (const p of UNIT_PAGES) expect(p.published).toBe(true);
+    const spec = UNIT_PAGES.filter((p) => p.slug in SPEC_TITLES);
+    expect(spec.map((p) => p.slug)).toEqual(Object.keys(SPEC_TITLES));
+    for (const p of spec) expect(p.published).toBe(true);
+  });
+
+  it("keeps the D112 pages unpublished until their HVAC review", () => {
+    for (const p of UNIT_PAGES.filter((p) => !(p.slug in SPEC_TITLES)))
+      expect(p.published).toBe(false);
   });
 
   it("only points inverses at other unit pages, both ways", () => {
@@ -63,7 +69,7 @@ describe("published build (D108)", () => {
   it("exports all six pages through the [slug] template", () => {
     const unit = ROUTES.filter((r) => r.unit);
     expect(unit.map((r) => r.path)).toEqual(
-      UNIT_PAGES.map((p) => `/${p.slug}/`),
+      UNIT_PAGES.filter((p) => p.published).map((p) => `/${p.slug}/`),
     );
     expect(SLUG_ROUTES).toHaveLength(26);
     for (const r of unit) {
@@ -80,7 +86,7 @@ describe("published build (D108)", () => {
     const urls = sitemap().map((e) => new URL(e.url).pathname);
     for (const r of unit) expect(urls).toContain(r.path);
 
-    for (const p of UNIT_PAGES)
+    for (const p of UNIT_PAGES.filter((p) => p.published))
       for (const from of p.aliases)
         expect(redirects).toContainEqual({
           from,
@@ -109,7 +115,8 @@ describe("published build (D108)", () => {
     vi.stubEnv("NEXT_PUBLIC_BTUTOTONS_PREVIEW", "1");
     vi.resetModules();
     const preview = await import("@/registry/routes");
-    expect(preview.SLUG_ROUTES).toHaveLength(26);
+    // Plus the seven unpublished D112 pages, noindex.
+    expect(preview.SLUG_ROUTES).toHaveLength(33);
     expect(preview.ROUTES.filter(preview.isPublished)).toHaveLength(
       ROUTES.filter(isPublished).length,
     );
@@ -154,7 +161,7 @@ describe("unit page content", () => {
     expect(text("kw-to-btu")).toContain("about 3,412.141633");
   });
 
-  it("says cooling kW, never thermal kW", () => {
+  it("says cooling kW, never thermal kW (D100; D112 pages may add 'thermal' once)", () => {
     for (const p of UNIT_PAGES) {
       const m = model(p.slug);
       const text = [
@@ -164,7 +171,8 @@ describe("unit page content", () => {
         m.opening,
         ...m.sections.flatMap((s) => [s.heading, ...s.paragraphs]),
       ].join(" ");
-      expect(text).not.toMatch(/thermal/i);
+      if (p.slug in SPEC_TITLES) expect(text).not.toMatch(/thermal/i);
+      expect(text).not.toMatch(/thermal kW/i);
     }
   });
 

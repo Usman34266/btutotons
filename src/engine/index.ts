@@ -10,6 +10,7 @@ export {
   J_PER_BTU,
   MAX_INPUT_VALUE,
   W_PER_BTUH,
+  W_PER_HP,
 } from "./constants";
 
 export type {
@@ -79,3 +80,5 @@ export {
 } from "./batch";
 export { CSV_COLUMNS, escapeCsvCell, toCsv } from "./csv";
 export { ICE_BLOCKS_MAX, iceBlocks, type IceBlocksModel } from "./ice-blocks";
+
+export * from "./formulas";

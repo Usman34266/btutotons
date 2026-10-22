@@ -2,7 +2,7 @@
  * Engine constants. Source: NIST SP 811, Appendix B.8 (International Table BTU).
  * Change only with a DECISIONS.md entry and an ENGINE_VERSION bump.
  */
-export const ENGINE_VERSION = "1.0.0";
+export const ENGINE_VERSION = "1.1.0";
 
 /** US refrigeration ton, exact. */
 export const BTUH_PER_TON = 12_000;
@@ -12,6 +12,9 @@ export const J_PER_BTU = 1_055.05585262;
 
 /** BTU_IT/h → W (1 BTU_IT = 1,055.05585262 J). */
 export const W_PER_BTUH = 0.2930710701722222;
+
+/** Mechanical horsepower (550 ft·lbf/s) in watts (NIST SP 811, B.8; D112). */
+export const W_PER_HP = 745.69987158227022;
 
 /** 1 ft² = 0.09290304 m² (exact). */
 export const FT2_PER_M2 = 10.7639104167;

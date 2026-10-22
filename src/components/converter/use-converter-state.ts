@@ -147,6 +147,8 @@ function applyHash(state: State, hash: string, stored: string | null): State {
   if (fragment.value === undefined || !fragment.unit) return next;
   // A unit-pair page only takes values in its own input unit.
   if (state.pair && fragment.unit !== state.pair.from) return next;
+  // The homepage picker has no horsepower; it lives only on its own pages (D112).
+  if (!state.pair && fragment.unit === "hp") return next;
   return {
     ...next,
     direction: fragment.unit === "tr" ? "to-btuh" : "to-tons",

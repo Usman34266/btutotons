@@ -4,9 +4,9 @@ import { cn } from "@/lib/cn";
 
 import type { InputUnit } from "./use-converter-state";
 
-/** Capacity units for the BTU/hr → tons field (tons have their own direction). */
+/** Capacity units for the BTU/hr → tons field (tons have their own direction; horsepower only on its own pages, D112). */
 export const INPUT_UNITS = CAPACITY_UNIT_IDS.filter(
-  (id): id is InputUnit => id !== "tr",
+  (id): id is InputUnit => id !== "tr" && id !== "hp",
 );
 
 export function UnitSelect<U extends CapacityUnitId>({

@@ -15,6 +15,7 @@ Code: `src/engine/constants.ts` (versioned by `ENGINE_VERSION`).
 | `W_PER_BTUH`     | 0.2930710701722222 W per BTU/hr | Derived from 1 BTU_IT = 1,055.05585262 J       | NIST SP 811 App. B.8  |
 | `FT2_PER_M2`     | 10.7639104167                   | From 1 ft² = 0.09290304 m² (exact)             | NIST SP 811 App. B.8  |
 | `BTU_WH_PER_W_W` | 3.412141633                     | EER(US) = COP × this                           | Build prompt §8.1     |
+| `W_PER_HP`       | 745.69987158227022 W per hp     | Mechanical hp = 550 ft·lbf/s (D112)            | NIST SP 811 App. B.8  |
 
 - Use the **International Table BTU** only (not thermochemical, not 39/59/60 °F BTU).
 - "Ton" means the **US refrigeration ton** only. Never weight, never refrigerant charge.
@@ -34,18 +35,19 @@ Code: `src/engine/constants.ts` (versioned by `ENGINE_VERSION`).
 
 ## 2. Units (registry: `src/engine/units.ts`, base = BTU/hr)
 
-| id        | Label              | Kind     | toBase (→ BTU/hr)      |
-| --------- | ------------------ | -------- | ---------------------- |
-| `btuh`    | BTU/hr             | capacity | x                      |
-| `tr`      | refrigeration tons | capacity | x × 12,000             |
-| `kw`      | cooling kW         | capacity | x × 1,000 ÷ W_PER_BTUH |
-| `w`       | cooling W          | capacity | x ÷ W_PER_BTUH         |
-| `kbtuh`   | kBTU/hr (MBH)      | capacity | x × 1,000              |
-| `mmbtuh`  | MMBTU/hr           | capacity | x × 1,000,000          |
-| `btumin`  | BTU/min            | capacity | x × 60                 |
-| `btus`    | BTU/s              | capacity | x × 3,600              |
-| `btu`     | BTU (energy)       | energy   | energy tools only      |
-| `tonhour` | ton-hours          | energy   | x × 12,000 BTU         |
+| id        | Label              | Kind     | toBase (→ BTU/hr)                |
+| --------- | ------------------ | -------- | -------------------------------- |
+| `btuh`    | BTU/hr             | capacity | x                                |
+| `tr`      | refrigeration tons | capacity | x × 12,000                       |
+| `kw`      | cooling kW         | capacity | x × 1,000 ÷ W_PER_BTUH           |
+| `w`       | cooling W          | capacity | x ÷ W_PER_BTUH                   |
+| `kbtuh`   | kBTU/hr (MBH)      | capacity | x × 1,000                        |
+| `mmbtuh`  | MMBTU/hr           | capacity | x × 1,000,000                    |
+| `btumin`  | BTU/min            | capacity | x × 60                           |
+| `btus`    | BTU/s              | capacity | x × 3,600                        |
+| `hp`      | horsepower (mech.) | capacity | x × W_PER_HP ÷ W_PER_BTUH (D112) |
+| `btu`     | BTU (energy)       | energy   | energy tools only                |
+| `tonhour` | ton-hours          | energy   | x × 12,000 BTU                   |
 
 Quantity kinds: `capacity` (heat removal rate), `energy` (heat over time), `electrical` (power drawn).
 They never mix. The type system makes mixing a compile error.
@@ -65,7 +67,7 @@ cooling kW  = BTU/hr × W_PER_BTUH ÷ 1,000
 - **"Tons"** always means refrigeration tons.
 - A bare **"MMBTU"** never silently becomes MMBTU/hr.
 - **Cooling kW is cooling capacity, not electricity use.**
-- **Not supported:** horsepower, kcal/hr, fuel mass, CO₂, cooling-tower tons, Japanese tons.
+- **Not supported:** kcal/hr, fuel mass, CO₂, cooling-tower tons, Japanese tons.
 
 ---
 
