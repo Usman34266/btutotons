@@ -46,6 +46,56 @@ const PAGES = [
     value: "3",
     sentence: "10 BTU/s equals 3 refrigeration tons.",
   },
+  // SEO plan pages (D112, D114).
+  {
+    path: "/mbh-to-btu/",
+    h1: "MBH to BTU/hr Calculator",
+    input: "36",
+    value: "36,000",
+    sentence: "36 kBTU/hr equals 36,000 BTU/hr.",
+  },
+  {
+    path: "/btu-to-mbh/",
+    h1: "BTU/hr to MBH Calculator",
+    input: "60000",
+    value: "60",
+    sentence: "60,000 BTU/hr equals 60 kBTU/hr.",
+  },
+  {
+    path: "/watts-to-btu/",
+    h1: "Watts to BTU/hr Calculator",
+    input: "1000",
+    value: "3,412.1416",
+    sentence: "1,000 cooling W equals 3,412.1416 BTU/hr.",
+  },
+  {
+    path: "/btu-to-watts/",
+    h1: "BTU/hr to Watts Calculator",
+    input: "12000",
+    value: "3,516.8528",
+    sentence: "12,000 BTU/hr equals 3,516.8528 cooling W.",
+  },
+  {
+    path: "/btu-per-second-to-watts/",
+    h1: "BTU per Second to Watts Calculator",
+    input: "1",
+    value: "1,055.0559",
+    sentence: "1 BTU/s equals 1,055.0559 cooling W.",
+  },
+  {
+    path: "/btu-to-hp/",
+    h1: "BTU/hr to Horsepower Calculator",
+    input: "12000",
+    value: "4.7162",
+    sentence: "12,000 BTU/hr equals 4.7162 horsepower.",
+  },
+  {
+    path: "/hp-to-btu/",
+    h1: "Horsepower to BTU/hr Calculator",
+    input: "1",
+    value: "2,544.4336",
+    sentence: "1 horsepower equals 2,544.4336 BTU/hr.",
+  },
 ] as const;
 
 const ALIASES: Record<string, string> = {
@@ -53,6 +103,11 @@ const ALIASES: Record<string, string> = {
   "/ton-to-kw/": "/tons-to-kw/",
   "/btu-per-minute-to-ton/": "/btu-per-minute-to-tons/",
   "/btu-per-second-to-ton/": "/btu-per-second-to-tons/",
+  "/watt-to-btu/": "/watts-to-btu/",
+  "/btu-to-watt/": "/btu-to-watts/",
+  "/btu-per-second-to-watt/": "/btu-per-second-to-watts/",
+  "/btu-to-horsepower/": "/btu-to-hp/",
+  "/horsepower-to-btu/": "/hp-to-btu/",
 };
 
 async function open(page: Page, path: string) {
@@ -106,6 +161,13 @@ test.describe("unit pages (published, D108)", () => {
       await expect(page.getByTestId("worked-example")).toBeVisible();
     });
   }
+
+  test("fills the field from a preset (D113)", async ({ page }) => {
+    await open(page, "/tons-to-kw/");
+    await page.getByRole("button", { name: "Convert 3 TR" }).click();
+    await expect(field(page)).toHaveValue("3");
+    await expect(resultValue(page)).toHaveText("10.5506");
+  });
 
   test("shows the other units and the math", async ({ page }) => {
     await open(page, "/kw-to-tons/");

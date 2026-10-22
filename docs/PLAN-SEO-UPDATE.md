@@ -75,7 +75,8 @@ Each milestone stops at a gate for approval (hard rule 8).
 - [x] `/watts-to-btu/` (w to btuh; example 1,000 cooling W = 3,412.14 BTU/hr; input power is not cooling output)
 - [x] `/btu-to-watts/` (btuh to w; example 12,000 BTU/hr = 3,516.85 cooling W; kW as secondary result; link to `/watts-to-btu/`)
 - [x] For each: `UnitPageSlug` + `UNIT_PAGES` entry (`published: false`), copy in `unit-pages.ts` content, aliases, route registry, sitemap, homepage links
-- [ ] Tests: engine example values, registry, e2e, never-say, 360px/200% zoom/keyboard
+- [x] Tests written: formulas, registry, e2e (all 13 pages, 9 aliases, presets)
+- [ ] Run e2e, a11y, 360px/200% zoom/keyboard (owner runs at the end)
 - [x] HVAC review recorded, `published` flipped (D114)
 
 **M9c. Gap review of the three live pages against the PDF**
@@ -83,7 +84,7 @@ Each milestone stops at a gate for approval (hard rule 8).
 - [x] `/btu-to-kw/`: 9,000 / 12,000 / 18,000 / 24,000 presets; tons shown with kW; not-electrical note
 - [x] `/kw-to-btu/`: tons shown; "clarify input units"; link to the reverse
 - [x] `/tons-to-kw/`: 1-5 ton presets; BTU/hr result; worked spec comparison; "10.55 kW of cooling is not 10.55 kW of electrical input"
-- [ ] Check meta titles against the PDF's suggestions (spec titles win where they conflict, D100)
+- [x] Meta titles: live pages keep spec titles; new pages use the PDF's (D113)
 
 **M9d. btutowatts-inspired additions**
 
@@ -100,6 +101,7 @@ Each milestone stops at a gate for approval (hard rule 8).
 
 **Cross-cutting**
 
-- [ ] Update homepage "All BTU and ton conversions" and sitemap counts
-- [ ] Add LHCI URLs for new pages; keep homepage JS at or under 185 KB
+- [x] Homepage "All BTU and ton conversions" (automatic) and sitemap counts (D114)
+- [x] LHCI adds `/btu-to-watts/` (D114)
+- [ ] Homepage JS at or under 185 KB (`pnpm budget`, with the final e2e run)
 - [ ] `pnpm check`, e2e, a11y, visual; DECISIONS entries for every choice
