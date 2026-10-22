@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-import { field, resultValue } from "./helpers";
+import { field, headerLink, resultValue } from "./helpers";
 
 const SITE = "https://btutotons.com";
 
@@ -248,10 +248,7 @@ test.describe("homepage content", () => {
 
   test("the header Chart link goes to the chart", async ({ page }) => {
     await open(page, "/batch-btu-to-tons/");
-    await page
-      .getByRole("navigation", { name: "Main" })
-      .getByRole("link", { name: "Chart" })
-      .click();
+    await (await headerLink(page, "Chart")).click();
     await expect(page).toHaveURL(/\/#chart$/);
     await expect(
       page.getByRole("heading", { name: "BTU to tons conversion chart" }),

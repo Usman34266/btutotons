@@ -66,10 +66,10 @@ export const UNITS: { readonly [U in UnitId]: UnitDef & { id: U } } = {
   kbtuh: {
     id: "kbtuh",
     kind: "capacity",
-    label: "kBTU/hr (MBH)",
-    symbol: "kBTU/hr",
-    singular: "kBTU/hr",
-    plural: "kBTU/hr",
+    label: "MBH (kBTU/hr)",
+    symbol: "MBH",
+    singular: "MBH",
+    plural: "MBH",
     toBase: [["×", 1_000]],
   },
   mmbtuh: {

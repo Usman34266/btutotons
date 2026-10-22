@@ -25,8 +25,8 @@ describe("sitemap", () => {
     const paths = sitemap().map((e) => new URL(e.url).pathname);
     expect(paths).not.toContain("/embed/");
     expect(paths.includes("/contact/")).toBe(site.contactEmail !== null);
-    // 9 listed static pages + 20 numeric + 13 unit pages.
-    expect(paths).toHaveLength(42);
+    // 9 listed static pages + 20 numeric + 14 unit pages.
+    expect(paths).toHaveLength(43);
   });
 
   it("never lists a redirect source", () => {

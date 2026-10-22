@@ -30,6 +30,7 @@ const SEO_PLAN_TITLES: Record<string, string> = {
   "watts-to-btu": "Watts to BTU/hr Calculator [Formula & Examples]",
   "btu-to-watts": "BTU to Watts Calculator [Thermal Power Conversion]",
   "btu-per-second-to-watts": "BTU/s to Watts Calculator [1 BTU/s = 1,055.06 W]",
+  "watts-to-btu-per-second": "Watts to BTU/s Calculator [1 W = 0.000948 BTU/s]",
   "btu-to-hp": "BTU to Horsepower Calculator [BTU/hr to hp]",
   "hp-to-btu": "Horsepower to BTU/hr Calculator [1 hp = 2,544.43 BTU/hr]",
 };
@@ -77,12 +78,12 @@ describe("unit page registry", () => {
 });
 
 describe("published build (D108)", () => {
-  it("exports all 13 pages through the [slug] template", () => {
+  it("exports all 14 pages through the [slug] template", () => {
     const unit = ROUTES.filter((r) => r.unit);
     expect(unit.map((r) => r.path)).toEqual(
       UNIT_PAGES.filter((p) => p.published).map((p) => `/${p.slug}/`),
     );
-    expect(SLUG_ROUTES).toHaveLength(33);
+    expect(SLUG_ROUTES).toHaveLength(34);
     for (const r of unit) {
       expect(isPublished(r)).toBe(true);
       expect(slugRoute(r.unit!.slug)).toBe(r);
@@ -128,7 +129,7 @@ describe("published build (D108)", () => {
     vi.stubEnv("NEXT_PUBLIC_BTUTOTONS_PREVIEW", "1");
     vi.resetModules();
     const preview = await import("@/registry/routes");
-    expect(preview.SLUG_ROUTES).toHaveLength(33);
+    expect(preview.SLUG_ROUTES).toHaveLength(34);
     expect(preview.ROUTES.filter(preview.isPublished)).toHaveLength(
       ROUTES.filter(isPublished).length,
     );

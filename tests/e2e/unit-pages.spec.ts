@@ -52,14 +52,14 @@ const PAGES = [
     h1: "MBH to BTU/hr Calculator",
     input: "36",
     value: "36,000",
-    sentence: "36 kBTU/hr equals 36,000 BTU/hr.",
+    sentence: "36 MBH equals 36,000 BTU/hr.",
   },
   {
     path: "/btu-to-mbh/",
     h1: "BTU/hr to MBH Calculator",
     input: "60000",
     value: "60",
-    sentence: "60,000 BTU/hr equals 60 kBTU/hr.",
+    sentence: "60,000 BTU/hr equals 60 MBH.",
   },
   {
     path: "/watts-to-btu/",
@@ -81,6 +81,13 @@ const PAGES = [
     input: "1",
     value: "1,055.0559",
     sentence: "1 BTU/s equals 1,055.0559 cooling W.",
+  },
+  {
+    path: "/watts-to-btu-per-second/",
+    h1: "Watts to BTU per Second Calculator",
+    input: "1000",
+    value: "0.9478",
+    sentence: "1,000 cooling W equals 0.9478 BTU/s.",
   },
   {
     path: "/btu-to-hp/",
@@ -106,6 +113,7 @@ const ALIASES: Record<string, string> = {
   "/watt-to-btu/": "/watts-to-btu/",
   "/btu-to-watt/": "/btu-to-watts/",
   "/btu-per-second-to-watt/": "/btu-per-second-to-watts/",
+  "/watt-to-btu-per-second/": "/watts-to-btu-per-second/",
   "/btu-to-horsepower/": "/btu-to-hp/",
   "/horsepower-to-btu/": "/hp-to-btu/",
 };

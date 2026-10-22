@@ -237,7 +237,7 @@ export const unitPages: Record<UnitPageSlug, UnitPageCopy> = {
       {
         heading: "What MBH means",
         body: () => [
-          "MBH is 1,000 BTU/hr. The M stands for thousand, not million. It is the same unit as kBTU/hr.",
+          "MBH means thousand BTU per hour: 1 MBH = 1,000 BTU/hr. The M stands for thousand, not million. It is the same unit as kBTU/hr.",
           "MMBTU/hr is a different unit: 1 MMBTU/hr is 1,000,000 BTU/hr, or 1,000 MBH.",
         ],
       },
@@ -359,6 +359,34 @@ export const unitPages: Record<UnitPageSlug, UnitPageCopy> = {
         body: () => [
           "1 BTU/s = 60 BTU/min = 3,600 BTU/hr. AC ratings use BTU/hr, so a BTU/s figure is usually from engineering or lab work.",
           "A figure in plain BTU, with no time unit, is energy rather than a rate.",
+        ],
+      },
+    ],
+  },
+  "watts-to-btu-per-second": {
+    meta: {
+      title: "Watts to BTU/s Calculator [1 W = 0.000948 BTU/s]",
+      description:
+        "Convert watts to BTU per second with the International Table BTU. See BTU/hr, refrigeration tons and cooling kW for the same rate.",
+    },
+    h1: "Watts to BTU per Second Calculator",
+    field: {
+      label: "Heat rate in watts",
+      hint: "Cooling (thermal) watts, not an AC's electrical input.",
+    },
+    opening: "Divide watts by about 1,055.06 to get BTU per second (BTU/s).",
+    sections: [
+      {
+        heading: "Watts to BTU/s formula",
+        body: (f) => [
+          `One International Table BTU is ${f.jPerBtu} joules, and 1 watt is 1 joule per second. So BTU/s = W ÷ ${f.jPerBtu}.`,
+        ],
+        example: true,
+      },
+      {
+        heading: "Check your time unit",
+        body: () => [
+          "1 BTU/s = 60 BTU/min = 3,600 BTU/hr. AC ratings use BTU/hr, so for an AC you usually want watts to BTU/hr instead.",
         ],
       },
     ],

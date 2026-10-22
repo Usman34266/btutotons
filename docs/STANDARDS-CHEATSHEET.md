@@ -41,7 +41,7 @@ Code: `src/engine/constants.ts` (versioned by `ENGINE_VERSION`).
 | `tr`      | refrigeration tons | capacity | x × 12,000                       |
 | `kw`      | cooling kW         | capacity | x × 1,000 ÷ W_PER_BTUH           |
 | `w`       | cooling W          | capacity | x ÷ W_PER_BTUH                   |
-| `kbtuh`   | kBTU/hr (MBH)      | capacity | x × 1,000                        |
+| `kbtuh`   | MBH (kBTU/hr)      | capacity | x × 1,000                        |
 | `mmbtuh`  | MMBTU/hr           | capacity | x × 1,000,000                    |
 | `btumin`  | BTU/min            | capacity | x × 60                           |
 | `btus`    | BTU/s              | capacity | x × 3,600                        |

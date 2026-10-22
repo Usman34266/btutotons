@@ -90,7 +90,9 @@ Each milestone stops at a gate for approval (hard rule 8).
 
 - [x] `/btu-per-second-to-watts/` pair page
 - [x] `/btu-to-hp/` and `/hp-to-btu/`: add `W_PER_HP` and the `hp` unit to the engine (ENGINE_VERSION bump, 100% coverage), decide its quantity kind, add the "unit equivalence, not motor sizing" copy
-- [ ] Optional reverse `/watts-to-btu-per-second/`
+- [x] Reverse `/watts-to-btu-per-second/` (D115)
+- [x] MBH shown as "MBH" in results (D115)
+- [x] Header calculators menu with per-unit icons (D115)
 
 **M10. Blog: DEFERRED (no content yet, D112)**
 

@@ -22,3 +22,11 @@ export async function openConverter(page: Page, hash = "") {
 export async function convert(page: Page, value: string) {
   await field(page).fill(value);
 }
+
+/** A header link; below 640px Chart and Guides sit inside the "Menu" disclosure (D115). */
+export async function headerLink(page: Page, name: string) {
+  const nav = page.getByRole("navigation", { name: "Main" });
+  const link = nav.getByRole("link", { name, exact: true });
+  if (!(await link.first().isVisible())) await nav.locator("summary").click();
+  return link.locator("visible=true");
+}

@@ -15,5 +15,6 @@ export { btuhToMbh } from "./btu-to-mbh";
 export { wattsToBtuh } from "./watts-to-btu";
 export { btuhToWatts } from "./btu-to-watts";
 export { btuPerSecondToWatts } from "./btu-per-second-to-watts";
+export { wattsToBtuPerSecond } from "./watts-to-btu-per-second";
 export { btuhToHp } from "./btu-to-hp";
 export { hpToBtuh } from "./hp-to-btu";

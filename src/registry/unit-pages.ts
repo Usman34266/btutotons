@@ -20,6 +20,7 @@ export type UnitPageSlug =
   | "watts-to-btu"
   | "btu-to-watts"
   | "btu-per-second-to-watts"
+  | "watts-to-btu-per-second"
   | "btu-to-hp"
   | "hp-to-btu";
 
@@ -142,8 +143,18 @@ export const UNIT_PAGES: readonly UnitPage[] = [
     from: "btus",
     to: "w",
     published: true,
+    inverse: "watts-to-btu-per-second",
     example: 1,
     aliases: ["/btu-per-second-to-watt/"],
+  },
+  {
+    slug: "watts-to-btu-per-second",
+    from: "w",
+    to: "btus",
+    published: true,
+    inverse: "btu-per-second-to-watts",
+    example: 1_000,
+    aliases: ["/watt-to-btu-per-second/"],
   },
   {
     slug: "btu-to-hp",

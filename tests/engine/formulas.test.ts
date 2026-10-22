@@ -17,6 +17,7 @@ import {
   mbhToBtuh,
   tonsToBtuh,
   tonsToKw,
+  wattsToBtuPerSecond,
   wattsToBtuh,
 } from "@/engine";
 import { UNIT_PAGES, type UnitPageSlug } from "@/registry/unit-pages";
@@ -33,6 +34,7 @@ const FORMULA: Record<UnitPageSlug, (x: number) => number> = {
   "watts-to-btu": wattsToBtuh,
   "btu-to-watts": btuhToWatts,
   "btu-per-second-to-watts": btuPerSecondToWatts,
+  "watts-to-btu-per-second": wattsToBtuPerSecond,
   "btu-to-hp": btuhToHp,
   "hp-to-btu": hpToBtuh,
 };
@@ -53,6 +55,8 @@ describe("calculator formulas", () => {
     [wattsToBtuh, 1_000, 3_412.14, 2],
     [btuhToWatts, 12_000, 3_516.85, 2],
     [btuPerSecondToWatts, 1, 1_055.05585262, 8],
+    [wattsToBtuPerSecond, 1_055.05585262, 1, 9],
+    [wattsToBtuPerSecond, 1, 0.000948, 6],
     [btuhToHp, 12_000, 4.7162, 4],
     [hpToBtuh, 1, 2_544.434, 3],
   ] as const)("%o(%d) ≈ %d", (fn, input, expected, decimals) => {
@@ -69,6 +73,7 @@ describe("calculator formulas", () => {
       expect(wattsToBtuh(btuhToWatts(x))).toBeCloseTo(x, 6);
       expect(mbhToBtuh(btuhToMbh(x))).toBeCloseTo(x, 6);
       expect(hpToBtuh(btuhToHp(x))).toBeCloseTo(x, 6);
+      expect(btuPerSecondToWatts(wattsToBtuPerSecond(x))).toBeCloseTo(x, 6);
       expect(tonsToKw(kwToTons(x))).toBeCloseTo(x, 6);
     }
   });
