@@ -23,6 +23,9 @@ export const common = {
     tagline:
       "Convert AC ratings between BTU/hr, refrigeration tons and cooling kW.",
     relatedTools: "Related tools",
+    /** "© 2026 BTU to Tons. Built with ♥ …"; the year is the build year (D116). */
+    copyright: (year: number, name: string) =>
+      `© ${year} ${name}. Built with ♥ for HVAC professionals and curious minds.`,
     siteLinks: "About this site",
     /** Link names; the pages' own H1s are longer. */
     names: {

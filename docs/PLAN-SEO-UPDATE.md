@@ -76,7 +76,7 @@ Each milestone stops at a gate for approval (hard rule 8).
 - [x] `/btu-to-watts/` (btuh to w; example 12,000 BTU/hr = 3,516.85 cooling W; kW as secondary result; link to `/watts-to-btu/`)
 - [x] For each: `UnitPageSlug` + `UNIT_PAGES` entry (`published: false`), copy in `unit-pages.ts` content, aliases, route registry, sitemap, homepage links
 - [x] Tests written: formulas, registry, e2e (all 13 pages, 9 aliases, presets)
-- [ ] Run e2e, a11y, 360px/200% zoom/keyboard (owner runs at the end)
+- [x] e2e, a11y, 360px/200% zoom/keyboard: 306 passed (2026-10-22)
 - [x] HVAC review recorded, `published` flipped (D114)
 
 **M9c. Gap review of the three live pages against the PDF**
@@ -105,5 +105,5 @@ Each milestone stops at a gate for approval (hard rule 8).
 
 - [x] Homepage "All BTU and ton conversions" (automatic) and sitemap counts (D114)
 - [x] LHCI adds `/btu-to-watts/` (D114)
-- [ ] Homepage JS at or under 185 KB (`pnpm budget`, with the final e2e run)
+- [x] Homepage JS 182.5 of 185 KB
 - [ ] `pnpm check`, e2e, a11y, visual; DECISIONS entries for every choice

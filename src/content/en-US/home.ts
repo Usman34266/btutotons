@@ -186,7 +186,9 @@ export const home = {
     groups: {
       btu: "BTU/hr to tons",
       ton: "Tons to BTU/hr",
-      unit: "Cooling kW and other units",
+      kw: "Cooling kW and watts",
+      mbh: "MBH and horsepower",
+      time: "BTU per minute and per second",
       calculators: "Calculators",
     },
   },

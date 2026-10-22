@@ -31,7 +31,7 @@ const GROUP: Record<CalculatorIcon, CalculatorGroup["id"]> = {
 };
 
 /** The pair's most specific unit wins: hp, MBH, watts, kW, time units, then tons. */
-function iconOf(r: RouteDef): CalculatorIcon {
+export function iconOf(r: RouteDef): CalculatorIcon {
   if (r.id === routes.batch.id) return "list";
   const units: CapacityUnitId[] = r.unit ? [r.unit.from, r.unit.to] : [];
   if (units.includes("hp")) return "hp";

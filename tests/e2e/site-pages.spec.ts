@@ -182,7 +182,8 @@ test.describe("methodology", () => {
       "Tons = BTU/hr ÷ 12,000",
       "A value within 10% of a nominal size",
       "Nominal sizes: 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 3.5, 4, 5 tons.",
-      "Calculation engine version 1.0.0.",
+      "745.6998715822702 W",
+      "Calculation engine version 1.1.0.",
       'href="https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"',
     ])
       expect(html, text).toContain(text);
