@@ -38,7 +38,8 @@ If something you need is not in these files, **ask; do not invent it.**
 - "Tons" = refrigeration tons. Never weight, never refrigerant charge.
 - A bare "MMBTU" never silently becomes MMBTU/hr.
 - Pluralize: "1 refrigeration ton", "2 refrigeration tons"; "1 ton equals", "2 tons equal".
-- Unsupported, do not add: horsepower, kcal/hr, fuel mass, CO₂, cooling-tower tons, Japanese tons.
+- Horsepower = mechanical hp only, labelled as a unit equivalence, never motor sizing (D112).
+- Unsupported, do not add: kcal/hr, fuel mass, CO₂, cooling-tower tons, Japanese tons.
 
 ## 4. Never say
 
