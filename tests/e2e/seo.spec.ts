@@ -14,7 +14,7 @@ const PATHS = [
 ];
 
 test.describe("SEO files", () => {
-  test("sitemap lists 35 live pages that all return 200", async ({
+  test("sitemap lists 42 live pages that all return 200", async ({
     request,
   }) => {
     const res = await request.get("/sitemap.xml");
@@ -23,7 +23,7 @@ test.describe("SEO files", () => {
     const locs = [...(await res.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map(
       (m) => new URL(m[1]!).pathname,
     );
-    expect(locs).toHaveLength(35);
+    expect(locs).toHaveLength(42);
     for (const path of locs) {
       const page = await request.get(path, { maxRedirects: 0 });
       expect(page.status(), path).toBe(200);

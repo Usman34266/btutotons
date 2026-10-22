@@ -1,7 +1,7 @@
 # SEO update plan (October 2026)
 
 Source: `BTU-to-Tons-SEO-Priority-Plan.pdf` (Hasnain, 18 Oct 2026), plus five pages from
-btutowatts.com the owner wants used as inspiration. Status: **built 2026-10-22 (D113), unpublished; waiting at the gate for the HVAC review.**
+btutowatts.com the owner wants used as inspiration. Status: **approved and published 2026-10-22 (D114).**
 
 ## 1. What the PDF asks for
 
@@ -76,7 +76,7 @@ Each milestone stops at a gate for approval (hard rule 8).
 - [x] `/btu-to-watts/` (btuh to w; example 12,000 BTU/hr = 3,516.85 cooling W; kW as secondary result; link to `/watts-to-btu/`)
 - [x] For each: `UnitPageSlug` + `UNIT_PAGES` entry (`published: false`), copy in `unit-pages.ts` content, aliases, route registry, sitemap, homepage links
 - [ ] Tests: engine example values, registry, e2e, never-say, 360px/200% zoom/keyboard
-- [ ] Preview build, HVAC review recorded, then flip `published`
+- [x] HVAC review recorded, `published` flipped (D114)
 
 **M9c. Gap review of the three live pages against the PDF**
 
