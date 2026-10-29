@@ -19,6 +19,13 @@
   /* Text on a solid --accent fill; reuses existing token values (D040). */
   --on-accent: #ffffff;
 
+  /* 3D AC in the tonnage playground (prototype): body, trim, LCD, airflow. */
+  --appliance: #f4f6f9;
+  --appliance-shade: #c3ccd7;
+  --lcd: #0e1726;
+  --lcd-ink: #5cc2ee;
+  --air: #3aa6d8;
+
   /* Shape */
   --radius-control: 8px;
   --radius-card: 12px;
@@ -41,6 +48,12 @@
   --success: #4ade80;
 
   --on-accent: #0b0f14;
+
+  --appliance: #e3e8ee;
+  --appliance-shade: #94a0b0;
+  --lcd: #0b0f14;
+  --lcd-ink: #5cc2ee;
+  --air: #5cc2ee;
 
   --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.3);
 }

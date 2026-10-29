@@ -18,3 +18,4 @@ export {
   type UnitPageCopy,
 } from "./unit-pages";
 export { unitsGlossary, type GlossaryTerm } from "./units-glossary";
+export { tonnagePlayground } from "./motion-sections";
