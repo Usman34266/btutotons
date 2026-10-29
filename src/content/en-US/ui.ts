@@ -7,3 +7,4 @@ export { home } from "./home";
 export { nameplate } from "./nameplate";
 export { unitPair } from "./unit-pages";
 export { unitsGlossary } from "./units-glossary";
+export { tonnagePlayground } from "./motion-sections";

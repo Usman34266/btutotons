@@ -10,6 +10,7 @@ import { Converter } from "@/components/converter/converter";
 import { Container } from "@/components/layout/container";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { TonnagePlaygroundSection } from "@/components/motion/tonnage-playground-section";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getContent } from "@/content";
 import { pageMetadata } from "@/lib/metadata";
@@ -34,6 +35,11 @@ export default function HomePage() {
             <p className="text-lg text-muted-foreground">{home.subheading}</p>
           </div>
           <Converter />
+
+          {/* Motion prototype, under review by the owner. */}
+          <div className="pt-6 md:pt-10">
+            <TonnagePlaygroundSection />
+          </div>
 
           <section
             id={COMPARE_ANCHOR}
