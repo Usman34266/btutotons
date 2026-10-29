@@ -2,7 +2,7 @@
 
 import { ArrowLeftRight, ArrowUpDown } from "lucide-react";
 import { LazyMotion, MotionConfig, domMax, m } from "motion/react";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 
 import { DigitMorph } from "@/components/converter/digit-morph";
 import { Segments } from "@/components/converter/segments";
@@ -25,6 +25,7 @@ import { US_SIZE_CLASS_TONS } from "@/registry/size-classes";
 import { AcPoster } from "./ac-poster";
 import { PLAYGROUND_DEFAULTS, STAGE_CLASS } from "./playground-defaults";
 import { StopSlider, type SliderStop } from "./stop-slider";
+import { useNearViewport } from "./use-near-viewport";
 
 const AcScene = lazy(() => import("./ac-scene"));
 
@@ -168,6 +169,9 @@ function Readout({
  */
 export default function TonnagePlayground() {
   const copy = getUiContent().tonnagePlayground;
+  // The 3D chunk (~245 KB gz) loads only once the stage itself is on screen.
+  const stage = useRef<HTMLDivElement>(null);
+  const stageSeen = useNearViewport(stage);
   const [mode, setMode] = useState<Mode>("tons");
   const [classIndex, setClassIndex] = useState(
     CLASS_TONS.indexOf(PLAYGROUND_DEFAULTS.tons),
@@ -225,15 +229,19 @@ export default function TonnagePlayground() {
       <MotionConfig reducedMotion="user">
         <div className="grid grid-cols-1 overflow-hidden rounded-xl border border-border bg-surface md:grid-cols-12">
           <div className="flex flex-col border-b border-border bg-muted md:col-span-7 md:border-r md:border-b-0">
-            <div className={STAGE_CLASS}>
-              <Suspense fallback={poster}>
-                <AcScene
-                  strength={strength}
-                  swing={swing}
-                  lcd={lcd}
-                  fallback={poster}
-                />
-              </Suspense>
+            <div ref={stage} className={STAGE_CLASS}>
+              {stageSeen ? (
+                <Suspense fallback={poster}>
+                  <AcScene
+                    strength={strength}
+                    swing={swing}
+                    lcd={lcd}
+                    fallback={poster}
+                  />
+                </Suspense>
+              ) : (
+                poster
+              )}
             </div>
             <p className="px-4 pb-3 text-label text-muted-foreground md:px-6">
               {copy.airNote}
