@@ -13,7 +13,8 @@ export const tonnagePlayground = {
     "Pick a size and watch the AC respond. Drag the picture to turn the AC.",
   modeLabel: "What do you want to pick?",
   modes: { tons: "Pick tons", btuh: "Pick BTU/hr" },
-  sliderLabel: { tons: "AC size in tons", btuh: "AC rating in BTU/hr" },
+  /** Distinct from the calculator's field labels ("Size in tons", …). */
+  sliderLabel: { tons: "Pick a size (tons)", btuh: "Pick a rating (BTU/hr)" },
   equals: "equals",
   stopsLabel: "Common capacity examples — not a sizing recommendation.",
   temperature: {
