@@ -22,6 +22,8 @@ export interface SiteConfig {
   operator: string | null;
   /** Public contact address. null until the owner provides it. */
   contactEmail: string | null;
+  /** Google Search Console HTML-tag verification code. null when verified another way. */
+  googleSiteVerification: string | null;
   /** Zaraz custom events. false until verified cookieless (open decision #4). */
   customEvents: boolean;
 }
@@ -35,5 +37,6 @@ export const site: SiteConfig = {
   logo: "/logo.png",
   operator: null,
   contactEmail: "contact@btutotons.com",
+  googleSiteVerification: "FB0sR8RLukiQesUUN5Q1dyAmqkPHNJbsvLHe9j5POEY",
   customEvents: false,
 };

@@ -22,6 +22,10 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-touch-icon.png",
   },
+  // Search Console ownership tag on every page (D118).
+  ...(site.googleSiteVerification && {
+    verification: { google: site.googleSiteVerification },
+  }),
 };
 
 export const viewport: Viewport = {
