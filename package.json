@@ -21,6 +21,7 @@
     "test:e2e:preview": "NEXT_PUBLIC_BTUTOTONS_PREVIEW=1 playwright test",
     "lhci": "lhci autorun",
     "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "ci:local": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm budget && pnpm test:e2e && pnpm lhci",
     "deploy": "wrangler deploy"
   },
   "dependencies": {
