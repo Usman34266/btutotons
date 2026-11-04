@@ -80,19 +80,19 @@ card export.
 
 ## 6. Non-functional requirements
 
-| Area          | Target                                                                                                               |
-| ------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Performance   | p75 LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1; Lighthouse ≥ 95 in all categories (mobile); homepage initial JS ≤ ~100 KB gz |
-| Accessibility | WCAG 2.2 AA; axe zero violations on every route; 200% zoom and 360px with no horizontal scroll; full keyboard flow   |
-| Privacy       | All calculation in the browser; cookieless analytics; no user values in analytics                                    |
-| Security      | HSTS, nosniff, referrer policy, permissions policy, frame DENY, CSP; CSV injection protection                        |
-| Hosting       | Static export on Cloudflare; no server runtime                                                                       |
-| Offline       | After first visit (P1, M12)                                                                                          |
-| Quality       | TypeScript strict; 100% line coverage in `src/engine`; acceptance table + property tests                             |
+| Area          | Target                                                                                                                                   |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Performance   | p75 LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1; Lighthouse ≥ 95 in all categories (mobile); homepage initial JS ≤ ~100 KB gz                     |
+| Accessibility | WCAG 2.2 AA; axe zero violations on every route; 200% zoom and 360px with no horizontal scroll; full keyboard flow                       |
+| Privacy       | All calculation in the browser; Cloudflare Web Analytics plus Google Analytics 4, which sets cookies (D120); no user values in analytics |
+| Security      | HSTS, nosniff, referrer policy, permissions policy, frame DENY, CSP; CSV injection protection                                            |
+| Hosting       | Static export on Cloudflare; no server runtime                                                                                           |
+| Offline       | After first visit (P1, M12)                                                                                                              |
+| Quality       | TypeScript strict; 100% line coverage in `src/engine`; acceptance table + property tests                                                 |
 
 ## 7. Success metrics
 
-Counted with cookieless analytics (no values captured):
+Counted with analytics (no values captured; D120):
 
 - Share of home sessions with a `valid_conversion`.
 - `size_class_shown` per valid conversion.

@@ -52,6 +52,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {getContent().common.skipToContent}
         </a>
         <ThemeProvider>{children}</ThemeProvider>
+        {/* Written by scripts/generate-analytics.ts (D120). */}
+        {site.googleAnalyticsId && <script src="/ga.js" async />}
       </body>
     </html>
   );

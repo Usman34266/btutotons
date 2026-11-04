@@ -10,15 +10,20 @@ import { dirname, resolve } from "node:path";
 
 const ANALYTICS_SCRIPT = "https://static.cloudflareinsights.com";
 const ANALYTICS_BEACON = "https://cloudflareinsights.com";
+// Google Analytics 4 (D120): the hosts Google lists for a GA4 CSP.
+const GA_SCRIPT = "https://*.googletagmanager.com";
+const GA_IMG = "https://*.google-analytics.com https://*.googletagmanager.com";
+const GA_CONNECT =
+  "https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com";
 
 const cspWith = (frameAncestors: string) =>
   [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline' ${ANALYTICS_SCRIPT}`,
+    `script-src 'self' 'unsafe-inline' ${ANALYTICS_SCRIPT} ${GA_SCRIPT}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data:",
+    `img-src 'self' data: ${GA_IMG}`,
     "font-src 'self'",
-    `connect-src 'self' ${ANALYTICS_BEACON}`,
+    `connect-src 'self' ${ANALYTICS_BEACON} ${GA_CONNECT}`,
     "manifest-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",

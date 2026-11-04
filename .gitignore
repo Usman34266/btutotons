@@ -43,6 +43,7 @@ next-env.d.ts
 # generated at prebuild from the registry and the logo mark
 /public/_redirects
 /public/_headers
+/public/ga.js
 /public/icon.svg
 /public/favicon.ico
 /public/apple-touch-icon.png

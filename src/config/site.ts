@@ -24,6 +24,8 @@ export interface SiteConfig {
   contactEmail: string | null;
   /** Google Search Console HTML-tag verification code. null when verified another way. */
   googleSiteVerification: string | null;
+  /** Google Analytics 4 measurement ID. null turns GA4 off. */
+  googleAnalyticsId: string | null;
   /** Zaraz custom events. false until verified cookieless (open decision #4). */
   customEvents: boolean;
 }
@@ -38,5 +40,6 @@ export const site: SiteConfig = {
   operator: null,
   contactEmail: "contact@btutotons.com",
   googleSiteVerification: "FB0sR8RLukiQesUUN5Q1dyAmqkPHNJbsvLHe9j5POEY",
+  googleAnalyticsId: "G-K6LZG31QR4",
   customEvents: false,
 };

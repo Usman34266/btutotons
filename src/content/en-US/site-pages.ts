@@ -61,13 +61,13 @@ export const privacy = {
     {
       heading: "Page views",
       body: [
-        "We count page views with Cloudflare Web Analytics, which doesn't use cookies. It never receives the values you enter.",
+        "We count page views with Cloudflare Web Analytics, which doesn't use cookies, and Google Analytics, which does. Google Analytics shows us which pages people visit and how they use them. Neither receives the values you enter.",
       ],
     },
     {
       heading: "What's stored on your device",
       body: [
-        "No cookies. Your browser's local storage keeps two preferences: light or dark theme, and the number of decimal places. Clearing this site's data removes them; the site works without them.",
+        "Google Analytics sets cookies that tell one visit from another. Your browser's local storage keeps two preferences: light or dark theme, and the number of decimal places. Clearing this site's data removes them; the site works without them.",
       ],
     },
     {
